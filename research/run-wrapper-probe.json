@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-16",
+  "source": "src/runs.rs",
+  "source_sha256": "e7b164562afa4ce71c820dd240f657150f519efc1b61dedbbbcacf209b482108",
+  "passed_checks": [
+    "normal __main__/argv/file/future",
+    "SystemExit None",
+    "SystemExit zero",
+    "SystemExit integer",
+    "SystemExit negative modulo 256",
+    "SystemExit string",
+    "ordinary exception",
+    "compile error still publishes result"
+  ],
+  "limitations": [
+    "synthetic local Python scripts and fake IPython.display",
+    "does not verify Colab/IPython integration or Google compatibility"
+  ]
+}

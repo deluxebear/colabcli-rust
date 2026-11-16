@@ -1,0 +1,4061 @@
+{
+  "schema_version": 1,
+  "research_date": "2026-11-16",
+  "repositories": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "files": [
+        {
+          "path": ".githooks/pre-commit",
+          "bytes": 294,
+          "sha256": "1a450fb675edd366ad0abecf4ad2b29e84633e825207fe9fca7df8c2b2aff8e6"
+        },
+        {
+          "path": ".gitignore",
+          "bytes": 1136,
+          "sha256": "5f27ee602139914e53461b58f47c3260239892f5d7b058804e3da1b5d790bdc8"
+        },
+        {
+          "path": ".pre-commit-config.yaml",
+          "bytes": 1055,
+          "sha256": "149200ada3891ce15753d64f5463149a074b58bbbd65670656598b8c190e13b7"
+        },
+        {
+          "path": ".python-version",
+          "bytes": 5,
+          "sha256": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d"
+        },
+        {
+          "path": "AGENTS.md",
+          "bytes": 22310,
+          "sha256": "c2ee1d18e4bd66418bb4b563900b0f73d166d18f65d39842b65903469a047c6d"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "bytes": 5925,
+          "sha256": "63d649833bc9e70139a4668903671c2c366f6a7476f23536a3698dc7d56ae9c4"
+        },
+        {
+          "path": "CONTRIBUTING.md",
+          "bytes": 386,
+          "sha256": "db6233376408045def133c1256d53544f48d9a4bdaebc04889a78cb7d267a83a"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 11358,
+          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+        },
+        {
+          "path": "README.md",
+          "bytes": 10181,
+          "sha256": "6e6395a116ca87e39aefead980a633e0fb3c5a6b3d8973e4a74897a94b0692c3"
+        },
+        {
+          "path": "cloudbuild.yaml",
+          "bytes": 5222,
+          "sha256": "d22947d54d761d1b1d68b6e12e965c975c7de576df1b84775e3c3c974687e356"
+        },
+        {
+          "path": "docs/01_session_management.md",
+          "bytes": 16096,
+          "sha256": "c3b341671c71e9168bab3b5f9abc7195fb17d4d01b9c3d63fa29e1d7d9fc0a8c"
+        },
+        {
+          "path": "docs/02_execution_and_interactive.md",
+          "bytes": 5030,
+          "sha256": "98280602ab38e9b650c42c3169c40c182f7c7716c7efde423b785c374c23f48f"
+        },
+        {
+          "path": "docs/03_file_management.md",
+          "bytes": 3156,
+          "sha256": "2910edd79450819d7e35f0f5c149e5c53f49aff425f10e267e89bbdb4b12b45e"
+        },
+        {
+          "path": "docs/04_automation_and_utility.md",
+          "bytes": 25886,
+          "sha256": "f6a2caaeab03ba58e5839cc0164279296e1d6df47cd742cef2bde374e63dd980"
+        },
+        {
+          "path": "docs/05_run_command.md",
+          "bytes": 7991,
+          "sha256": "958113250687351d4450893eda5a0c073023f4f4b9150e91aa0d0b81a3997fd5"
+        },
+        {
+          "path": "docs/06_ssh_access.md",
+          "bytes": 17203,
+          "sha256": "c7b972a55b805dfca837a2a11b2c49fc8eec9110f9978ec8262e3c2ecb5a4304"
+        },
+        {
+          "path": "docs/3042ab12-2026-05-07.png",
+          "bytes": 26681,
+          "sha256": "82a92d2d57fb235b92cd16834d5c36e4294e903137809a8defa1f4f486570402"
+        },
+        {
+          "path": "docs/demo.webm",
+          "bytes": 951306,
+          "sha256": "238db1676915f3f69b3ae4aba7856690d8f754c6734ddb1d0e561aba4c6a6120"
+        },
+        {
+          "path": "docs/demos.md",
+          "bytes": 18521,
+          "sha256": "80c73e4ce9f9abd3ae015ffecf44341eea94cf31684ef6a283d86eb7a24763d0"
+        },
+        {
+          "path": "examples/finetune_run.py",
+          "bytes": 5356,
+          "sha256": "5ad63bdb88e7460f71918c6a6b575e97a909fbe7699d1409b5e27805bad34fea"
+        },
+        {
+          "path": "integration/README.md",
+          "bytes": 2267,
+          "sha256": "5aecd1f6e4e818fa26265b8c3bf3023c82599d21cf41dcbcbaa0a000237a024c"
+        },
+        {
+          "path": "integration/repro_bundled_oauth/test.sh",
+          "bytes": 3103,
+          "sha256": "fba66053daa3cef4f1a083019eac3eac46b825163e385d186a4788c1afd3468d"
+        },
+        {
+          "path": "integration/repro_legacy_token_migration/test.sh",
+          "bytes": 4682,
+          "sha256": "3134a4e61bbeec68131fdaf950fcdf3c17669d42c9d59063a38add210db134bc"
+        },
+        {
+          "path": "integration/repro_plot_redirection/test.sh",
+          "bytes": 1644,
+          "sha256": "118b10d910110402f8923f484ff959f674dd279ae933562c692a91848f88387d"
+        },
+        {
+          "path": "integration/repro_run_command/test.sh",
+          "bytes": 5552,
+          "sha256": "cf490935dd958232c2a9a6fb76a92f23a3e708d3be07978606bbadaaf729aa54"
+        },
+        {
+          "path": "integration/repro_ssh/test.sh",
+          "bytes": 7770,
+          "sha256": "3e92b70630de2fcee67826e30b09565213ff900892aba2e551c95f61f159d97d"
+        },
+        {
+          "path": "integration/repro_variable_persistence/test.sh",
+          "bytes": 1685,
+          "sha256": "d8230061a920155c02e7069a25fc25f02dc918d49e4aa45a97d9a569b5df9563"
+        },
+        {
+          "path": "integration/repro_windows_ssh/test.py",
+          "bytes": 4386,
+          "sha256": "d869df8af7204b1916e25fc66ae892838b8e3eb99d12462ce96494ac598fa2bd"
+        },
+        {
+          "path": "pyproject.toml",
+          "bytes": 2442,
+          "sha256": "412f6a42619adf4c0ebebfe621c0a26de63dc6b55383ad7b56a825fb0d9412fb"
+        },
+        {
+          "path": "skills/colab-operator/SKILL.md",
+          "bytes": 10906,
+          "sha256": "1a1baba5bc17cfa886caf37b66d711f67da50da7d637c807a6e75ebdbffe5a83"
+        },
+        {
+          "path": "src/colab_cli/auth.py",
+          "bytes": 15366,
+          "sha256": "825f84094ca63498d63984f94d117a42871fc7824c2c2e5d1ec6fc8e4bcde8ee"
+        },
+        {
+          "path": "src/colab_cli/auto_update.py",
+          "bytes": 8392,
+          "sha256": "aba759304fe24cb40d1bd18c67ee9c9c1f2414c05c14aa4eec049594c9ad0ac3"
+        },
+        {
+          "path": "src/colab_cli/cli.py",
+          "bytes": 4860,
+          "sha256": "c9aaa8ce7d143cb03be2481e1d9c0092ab622d51627edf9d7ed5cb9db4385fad"
+        },
+        {
+          "path": "src/colab_cli/client.py",
+          "bytes": 11772,
+          "sha256": "7081d2c9decbc9a4cafb4ab89202c7e7a644f72bd74a7e846bffce5344839a06"
+        },
+        {
+          "path": "src/colab_cli/commands/__init__.py",
+          "bytes": 575,
+          "sha256": "036188193fdc7c75748e43ecd28f513f1d291d93f8e7d090a119fca3c2a44741"
+        },
+        {
+          "path": "src/colab_cli/commands/automation.py",
+          "bytes": 10231,
+          "sha256": "ab7ed156f0b80de1696cebf2140377f4f612a3d4bc16dc8e4e7d91872bc4b867"
+        },
+        {
+          "path": "src/colab_cli/commands/execution.py",
+          "bytes": 12136,
+          "sha256": "1ecda352fb3a59f3a320fc28d4822c3c48bfe8423aa020d2c72382f7e4ebce20"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "bytes": 6008,
+          "sha256": "ccd335e94e0c3345428e1ed50568e414f2b585564bdf2e59c5ded5d94f74ea8a"
+        },
+        {
+          "path": "src/colab_cli/commands/run.py",
+          "bytes": 17224,
+          "sha256": "05243ff77d84d688d1f42542ed073ebe465fc6f0110c578b7a2e5dfae7346643"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "bytes": 12175,
+          "sha256": "1232ea39c888cae1c00a599b3e36bc8eda1afd0260b0a036bcd8073fa8b5cc0b"
+        },
+        {
+          "path": "src/colab_cli/commands/ssh.py",
+          "bytes": 29065,
+          "sha256": "32ecb55601885a201258a962e8de03e19386bb90e4feace11ca1699098383a9a"
+        },
+        {
+          "path": "src/colab_cli/commands/usage.py",
+          "bytes": 1124,
+          "sha256": "0fb8830b2a335f98a4f104010a70fda00804ad69452c5f2888c4658e95db018e"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "bytes": 14302,
+          "sha256": "3e8ac7c9a83713198e42e32a20e01b241ec1ba81a53be369afb4429be388437a"
+        },
+        {
+          "path": "src/colab_cli/common.py",
+          "bytes": 9514,
+          "sha256": "f42f499d2136e1b9a11bbcd1d3bf0aab69c9df9f37532ee33c59a203f4668acc"
+        },
+        {
+          "path": "src/colab_cli/consumption.py",
+          "bytes": 2179,
+          "sha256": "b6e936db0ddd6e4c31ef7b516c456be7549c34394a70a3d1356b679ec168a594"
+        },
+        {
+          "path": "src/colab_cli/contents.py",
+          "bytes": 3140,
+          "sha256": "a28315a765d99df5f352108db34abc654bc6da2fe9ef3f8b530c6289b55bbde4"
+        },
+        {
+          "path": "src/colab_cli/converter.py",
+          "bytes": 6937,
+          "sha256": "3125d067affeae1c0314b41a135ccdbe8bd209abcf5775c8997ae2c1c9219f35"
+        },
+        {
+          "path": "src/colab_cli/history.py",
+          "bytes": 2522,
+          "sha256": "eeef9c3849dc84fccde3a478457604c1834a2c98aeaf6717a34ed4eb1c86e3b0"
+        },
+        {
+          "path": "src/colab_cli/oauth_config.json",
+          "bytes": 438,
+          "sha256": "d3127103bea2884c9f8269d17bcfa74b21356837672bb5b46067cecfe219fc5d"
+        },
+        {
+          "path": "src/colab_cli/repl.py",
+          "bytes": 5772,
+          "sha256": "6cfd99b677bf101c2fdbf3dffee687d882c53d8f1fee24964880f014bd10f04c"
+        },
+        {
+          "path": "src/colab_cli/runtime.py",
+          "bytes": 14820,
+          "sha256": "33e3daf0e2ccef3cfa94a1283e631f7da45b4310e91dc55de82e4b3cc9f005d0"
+        },
+        {
+          "path": "src/colab_cli/state.py",
+          "bytes": 5894,
+          "sha256": "4618f42cd86f54cbbb62d9f064d27ed303a49394b47d2d772b3f27c3978b37bf"
+        },
+        {
+          "path": "src/colab_cli/utils.py",
+          "bytes": 4062,
+          "sha256": "f3fcd94519410e1112b4053fb62dc5bcd3d52d9d2047bfe43bd44e068f46ab73"
+        },
+        {
+          "path": "tests/conftest.py",
+          "bytes": 2276,
+          "sha256": "3d15ebaaae420e191effb1d7fcf343f500167857388d4c8232b6050f1c13bdc1"
+        },
+        {
+          "path": "tests/mock_kernel.py",
+          "bytes": 3792,
+          "sha256": "2ea3596db29c9d4015a79d04a6ad151ef2e89125f499b82897c8727a3b794383"
+        },
+        {
+          "path": "tests/test_auth.py",
+          "bytes": 30487,
+          "sha256": "65fd5f2eefa54fe85d60428215ffcafc7030a2fff50ce8f2f78b62bbfd923dee"
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "bytes": 9557,
+          "sha256": "7c5ab1937e5dc32ebb64cd7a9a8389fc825e089fd0ed89ef4f83a71f5f3b3d13"
+        },
+        {
+          "path": "tests/test_automation.py",
+          "bytes": 5944,
+          "sha256": "0af54d19274dec0bd6ddd3e8c63bd3bb33f4b743d9627561ad9ff011d3c0e914"
+        },
+        {
+          "path": "tests/test_cli.py",
+          "bytes": 24140,
+          "sha256": "20dadef88ffe255b6d96549ae57a468e6bed6c12a45cb9a96daa4eeb56121ab3"
+        },
+        {
+          "path": "tests/test_cli_log.py",
+          "bytes": 3771,
+          "sha256": "b2a7cef0e5bfe64d57251959221d66f351e56da863cbbeb6ed51baba0986f09b"
+        },
+        {
+          "path": "tests/test_client.py",
+          "bytes": 13001,
+          "sha256": "772e05d0a4876ab395ec3aa47354f9ecb7369d38d3ea2cdee23d0f28156b0047"
+        },
+        {
+          "path": "tests/test_common.py",
+          "bytes": 3897,
+          "sha256": "f12773919c2fec4c31cf47bd262499f672380756f2a124bb364c4978f8a44777"
+        },
+        {
+          "path": "tests/test_consumption.py",
+          "bytes": 1692,
+          "sha256": "de9683822e9c6a626eedd4dd39d0c1db10826b0693f9087b2fdc9944d1854e1a"
+        },
+        {
+          "path": "tests/test_consumption_client.py",
+          "bytes": 2218,
+          "sha256": "0bfd1f374df47e55ee92d000224af29677861c5a0ddc74fff6dd1b96ec413238"
+        },
+        {
+          "path": "tests/test_contents.py",
+          "bytes": 5651,
+          "sha256": "4711971642e056677e0ac7891f99a190b7e542447d9b2f5eeae114cddc30bdd0"
+        },
+        {
+          "path": "tests/test_exec.py",
+          "bytes": 11164,
+          "sha256": "fe9a9d1344ae37eb8abbb2e427ce31391ae4f154e9cb9cfbb7fc23fe449bb6ac"
+        },
+        {
+          "path": "tests/test_history.py",
+          "bytes": 1779,
+          "sha256": "c8b6bff6cb90998e04d92cb4f2bd18d259f9425208aa610b5bb056fc4ac1ecd9"
+        },
+        {
+          "path": "tests/test_ipynb_exec.py",
+          "bytes": 7536,
+          "sha256": "a7cf808ffb6a3690c25b823cba4df6744499a04fcb3aab80eea138fc8eb0d41b"
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "bytes": 9775,
+          "sha256": "2f736211f2f2652851ff84a6a4b4304681db127215fb7b1cd81b9fbd83b6a676"
+        },
+        {
+          "path": "tests/test_log_export.py",
+          "bytes": 3757,
+          "sha256": "a1b0c2f44770abef919e5eecbfdb60548315a99c93bc4cdb9edc7690a4c32158"
+        },
+        {
+          "path": "tests/test_pay.py",
+          "bytes": 1046,
+          "sha256": "973c600fc2fdcddf953b3d28d5df9c52719dcaff0c671cca4be8780e0543616a"
+        },
+        {
+          "path": "tests/test_readme.py",
+          "bytes": 3176,
+          "sha256": "88611a6b06d865eb66ed753e884aea60bcb617268d8462ec6f04dad07fefe7bf"
+        },
+        {
+          "path": "tests/test_repl.py",
+          "bytes": 8740,
+          "sha256": "ec816451e386300e9a9cf72b8ca251f7e6849f9cb0b33561132f205b3512dbe1"
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "bytes": 4140,
+          "sha256": "a0e17fc1223e793ec3bf0f0087419a9f9cc3b5448164342bdf3021b2006e87a9"
+        },
+        {
+          "path": "tests/test_run.py",
+          "bytes": 23950,
+          "sha256": "83be021fe8f20728e77542604e40d2ad90d81b0f7f4a9ac69b65aaa4ce5bd51f"
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "bytes": 9066,
+          "sha256": "549ee5a941ab8b5a0cda97043de42633c88a6c84503cb9d879dae7b98a0f0443"
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "bytes": 2390,
+          "sha256": "eb2b82d1c504ce408c2e73fa6cc0b2d839d8535dfc55c16b7d583b0d58ebe035"
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "bytes": 22661,
+          "sha256": "186d8ee76e966838eb666480644828abae70a6759ea68c0db4ac8421ae059b8c"
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "bytes": 11056,
+          "sha256": "8a9d57640732d14fb14f0f1c7e8992917d4a90b1758b3a6ee5208525365e3ac3"
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "bytes": 7914,
+          "sha256": "f3b0fdfc82179bc754133d47981939d4bae330813e329fe6133f0a96563f1ff3"
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "bytes": 11170,
+          "sha256": "95fe714fd200f0b188545f2ca40faf7ef91e58eb759e84513db324523a23cc1a"
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "bytes": 19012,
+          "sha256": "dcb9ceb42dd7cfe3932986f203a2f04fd49f0b19f6536fca5f62eff83424a833"
+        },
+        {
+          "path": "tests/test_ssh_workdir.py",
+          "bytes": 3350,
+          "sha256": "264fe75e43cd7e5c95cc842f6680eee8c36f9e336f7d2058db59983dc862153f"
+        },
+        {
+          "path": "tests/test_state.py",
+          "bytes": 11176,
+          "sha256": "5bd1b47dd4a94394e433787d0854630163b495ea64099afb62c9ef36eb645c9e"
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "bytes": 5822,
+          "sha256": "e6becd71ffe34884943220d26999418c38f3783c33fd75e7dfe45cbf21298262"
+        },
+        {
+          "path": "tests/test_update.py",
+          "bytes": 21096,
+          "sha256": "473d095f23001eb67e11e26bdd165be329528c34c0c42420be368958b210e91b"
+        },
+        {
+          "path": "tests/test_url.py",
+          "bytes": 13482,
+          "sha256": "fa61f30a18c916c18c3aab595d032e856c9c79d928e21418ecf8f3ffd2e36f9a"
+        },
+        {
+          "path": "tests/test_utils.py",
+          "bytes": 3841,
+          "sha256": "a8561747326824c7463413c20dc54e292f35fe2d88fdb81dfd3f21a0f259eb94"
+        },
+        {
+          "path": "tests/test_version.py",
+          "bytes": 2168,
+          "sha256": "06fc73ebc4c654ffdf0f2956b2d1256b178f8fe075edc20d6e20bcc19308be65"
+        },
+        {
+          "path": "tests/test_whoami.py",
+          "bytes": 6823,
+          "sha256": "63f62368e237c207e623376082aecf059691fa7468bdba78903dc726322e57ec"
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "bytes": 5270,
+          "sha256": "ceb1ef1acc22bc642f214018e9fa3cca2aebb10420fd5d990be399f0f75da39e"
+        },
+        {
+          "path": "uv.lock",
+          "bytes": 216818,
+          "sha256": "439c77eba1afed1e74fa8bea67a2f10f162aee74e691402d75a56079409ec382"
+        }
+      ],
+      "command_entrypoints": [
+        {
+          "path": "src/colab_cli/cli.py",
+          "function": "callback",
+          "line": 50,
+          "end_line": 118,
+          "registrations": [],
+          "decorators": [
+            "app.callback()"
+          ],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "client_oauth_config",
+              "annotation": "Annotated[str, typer.Option('-c', '--client-oauth-config', help='Path to client OAuth config JSON file')]",
+              "default": "os.path.expanduser('~/.colab-cli-oauth-config.json')"
+            },
+            {
+              "name": "config",
+              "annotation": "Annotated[Optional[str], typer.Option('--config', help='Path to session state file (~/.config/colab-cli/sessions.json)')]",
+              "default": "None"
+            },
+            {
+              "name": "logtostderr",
+              "annotation": "Annotated[bool, typer.Option('--logtostderr', help='Log all output to stderr')]",
+              "default": "False"
+            },
+            {
+              "name": "auth",
+              "annotation": "Annotated[AuthProvider, typer.Option('--auth', help=\"Authentication strategy to use: 'oauth2' (public InstalledAppFlow), or 'adc' (Application Default Credentials).\", case_sensitive=False)]",
+              "default": "AuthProvider.OAUTH2"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/cli.py#L50"
+        },
+        {
+          "path": "src/colab_cli/cli.py",
+          "function": "help_command",
+          "line": 122,
+          "end_line": 142,
+          "registrations": [],
+          "decorators": [
+            "app.command(name='help')"
+          ],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "command",
+              "annotation": "Annotated[Optional[str], typer.Argument(help='Command to show help for')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/cli.py#L122"
+        },
+        {
+          "path": "src/colab_cli/commands/automation.py",
+          "function": "auth",
+          "line": 199,
+          "end_line": 216,
+          "registrations": [
+            "app.command(hidden=True)"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/automation.py#L199"
+        },
+        {
+          "path": "src/colab_cli/commands/automation.py",
+          "function": "drivemount",
+          "line": 219,
+          "end_line": 238,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Annotated[str, typer.Argument(help='Mount path')]",
+              "default": "'/content/drive'"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/automation.py#L219"
+        },
+        {
+          "path": "src/colab_cli/commands/automation.py",
+          "function": "install",
+          "line": 241,
+          "end_line": 286,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "packages",
+              "annotation": "Annotated[Optional[List[str]], typer.Argument(help='Packages to install')]",
+              "default": "None"
+            },
+            {
+              "name": "requirement",
+              "annotation": "Annotated[Optional[str], typer.Option('-r', '--requirement', help='Requirements file')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/automation.py#L241"
+        },
+        {
+          "path": "src/colab_cli/commands/execution.py",
+          "function": "exec_command",
+          "line": 145,
+          "end_line": 291,
+          "registrations": [
+            "app.command(name='exec')"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "file",
+              "annotation": "Annotated[Optional[str], typer.Option('-f', '--file', help='File to execute')]",
+              "default": "None"
+            },
+            {
+              "name": "output_image",
+              "annotation": "Annotated[Optional[str], typer.Option('--output-image', help='Path to save plot')]",
+              "default": "None"
+            },
+            {
+              "name": "timeout",
+              "annotation": "Annotated[Optional[float], typer.Option('--timeout', help='Seconds to wait without output before failing (0 for no limit)')]",
+              "default": "30.0"
+            },
+            {
+              "name": "env",
+              "annotation": "Annotated[Optional[List[str]], typer.Option('--env', help='Set an environment variable in the remote kernel as KEY=VALUE. Repeat for multiple variables.')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/execution.py#L145"
+        },
+        {
+          "path": "src/colab_cli/commands/execution.py",
+          "function": "repl",
+          "line": 294,
+          "end_line": 377,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "output_image",
+              "annotation": "Annotated[Optional[str], typer.Option('--output-image', help='Path to save plot')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/execution.py#L294"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "function": "ls",
+          "line": 26,
+          "end_line": 52,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Annotated[str, typer.Argument(help='Remote path to list')]",
+              "default": "'content'"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/files.py#L26"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "function": "rm",
+          "line": 55,
+          "end_line": 73,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Annotated[str, typer.Argument(help='Remote path to remove')]",
+              "default": "..."
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/files.py#L55"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "function": "upload",
+          "line": 76,
+          "end_line": 102,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "local_path",
+              "annotation": "Annotated[str, typer.Argument(help='Local file to upload')]",
+              "default": "..."
+            },
+            {
+              "name": "remote_path",
+              "annotation": "Annotated[str, typer.Argument(help='Remote path to upload to')]",
+              "default": "..."
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/files.py#L76"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "function": "download",
+          "line": 105,
+          "end_line": 132,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "remote_path",
+              "annotation": "Annotated[str, typer.Argument(help='Remote path to download from')]",
+              "default": "..."
+            },
+            {
+              "name": "local_path",
+              "annotation": "Annotated[str, typer.Argument(help='Local path to save the file')]",
+              "default": "..."
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/files.py#L105"
+        },
+        {
+          "path": "src/colab_cli/commands/files.py",
+          "function": "edit",
+          "line": 135,
+          "end_line": 181,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "remote_path",
+              "annotation": "Annotated[str, typer.Argument(help='Remote path to edit')]",
+              "default": "..."
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/files.py#L135"
+        },
+        {
+          "path": "src/colab_cli/commands/run.py",
+          "function": "run_command",
+          "line": 202,
+          "end_line": 471,
+          "registrations": [
+            "app.command(name='run', context_settings={'allow_extra_args': True, 'ignore_unknown_options': True})"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "script",
+              "annotation": "Annotated[str, typer.Argument(help='Path to a local Python file to execute on a fresh Colab VM.')]",
+              "default": null
+            },
+            {
+              "name": "script_args",
+              "annotation": "Annotated[Optional[List[str]], typer.Argument(help='Arguments forwarded to the script as sys.argv[1:]. Anything after the script path is passed through verbatim.')]",
+              "default": "None"
+            },
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Name for the ephemeral session (auto-generated if omitted). Useful with --keep so you can attach later via `colab exec -s <name>`.')]",
+              "default": "None"
+            },
+            {
+              "name": "tpu",
+              "annotation": "Annotated[Optional[str], typer.Option(help=f\"TPU accelerator variant. Supported: {', '.join((name.upper() for name in TPU_ACCELERATORS))}.\")]",
+              "default": "None"
+            },
+            {
+              "name": "gpu",
+              "annotation": "Annotated[Optional[str], typer.Option(help=f\"GPU accelerator variant. Supported: {', '.join((name.upper() for name in GPU_ACCELERATORS))}. If omitted (along with --tpu), a CPU runtime is created.\")]",
+              "default": "None"
+            },
+            {
+              "name": "high_mem",
+              "annotation": "Annotated[bool, typer.Option('--high-mem', help='Request a high-RAM machine shape. Requires Colab Pro or Pro+ entitlement. Ignored for L4 and TPU accelerators.')]",
+              "default": "False"
+            },
+            {
+              "name": "keep",
+              "annotation": "Annotated[bool, typer.Option('--keep', help='Do not stop the session after the script finishes. The session remains in `colab sessions` until you run `colab stop`.')]",
+              "default": "False"
+            },
+            {
+              "name": "timeout",
+              "annotation": "Annotated[Optional[float], typer.Option('--timeout', help='Seconds to wait without output before failing (0 for no limit)')]",
+              "default": "30.0"
+            },
+            {
+              "name": "env",
+              "annotation": "Annotated[Optional[List[str]], typer.Option('--env', help='Set an environment variable in the remote kernel as KEY=VALUE. Repeat for multiple variables.')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/run.py#L202"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "function": "new",
+          "line": 116,
+          "end_line": 243,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "tpu",
+              "annotation": "Annotated[Optional[str], typer.Option(help=f\"TPU accelerator variant. Supported: {', '.join((name.upper() for name in TPU_ACCELERATORS))}.\")]",
+              "default": "None"
+            },
+            {
+              "name": "gpu",
+              "annotation": "Annotated[Optional[str], typer.Option(help=f\"GPU accelerator variant. Supported: {', '.join((name.upper() for name in GPU_ACCELERATORS))}.\\n\\nIf omitted (along with --tpu), a CPU runtime is created.\\n\\nAvailability varies by Colab subscription tier.\")]",
+              "default": "None"
+            },
+            {
+              "name": "high_mem",
+              "annotation": "Annotated[bool, typer.Option('--high-mem', help='Request a high-RAM machine shape (CPU, T4, A100, etc.). Requires Colab Pro or Pro+ entitlement. Ignored for accelerators that only offer a single shape (L4, v5e1, v6e1).')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/session.py#L116"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "function": "restart_kernel",
+          "line": 246,
+          "end_line": 277,
+          "registrations": [
+            "app.command(name='restart-kernel')"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/session.py#L246"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "function": "sessions_command",
+          "line": 280,
+          "end_line": 304,
+          "registrations": [
+            "app.command(name='sessions')"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/session.py#L280"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "function": "status",
+          "line": 326,
+          "end_line": 347,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/session.py#L326"
+        },
+        {
+          "path": "src/colab_cli/commands/session.py",
+          "function": "stop",
+          "line": 350,
+          "end_line": 374,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/session.py#L350"
+        },
+        {
+          "path": "src/colab_cli/commands/ssh.py",
+          "function": "ssh",
+          "line": 717,
+          "end_line": 830,
+          "registrations": [
+            "app.command(context_settings={'allow_interspersed_args': False})"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "proxy_mode",
+              "annotation": "Annotated[bool, typer.Option('--proxy-mode', help='Act as an OpenSSH ProxyCommand-compatible WebSocket-stdio bridge (reads stdin, writes stdout). Use in ~/.ssh/config as `ProxyCommand colab ssh --proxy-mode -s SESS`. All flags below also apply here.')]",
+              "default": "False"
+            },
+            {
+              "name": "identity",
+              "annotation": "Annotated[Optional[str], typer.Option('--identity', '-i', help='SSH key (public `.pub` or private key path) whose public key is sent in the X-Colab-Ssh-Pubkey header (default: first of ~/.ssh/id_ed25519.pub, id_ecdsa.pub).')]",
+              "default": "None"
+            },
+            {
+              "name": "gpu",
+              "annotation": "Annotated[Optional[str], typer.Option('--gpu', help='GPU accelerator for a runtime created by this command (T4, L4, G4, H100, A100). Used when the session is auto-created.')]",
+              "default": "None"
+            },
+            {
+              "name": "tpu",
+              "annotation": "Annotated[Optional[str], typer.Option('--tpu', help='TPU accelerator for a runtime created by this command (v5e1, v6e1). Used when the session is auto-created.')]",
+              "default": "None"
+            },
+            {
+              "name": "high_mem",
+              "annotation": "Annotated[bool, typer.Option('--high-mem', help='Request a high-RAM machine shape when this command auto-creates a runtime.')]",
+              "default": "False"
+            },
+            {
+              "name": "rm",
+              "annotation": "Annotated[bool, typer.Option('--rm', help='Stop the runtime when the session ends. In interactive mode this applies only to a runtime `colab ssh` auto-created; in --proxy-mode it stops the bridged session on disconnect (ephemeral ~/.ssh/config host).')]",
+              "default": "False"
+            },
+            {
+              "name": "ssh_mode",
+              "annotation": "Annotated[str, typer.Option('--colab-internal-mode', hidden=True)]",
+              "default": "_DEFAULT_SSH_MODE"
+            },
+            {
+              "name": "cmd",
+              "annotation": "Annotated[Optional[list[str]], typer.Argument(metavar='[-- CMD [ARGS]...]', help='Command to run on an existing session instead of a shell.')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/ssh.py#L717"
+        },
+        {
+          "path": "src/colab_cli/commands/usage.py",
+          "function": "usage",
+          "line": 20,
+          "end_line": 33,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/usage.py#L20"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "pay",
+          "line": 25,
+          "end_line": 31,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L25"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "url",
+          "line": 34,
+          "end_line": 126,
+          "registrations": [
+            "app.command(name='url')"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name')]",
+              "default": "None"
+            },
+            {
+              "name": "host",
+              "annotation": "Annotated[str, typer.Option('--host', help='Colab frontend host (origin) to use for the URL. The Colab frontend resolves `dbu` against `window.location.origin`, so this only changes the page origin, not the embedded backend path.')]",
+              "default": "'https://colab.research.google.com'"
+            },
+            {
+              "name": "open_browser",
+              "annotation": "Annotated[bool, typer.Option('--open', help='After printing the URL, also open it in the system browser. Off by default so the command remains pipeable (e.g. `colab url -s s1 | xclip`).')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L34"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "log",
+          "line": 129,
+          "end_line": 206,
+          "registrations": [
+            "app.command()"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Annotated[Optional[str], typer.Option('-s', '--session', help='Session name (if omitted, lists all sessions with logs)')]",
+              "default": "None"
+            },
+            {
+              "name": "lines",
+              "annotation": "Annotated[Optional[int], typer.Option('-n', '--lines', help='Number of lines to show/export (default: all)')]",
+              "default": "None"
+            },
+            {
+              "name": "type",
+              "annotation": "Annotated[Optional[str], typer.Option('-t', '--type', help='Filter by event type (e.g., execution, file_operation)')]",
+              "default": "None"
+            },
+            {
+              "name": "output",
+              "annotation": "Annotated[Optional[str], typer.Option('-o', '--output', help='Output file path (suffix determines format: .ipynb, .md, .txt, .jsonl)')]",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L129"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "whoami",
+          "line": 209,
+          "end_line": 304,
+          "registrations": [
+            "app.command(name='whoami', hidden=True)"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L209"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "version_command",
+          "line": 307,
+          "end_line": 309,
+          "registrations": [
+            "app.command(name='version')"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L307"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "update_command",
+          "line": 312,
+          "end_line": 345,
+          "registrations": [
+            "app.command(name='update')"
+          ],
+          "decorators": [],
+          "parameters": [
+            {
+              "name": "install",
+              "annotation": "Annotated[bool, typer.Option('--install', help=\"After checking, run 'pip install -U google-colab-cli' to upgrade the CLI in place. No-op if already up to date. Linux only.\")]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L312"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "readme",
+          "line": 380,
+          "end_line": 382,
+          "registrations": [
+            "app.command(name='readme')",
+            "app.command(name='README', hidden=True)"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L380"
+        },
+        {
+          "path": "src/colab_cli/commands/utility.py",
+          "function": "skill",
+          "line": 385,
+          "end_line": 387,
+          "registrations": [
+            "app.command(name='skill')",
+            "app.command(name='SKILL', hidden=True)"
+          ],
+          "decorators": [],
+          "parameters": [],
+          "source": "https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/utility.py#L385"
+        }
+      ],
+      "test_functions": [
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_no_config",
+          "line": 61
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_valid_token",
+          "line": 69
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_expired_token_refresh",
+          "line": 92
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_no_token",
+          "line": 114
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_keyring_inaccessible",
+          "line": 147
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_corrupt_keyring_data",
+          "line": 182
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_refresh_failure_falls_back_to_remote_flow",
+          "line": 207
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_keyring_timeout_falls_back_to_remote_flow",
+          "line": 241
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_keyring_read_failure_warns_on_stderr",
+          "line": 284
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_keyring_save_failure_warns_on_stderr",
+          "line": 297
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_legacy_token_file_migrated_to_keyring",
+          "line": 311
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_legacy_token_file_kept_when_keyring_save_fails",
+          "line": 342
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_legacy_token_file_deleted_when_keyring_has_token",
+          "line": 368
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_corrupt_legacy_token_file_falls_back_to_remote_flow",
+          "line": 391
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_corrupt_legacy_token_file_deleted_even_if_keyring_save_fails",
+          "line": 421
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_run_with_timeout_infers_operation_name",
+          "line": 443
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_remote_redirect_is_not_oob",
+          "line": 462
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_get_credentials_fallback_config",
+          "line": 468
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_linux_locked_keyring_warns_and_still_reads_and_saves",
+          "line": 490
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_check_linux_keyring_locked_unlocked_is_silent",
+          "line": 528
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_check_linux_keyring_locked_uses_preferred_collection",
+          "line": 546
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_check_linux_keyring_locked_ignores_errors_and_other_platforms",
+          "line": 576
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_check_linux_keyring_locked_chainer_only_checks_first_backend",
+          "line": 596
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_linux_keyring_lock_check_runs_under_timeout",
+          "line": 634
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_remote_flow_partial_grant_persists_only_granted_scopes",
+          "line": 664
+        },
+        {
+          "path": "tests/test_auth.py",
+          "function": "test_partial_grant_token_refreshes_with_granted_scopes",
+          "line": 720
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_success",
+          "line": 24
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_default_error_prints_gcloud_and_exits",
+          "line": 43
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_does_not_invoke_other_providers",
+          "line": 68
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_requests_required_scopes",
+          "line": 82
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_reapplies_scopes_for_scopable_creds",
+          "line": 101
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_tolerates_with_scopes_failure",
+          "line": 122
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_suppresses_quota_project_warning",
+          "line": 138
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_does_not_suppress_unrelated_warnings",
+          "line": 185
+        },
+        {
+          "path": "tests/test_auth_adc.py",
+          "function": "test_get_credentials_adc_skips_gcloud_project_subprocess",
+          "line": 214
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_cli_auth",
+          "line": 37
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_cli_install",
+          "line": 62
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_cli_drivemount",
+          "line": 86
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_cli_auth_uses_long_timeout",
+          "line": 112
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_show_drive_auth_url_opens_browser",
+          "line": 130
+        },
+        {
+          "path": "tests/test_automation.py",
+          "function": "test_show_drive_auth_url_headless_still_prints",
+          "line": 142
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_tpu",
+          "line": 52
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_gpu",
+          "line": 73
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_gpu_variants",
+          "line": 100
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_rejects_unknown_gpu",
+          "line": 116
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_rejects_unknown_tpu",
+          "line": 130
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_sessions_unified_format",
+          "line": 141
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_sessions_orphaned_assignment_marked",
+          "line": 166
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_sessions_no_assignments",
+          "line": 185
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_status",
+          "line": 192
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_status_running_shows_busy",
+          "line": 246
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_usage",
+          "line": 276
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_usage_fetch_failure",
+          "line": 284
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_high_mem",
+          "line": 293
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_session_resolution",
+          "line": 314
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_stop",
+          "line": 331
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_sessions_prune",
+          "line": 348
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_no_name",
+          "line": 360
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_default_is_cpu",
+          "line": 375
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_help",
+          "line": 402
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_help_commands_sorted_alphabetically",
+          "line": 436
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_help_subcommand_commands_sorted_alphabetically",
+          "line": 449
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_no_args",
+          "line": 462
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_console_removed",
+          "line": 468
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_ls",
+          "line": 484
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_rm",
+          "line": 506
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_upload",
+          "line": 520
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_download",
+          "line": 536
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_edit_no_changes",
+          "line": 552
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_edit_with_changes",
+          "line": 576
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_400_with_gpu_shows_friendly_error",
+          "line": 608
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_400_with_tpu_shows_friendly_error",
+          "line": 624
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_400_without_accelerator_propagates",
+          "line": 634
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_non_400_error_propagates",
+          "line": 649
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_412_with_gpu_shows_friendly_error",
+          "line": 667
+        },
+        {
+          "path": "tests/test_cli.py",
+          "function": "test_cli_new_412_without_accelerator_shows_friendly_error",
+          "line": 679
+        },
+        {
+          "path": "tests/test_cli_log.py",
+          "function": "test_cli_log_list",
+          "line": 21
+        },
+        {
+          "path": "tests/test_cli_log.py",
+          "function": "test_cli_log_show",
+          "line": 33
+        },
+        {
+          "path": "tests/test_cli_log.py",
+          "function": "test_cli_log_show_filter",
+          "line": 55
+        },
+        {
+          "path": "tests/test_cli_log.py",
+          "function": "test_cli_log_export",
+          "line": 84
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_request_timeout_override_and_explicit_precedence",
+          "line": 47
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_request_default_timeout_is_preserved",
+          "line": 58
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_assign_recovers_before_another_post",
+          "line": 81
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_assign_refreshes_token_and_uses_bounded_backoff",
+          "line": 105
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_assign_does_not_retry_nontransient_errors",
+          "line": 129
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_assign_succeeds_after_recovery_refreshes_token",
+          "line": 148
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_assign_retries_can_be_disabled",
+          "line": 181
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_assign_new",
+          "line": 199
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_assign_412_raises_too_many_assignments",
+          "line": 237
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_unassign",
+          "line": 258
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_assign_existing",
+          "line": 281
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_list_assignments",
+          "line": 305
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_assign_url_includes_shape_hm",
+          "line": 337
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_client_assign_url_omits_shape_for_standard",
+          "line": 372
+        },
+        {
+          "path": "tests/test_client.py",
+          "function": "test_resolve_assign_shape",
+          "line": 411
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_get_session_fresh_token_skips_refresh",
+          "line": 61
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_get_session_refreshes_stale_token",
+          "line": 79
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_get_session_prunes_when_assignment_gone",
+          "line": 96
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_get_session_unknown_name_exits",
+          "line": 104
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_get_session_unknown_name_ignored",
+          "line": 113
+        },
+        {
+          "path": "tests/test_common.py",
+          "function": "test_sync_sessions_updates_tokens",
+          "line": 117
+        },
+        {
+          "path": "tests/test_consumption.py",
+          "function": "test_format_consumption_status",
+          "line": 30
+        },
+        {
+          "path": "tests/test_consumption.py",
+          "function": "test_format_consumption_status_zero_balance_and_rate",
+          "line": 43
+        },
+        {
+          "path": "tests/test_consumption_client.py",
+          "function": "test_get_consumption_user_info_from_ccu_info",
+          "line": 34
+        },
+        {
+          "path": "tests/test_consumption_client.py",
+          "function": "test_ccu_info_output_format",
+          "line": 57
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_list_dir",
+          "line": 42
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_rm_file",
+          "line": 68
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_404_error",
+          "line": 84
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_download_file",
+          "line": 94
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_download_notebook_json_format",
+          "line": 128
+        },
+        {
+          "path": "tests/test_contents.py",
+          "function": "test_upload_file",
+          "line": 164
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_file",
+          "line": 36
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_stdin",
+          "line": 66
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_stdin_forwards_shell_escape",
+          "line": 90
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_env_injects_prelude",
+          "line": 108
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_env_flags_accumulate_and_split_on_first_equals",
+          "line": 133
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_env_escapes_tricky_literals",
+          "line": 164
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_malformed_env_errors_before_session_resolution",
+          "line": 189
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_not_found",
+          "line": 202
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_no_input",
+          "line": 209
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_outputs",
+          "line": 225
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_empty_code",
+          "line": 265
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_lost_session_prunes",
+          "line": 279
+        },
+        {
+          "path": "tests/test_exec.py",
+          "function": "test_cli_exec_timeout",
+          "line": 297
+        },
+        {
+          "path": "tests/test_history.py",
+          "function": "test_log_and_get_history",
+          "line": 29
+        },
+        {
+          "path": "tests/test_history.py",
+          "function": "test_list_sessions",
+          "line": 41
+        },
+        {
+          "path": "tests/test_ipynb_exec.py",
+          "function": "test_exec_ipynb",
+          "line": 70
+        },
+        {
+          "path": "tests/test_ipynb_exec.py",
+          "function": "test_exec_ipynb_output_format",
+          "line": 110
+        },
+        {
+          "path": "tests/test_ipynb_exec.py",
+          "function": "test_exec_ipynb_creates_output_file",
+          "line": 169
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_files_are_private_to_the_user",
+          "line": 76
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_existing_log_is_kept_and_made_private",
+          "line": 90
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_history_files_are_made_private_when_only_read",
+          "line": 103
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_chmod_failure_is_not_fatal",
+          "line": 112
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_credentials_are_redacted_from_log",
+          "line": 226
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_credentials_are_redacted_from_stderr",
+          "line": 234
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_request_lines_survive_redaction",
+          "line": 243
+        },
+        {
+          "path": "tests/test_local_credentials.py",
+          "function": "test_look_alikes_survive_redaction",
+          "line": 252
+        },
+        {
+          "path": "tests/test_log_export.py",
+          "function": "test_log_export",
+          "line": 66
+        },
+        {
+          "path": "tests/test_pay.py",
+          "function": "test_cli_pay",
+          "line": 21
+        },
+        {
+          "path": "tests/test_readme.py",
+          "function": "test_readme_from_resources",
+          "line": 30
+        },
+        {
+          "path": "tests/test_readme.py",
+          "function": "test_skill_from_resources",
+          "line": 49
+        },
+        {
+          "path": "tests/test_readme.py",
+          "function": "test_readme_fallback_to_file",
+          "line": 68
+        },
+        {
+          "path": "tests/test_readme.py",
+          "function": "test_readme_failure",
+          "line": 87
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_display_output",
+          "line": 38
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_execute",
+          "line": 63
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_cli_repl_interactive",
+          "line": 89
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_cli_repl_piped",
+          "line": 113
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_cli_repl_missing_session",
+          "line": 134
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_cli_repl_piped_empty",
+          "line": 140
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_print_info_error",
+          "line": 154
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_display_output_image_suppress_text",
+          "line": 161
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_execute_error",
+          "line": 171
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_run_quit_aliases",
+          "line": 182
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_run_misc_inputs",
+          "line": 205
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_run_exceptions",
+          "line": 216
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_run_executes_code",
+          "line": 236
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_execute_with_history",
+          "line": 247
+        },
+        {
+          "path": "tests/test_repl.py",
+          "function": "test_repl_key_bindings",
+          "line": 256
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_resolve_session_no_local_sessions",
+          "line": 22
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_resolve_session_with_local_but_none_on_server",
+          "line": 35
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_sync_sessions_avoids_client_if_no_local",
+          "line": 61
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_resolve_session_avoids_sync_if_no_local",
+          "line": 77
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_state_client_auth_flag_propagation",
+          "line": 88
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_state_client_auth_provider_default_is_oauth2",
+          "line": 100
+        },
+        {
+          "path": "tests/test_resolution_logic.py",
+          "function": "test_state_client_auth_provider_adc",
+          "line": 111
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_basic_flow",
+          "line": 78
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_high_mem_passes_shape_to_assign",
+          "line": 117
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_412_shows_friendly_error_and_exits",
+          "line": 148
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_teardown_uses_refreshed_token",
+          "line": 166
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_keep_skips_unassign",
+          "line": 194
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_passes_argv",
+          "line": 224
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_env_flag_after_script_sets_env_and_preserves_argv",
+          "line": 258
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_env_flags_accumulate_and_split_on_first_equals",
+          "line": 292
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_env_flag_escapes_tricky_literals",
+          "line": 328
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_sets_dunder_main",
+          "line": 354
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_propagates_error_exit_code",
+          "line": 382
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_unassign_called_on_exception_during_execute",
+          "line": 420
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_with_gpu_flag",
+          "line": 447
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_rejects_unknown_accelerator",
+          "line": 478
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_with_tpu_flag",
+          "line": 495
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_missing_script_errors",
+          "line": 524
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_nonexistent_script_errors_before_assign",
+          "line": 531
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_malformed_env_errors_before_assign",
+          "line": 539
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_systemexit_zero_treated_as_success",
+          "line": 569
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_systemexit_nonzero_propagates_code",
+          "line": 608
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_systemexit_string_message_exits_one",
+          "line": 638
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_prelude_suppresses_ipython_exit_warning",
+          "line": 669
+        },
+        {
+          "path": "tests/test_run.py",
+          "function": "test_run_with_timeout_flag",
+          "line": 698
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_kernel_client",
+          "line": 30
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_kernel_client_jupyterclient_fallback",
+          "line": 67
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_execute_code",
+          "line": 112
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_execute_code_allow_stdin_default_no_timeout",
+          "line": 147
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_execute_code_allow_stdin_with_timeout",
+          "line": 161
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_execute_code_allow_stdin_with_output_hook_not_implemented",
+          "line": 175
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_streaming_timeout_is_an_idle_limit",
+          "line": 185
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_stop",
+          "line": 205
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_stop_exception",
+          "line": 214
+        },
+        {
+          "path": "tests/test_runtime.py",
+          "function": "test_colab_runtime_stdin_logging",
+          "line": 224
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "function": "test_resolve_gpu_is_case_insensitive",
+          "line": 33
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "function": "test_resolve_tpu",
+          "line": 48
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "function": "test_unknown_gpu_is_rejected",
+          "line": 56
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "function": "test_unknown_tpu_is_rejected",
+          "line": 66
+        },
+        {
+          "path": "tests/test_runtime_options.py",
+          "function": "test_no_accelerator_flags_requests_cpu",
+          "line": 75
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_build_ws_url_scheme",
+          "line": 68
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_with_identity_reads_pub_file_first",
+          "line": 82
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_with_pub_only_identity_needs_no_private_key",
+          "line": 103
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_with_identity_calls_ssh_keygen_when_no_pub_file",
+          "line": 116
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_missing_identity_exits",
+          "line": 139
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_identity_derivation_failures_exit_2",
+          "line": 155
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_pubkey_default_scan_key_order",
+          "line": 184
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_mapping",
+          "line": 221
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_session_limit",
+          "line": 257
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_429_without_usable_limit",
+          "line": 304
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_session_limit_past_200_char_snippet",
+          "line": 309
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_session_limit_invalid_utf8_elsewhere",
+          "line": 317
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_explain_handshake_failure_decodes_str_body",
+          "line": 323
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_connect_websocket_network_failure_exits_1",
+          "line": 344
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_bridge_proxy_mode_pumps_ws_to_stdout",
+          "line": 355
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_bridge_proxy_mode_pumps_stdin_to_ws",
+          "line": 381
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_proxy_command_round_trips_through_the_shell",
+          "line": 451
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_resolve_session",
+          "line": 482
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_stop_session_error_handling",
+          "line": 506
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_ssh_proxy_mode_calls_websocket",
+          "line": 521
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_ssh_interactive_mode_calls_ssh_subprocess",
+          "line": 547
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_ssh_pubkey_passes_through_verbatim",
+          "line": 567
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_ssh_handshake_400_emits_actionable_message",
+          "line": 600
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_hidden_mode_option_stays_out_of_help_and_suggestions",
+          "line": 630
+        },
+        {
+          "path": "tests/test_ssh.py",
+          "function": "test_proxy_command_keeps_global_options",
+          "line": 645
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_bare_ssh_session_resolution",
+          "line": 84
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_bare_ssh_forwards_high_mem_on_autocreate",
+          "line": 123
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_proxy_mode_create_or_reuse",
+          "line": 153
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_proxy_mode_no_session_does_not_autocreate",
+          "line": 183
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_gpu_tpu_ignored_when_not_creating",
+          "line": 216
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_proxy_mode_rm_teardown",
+          "line": 239
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_interactive_rm_teardown",
+          "line": 267
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_proxy_mode_signal_handler_installation",
+          "line": 300
+        },
+        {
+          "path": "tests/test_ssh_autocreate.py",
+          "function": "test_ssh_help_advertises_autocreate_flags",
+          "line": 334
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_forwards_argv_and_exit_code",
+          "line": 71
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_run_remote_command_pty_only_when_both_tty",
+          "line": 93
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_proxy_mode_exits_2_without_connecting",
+          "line": 103
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_session_lookup_stays_off_stdout",
+          "line": 119
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_proxy_child_tags_handshake_with_cmd_mode",
+          "line": 133
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_proxy_child_never_creates_session",
+          "line": 151
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_cmd_with_closed_stdio_runs_without_pty",
+          "line": 167
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_ssh_without_cmd_builds_interactive_argv",
+          "line": 178
+        },
+        {
+          "path": "tests/test_ssh_cmd.py",
+          "function": "test_cli_update_check_for_ssh_follows_stdout_tty",
+          "line": 198
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_mode_rm_stops_even_if_bridge_raises",
+          "line": 72
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_interactive_rm_stops_even_if_shell_raises",
+          "line": 94
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_interactive_exit_code_propagates",
+          "line": 116
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_mode_exit_code_propagates",
+          "line": 129
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_select_routes_create_output_to_stderr",
+          "line": 144
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_bridge_routes_rm_output_to_stderr",
+          "line": 160
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_mode_autocreate_failure_skips_connect",
+          "line": 186
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_interactive_autocreate_failure_skips_ssh",
+          "line": 198
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_gpu_and_tpu_both_forwarded_to_new",
+          "line": 213
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_mode_rm_teardown_idempotent",
+          "line": 233
+        },
+        {
+          "path": "tests/test_ssh_lifecycle.py",
+          "function": "test_proxy_mode_rm_stops_reused_session",
+          "line": 273
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_wire_contract_path_token_and_pubkey_header",
+          "line": 282
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_wire_contract_distinct_token_reaches_wire",
+          "line": 303
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_mutation_reaches_wire_and_breaks_contract",
+          "line": 343
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_client_agent_mutation_breaks_contract",
+          "line": 380
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_real_status_mapping_via_loopback",
+          "line": 413
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_interactive_ssh_reinvocation_sends_interactive_mode",
+          "line": 472
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_user_proxy_command_sends_proxy_mode",
+          "line": 497
+        },
+        {
+          "path": "tests/test_ssh_wire_contract.py",
+          "function": "test_proxy_command_child_reads_the_parent_config",
+          "line": 508
+        },
+        {
+          "path": "tests/test_ssh_workdir.py",
+          "function": "test_default_remote_dir_is_content",
+          "line": 43
+        },
+        {
+          "path": "tests/test_ssh_workdir.py",
+          "function": "test_interactive_ssh_builds_args",
+          "line": 52
+        },
+        {
+          "path": "tests/test_ssh_workdir.py",
+          "function": "test_ssh_base_args_strips_pub_when_sibling_private_key_exists",
+          "line": 79
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_add_get",
+          "line": 36
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_remove",
+          "line": 57
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_list",
+          "line": 71
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_invalid_json",
+          "line": 84
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_loads_session_without_token_expiry",
+          "line": 92
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_round_trips_token_expiry",
+          "line": 99
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_concurrency",
+          "line": 111
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_settings_store_defaults",
+          "line": 132
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_settings_store_save_load",
+          "line": 139
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_lock_path_is_derived_from_path",
+          "line": 152
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_store_uses_readwrite_lock_on_sidecar",
+          "line": 158
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_separate_store_instances_can_write_from_threads",
+          "line": 165
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_write_acquires_write_lock",
+          "line": 193
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_read_acquires_read_lock",
+          "line": 202
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_uses_filelock_not_fcntl",
+          "line": 212
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_no_fcntl_import_in_state_module",
+          "line": 222
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_write_lock_blocks_across_processes",
+          "line": 236
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_readers_are_concurrent_across_processes",
+          "line": 285
+        },
+        {
+          "path": "tests/test_state.py",
+          "function": "test_state_store_multiprocess_concurrency",
+          "line": 329
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_runtime_execute_code_streaming",
+          "line": 43
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_runtime_execute_code_streaming_error_synthesis",
+          "line": 59
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_a_run_that_keeps_printing_is_not_cut_off",
+          "line": 73
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_silence_longer_than_the_timeout_raises",
+          "line": 82
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_no_limit_waits_through_any_silence",
+          "line": 93
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_the_reply_may_arrive_after_the_idle_status",
+          "line": 101
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_a_reply_that_never_arrives_times_out",
+          "line": 110
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_messages_from_other_requests_are_ignored",
+          "line": 116
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_output_from_other_requests_does_not_reset_the_timeout",
+          "line": 129
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_waiting_never_spins",
+          "line": 137
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_a_lost_connection_stops_the_wait",
+          "line": 145
+        },
+        {
+          "path": "tests/test_streaming.py",
+          "function": "test_a_kernel_that_dies_or_restarts_ends_the_wait",
+          "line": 155
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_no_upgrade",
+          "line": 110
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_upgrade_uses_pip_hint",
+          "line": 122
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_upgrade_uses_uv_hint",
+          "line": 144
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_upgrade_uses_pip_hint_macos",
+          "line": 166
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_upgrade_uses_pip_hint_windows",
+          "line": 190
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_explicit_update_omits_disable_hint",
+          "line": 208
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_background_check_includes_disable_hint",
+          "line": 222
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_cached_banner_includes_disable_hint",
+          "line": 236
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_pypi_fetch_failure_omits_latest",
+          "line": 254
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_auto_update_runs_when_stale",
+          "line": 268
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_auto_update_skips_when_recent",
+          "line": 278
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_auto_update_runs_on_first_invocation",
+          "line": 286
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_settings_default_latest_version_is_none",
+          "line": 299
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_check_persists_latest_version_from_pypi",
+          "line": 303
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_check_preserves_latest_version_on_fetch_failure",
+          "line": 313
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_check_does_not_downgrade_latest_version",
+          "line": 326
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_cached_banner_shown_when_throttled",
+          "line": 340
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_cached_banner_suppressed_when_up_to_date",
+          "line": 356
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_cached_banner_skipped_for_update_subcommand",
+          "line": 372
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_cached_banner_suppressed_when_update_check_disabled",
+          "line": 395
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_background_check_skipped_for_quiet_subcommands",
+          "line": 417
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_default_does_not_install",
+          "line": 452
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_runs_pip_install_upgrade",
+          "line": 467
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_runs_uv_tool_install",
+          "line": 491
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_errors_on_unsupported_platform",
+          "line": 516
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_runs_on_macos",
+          "line": 533
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_no_op_when_already_up_to_date",
+          "line": 553
+        },
+        {
+          "path": "tests/test_update.py",
+          "function": "test_install_flag_propagates_pip_failure",
+          "line": 569
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_explicit_session",
+          "line": 68
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_resolves_unique_session",
+          "line": 110
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_session_not_found",
+          "line": 125
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_custom_host",
+          "line": 138
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_host_normalises_trailing_slash",
+          "line": 170
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_endpoint_with_special_chars_is_encoded",
+          "line": 192
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_open_flag_launches_browser",
+          "line": 213
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_no_open_by_default",
+          "line": 232
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_fragment_is_not_url_encoded",
+          "line": 246
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_both_signals_present",
+          "line": 274
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_open_flag_includes_fragment",
+          "line": 291
+        },
+        {
+          "path": "tests/test_url.py",
+          "function": "test_url_output_is_pipeable",
+          "line": 316
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_print_kitty_emits_escape_sequence_on_tty",
+          "line": 31
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_print_kitty_silent_when_stdout_not_tty",
+          "line": 40
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_handle_image",
+          "line": 55
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_render_display_data_markdown",
+          "line": 79
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_render_display_data_plain",
+          "line": 85
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_render_display_data_none",
+          "line": 91
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_open_url_in_browser_reports_success",
+          "line": 96
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_open_url_in_browser_headless_returns_false",
+          "line": 102
+        },
+        {
+          "path": "tests/test_utils.py",
+          "function": "test_open_url_in_browser_swallows_opener_errors",
+          "line": 108
+        },
+        {
+          "path": "tests/test_version.py",
+          "function": "test_version_installed",
+          "line": 24
+        },
+        {
+          "path": "tests/test_version.py",
+          "function": "test_version_git_fallback",
+          "line": 36
+        },
+        {
+          "path": "tests/test_version.py",
+          "function": "test_version_unknown",
+          "line": 47
+        },
+        {
+          "path": "tests/test_whoami.py",
+          "function": "test_whoami_prints_human_readable_summary",
+          "line": 53
+        },
+        {
+          "path": "tests/test_whoami.py",
+          "function": "test_whoami_handles_tokeninfo_error_gracefully",
+          "line": 94
+        },
+        {
+          "path": "tests/test_whoami.py",
+          "function": "test_whoami_is_hidden_from_top_level_help",
+          "line": 124
+        },
+        {
+          "path": "tests/test_whoami.py",
+          "function": "test_whoami_refreshes_credentials_before_reading_token",
+          "line": 149
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "function": "test_proxy_command_launches_with_literal_arguments",
+          "line": 54
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "function": "test_windows_openssh_starts_proxy",
+          "line": 87
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "function": "test_rm_handlers_without_sighup",
+          "line": 137
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "function": "test_ssh_uses_local_null_device",
+          "line": 152
+        },
+        {
+          "path": "tests/test_windows_ssh.py",
+          "function": "test_rm_handlers_register_available_signals",
+          "line": 157
+        }
+      ],
+      "limitations": [
+        "静态 AST 入口不等于运行时合并后的 help",
+        "不展开 monkey-patch、Annotated 别名或 Typer 自动生成的选项",
+        "测试函数数不等于参数化测试用例数",
+        "未运行认证、目标代码或线上请求"
+      ]
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "files": [
+        {
+          "path": ".gitignore",
+          "bytes": 64,
+          "sha256": "ac502e6b2935496f44138fefcce9851e6aa764835c66332986cc0d926dcfc7b6"
+        },
+        {
+          "path": "README.md",
+          "bytes": 14631,
+          "sha256": "49e8e38d30eed557c71a0d745971324a17f6cae2143897c66251196992f1fdbd"
+        },
+        {
+          "path": "README.zh-CN.md",
+          "bytes": 14090,
+          "sha256": "0e6bfa2c5519227e03436e87173edd9847eae0237b2927e239bcc02771aab9ba"
+        },
+        {
+          "path": "colab_ext/__init__.py",
+          "bytes": 4598,
+          "sha256": "161580e43b7cfa7c244f167d8522a125e0ce909eccd1285942a46f8b8d27e888"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "bytes": 21190,
+          "sha256": "b5c1eec26787c2a6b10b40dd9cc864f6ab6709cb69afc30270b38b2a8597ef97"
+        },
+        {
+          "path": "colab_ext/accounts.py",
+          "bytes": 28966,
+          "sha256": "4cd3d7fb86ad638d395b7d667e3a8cae56817c2591ea394e6f8faeda56542053"
+        },
+        {
+          "path": "colab_ext/cli_hooks.py",
+          "bytes": 45694,
+          "sha256": "5411a48c147a44a6dbae2baba87496c8f48e2c22b03a476ebb5172ae4b9ccf75"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "bytes": 22798,
+          "sha256": "743cfc16496d88661748542423936ae1f29bfd32069d1699bb7bda6dbe83a98f"
+        },
+        {
+          "path": "colab_ext/dfs_creds.py",
+          "bytes": 31252,
+          "sha256": "338cc73c74029cc05823dded33e314eec822e20fe9d98c5c29a038afc8cb0bd9"
+        },
+        {
+          "path": "colab_ext/drive_mount.py",
+          "bytes": 23910,
+          "sha256": "ec1de9bc7f59c480e3d782fa051b193a2a2c404ff09827718155dae0dda5124c"
+        },
+        {
+          "path": "colab_ext/inject.py",
+          "bytes": 10754,
+          "sha256": "c9641f082d8da2e3636c802a47a9f1141c5753f90e485288aa75d6aaa2d684fc"
+        },
+        {
+          "path": "colab_ext/remote.py",
+          "bytes": 7429,
+          "sha256": "3cea7692e8578ef31ff3955ae429db1700bb78fbea2dacc35b4dc9f312acf11a"
+        },
+        {
+          "path": "colab_ext/skill_doc.py",
+          "bytes": 7733,
+          "sha256": "9ab2d86820a039ae271a897661658950c8ccdd582724d7f96bbc8bfde595506b"
+        },
+        {
+          "path": "colab_ext_loader.py",
+          "bytes": 1437,
+          "sha256": "9b86ce8b133081db59913a651418813932e812318d3b21b4724ffd2cfa06b7b2"
+        },
+        {
+          "path": "install.py",
+          "bytes": 4921,
+          "sha256": "202396f5e0f09c77d48ece23d37393f327d5bc65c46f2b3d7579f8b5bdebdf62"
+        },
+        {
+          "path": "install.sh",
+          "bytes": 3905,
+          "sha256": "14b2bf23575665e5a06f3fd1bc21f161cf3119d9f85369fb9d81582c93b8e9a1"
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "bytes": 40911,
+          "sha256": "63e4dd94141453379d49e2841401672fc80a43e05ce0e0ccdde5c11feb2a756d"
+        }
+      ],
+      "command_entrypoints": [
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "list_accounts",
+          "line": 196,
+          "end_line": 246,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='list')",
+            "account_app.command(name='ls', hidden=True)"
+          ],
+          "parameters": [
+            {
+              "name": "json_out",
+              "annotation": "Annotated[bool, typer.Option('--json', help='Machine-readable JSON output')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L196"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "current",
+          "line": 250,
+          "end_line": 280,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='current')"
+          ],
+          "parameters": [
+            {
+              "name": "json_out",
+              "annotation": "Annotated[bool, typer.Option('--json', help='Machine-readable JSON output')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L250"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "use_account",
+          "line": 285,
+          "end_line": 296,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='use')",
+            "account_app.command(name='switch', hidden=True)"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "annotation": "Annotated[str, typer.Argument(help='Account profile name or email')]",
+              "default": null
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L285"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "add_account",
+          "line": 300,
+          "end_line": 408,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='add')"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "annotation": "Annotated[str, typer.Argument(help='New account profile name')]",
+              "default": null
+            },
+            {
+              "name": "email",
+              "annotation": "Annotated[Optional[str], typer.Option('--email', help='Account email hint (login_hint)')]",
+              "default": "None"
+            },
+            {
+              "name": "with_drive",
+              "annotation": "_AddWithDriveOpt",
+              "default": "True"
+            },
+            {
+              "name": "with_dfs",
+              "annotation": "_CompatWithDfsOpt",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "Annotated[Optional[str], typer.Option('--drive-account', help='Bind Drive mounts to an existing storage account')]",
+              "default": "None"
+            },
+            {
+              "name": "flavor",
+              "annotation": "Annotated[str, typer.Option('--flavor', help='DriveFS consent flavor: dfs | sdk | custom')]",
+              "default": "'dfs'"
+            },
+            {
+              "name": "auth_method",
+              "annotation": "Annotated[str, typer.Option('--auth', help='Colab auth strategy: oauth2 | adc')]",
+              "default": "'oauth2'"
+            },
+            {
+              "name": "adc_file",
+              "annotation": "Annotated[Optional[str], typer.Option('--adc-file', help='Path to ADC JSON credentials file (implies --auth adc)')]",
+              "default": "None"
+            },
+            {
+              "name": "use",
+              "annotation": "Annotated[bool, typer.Option('--use/--no-use', help='Switch active account to this profile')]",
+              "default": "True"
+            },
+            {
+              "name": "no_browser",
+              "annotation": "Annotated[bool, typer.Option('--no-browser', help='Do not auto-open browser')]",
+              "default": "False"
+            },
+            {
+              "name": "url_only",
+              "annotation": "Annotated[bool, typer.Option('--url-only', help='Print Colab OAuth URL and exit (finish with `colab account login`)')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L300"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "login_account",
+          "line": 412,
+          "end_line": 472,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='login')"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "annotation": "Annotated[Optional[str], typer.Argument(help='Account name (defaults to currently active account)')]",
+              "default": "None"
+            },
+            {
+              "name": "email",
+              "annotation": "Annotated[Optional[str], typer.Option('--email', help='Account email hint (login_hint)')]",
+              "default": "None"
+            },
+            {
+              "name": "with_drive",
+              "annotation": "_LoginWithDriveOpt",
+              "default": "False"
+            },
+            {
+              "name": "with_dfs",
+              "annotation": "_CompatWithDfsOpt",
+              "default": "None"
+            },
+            {
+              "name": "flavor",
+              "annotation": "Annotated[str, typer.Option('--flavor', help='DriveFS consent flavor: dfs | sdk | custom')]",
+              "default": "'dfs'"
+            },
+            {
+              "name": "url_only",
+              "annotation": "Annotated[bool, typer.Option('--url-only', help='Print OAuth consent URL and save PKCE state for --code')]",
+              "default": "False"
+            },
+            {
+              "name": "code",
+              "annotation": "Annotated[Optional[str], typer.Option('--code', help='Finish a --url-only login using the pasted authorization code')]",
+              "default": "None"
+            },
+            {
+              "name": "no_browser",
+              "annotation": "Annotated[bool, typer.Option('--no-browser', help='Do not auto-open browser')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L412"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "rename_account_cmd",
+          "line": 476,
+          "end_line": 486,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='rename')"
+          ],
+          "parameters": [
+            {
+              "name": "old",
+              "annotation": "Annotated[str, typer.Argument(help='Existing account name or email')]",
+              "default": null
+            },
+            {
+              "name": "new",
+              "annotation": "Annotated[str, typer.Argument(help='New account profile name')]",
+              "default": null
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L476"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "remove_account_cmd",
+          "line": 491,
+          "end_line": 504,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='remove')",
+            "account_app.command(name='rm', hidden=True)"
+          ],
+          "parameters": [
+            {
+              "name": "name",
+              "annotation": "Annotated[str, typer.Argument(help='Account profile name or email')]",
+              "default": null
+            },
+            {
+              "name": "force",
+              "annotation": "Annotated[bool, typer.Option('--force', help='Remove even if local sessions are recorded')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L491"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "set_drive_cmd",
+          "line": 508,
+          "end_line": 544,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='set-drive')"
+          ],
+          "parameters": [
+            {
+              "name": "drive_account",
+              "annotation": "Annotated[Optional[str], typer.Argument(help='Storage account supplying DriveFS credentials')]",
+              "default": "None"
+            },
+            {
+              "name": "account",
+              "annotation": "Annotated[Optional[str], typer.Option('-a', '--account', help='Target compute account (default: active account)')]",
+              "default": "None"
+            },
+            {
+              "name": "as_default",
+              "annotation": "Annotated[bool, typer.Option('--default', help='Set/clear global fallback Drive account')]",
+              "default": "False"
+            },
+            {
+              "name": "clear",
+              "annotation": "Annotated[bool, typer.Option('--clear', help='Clear the Drive binding')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L508"
+        },
+        {
+          "path": "colab_ext/account_commands.py",
+          "function": "status_accounts",
+          "line": 548,
+          "end_line": 581,
+          "registrations": [],
+          "decorators": [
+            "account_app.command(name='status')"
+          ],
+          "parameters": [
+            {
+              "name": "json_out",
+              "annotation": "Annotated[bool, typer.Option('--json', help='Machine-readable JSON output')]",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/account_commands.py#L548"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "_drive_callback",
+          "line": 177,
+          "end_line": 181,
+          "registrations": [],
+          "decorators": [
+            "drive_app.callback()"
+          ],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L177"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "_ext_callback",
+          "line": 185,
+          "end_line": 188,
+          "registrations": [],
+          "decorators": [
+            "ext_app.callback()"
+          ],
+          "parameters": [
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L185"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "mount",
+          "line": 280,
+          "end_line": 359,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "session",
+              "annotation": "Session",
+              "default": "None"
+            },
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "DriveAccount",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Path",
+              "default": "'/content/drive'"
+            },
+            {
+              "name": "mode",
+              "annotation": "ModeOpt",
+              "default": "'shim'"
+            },
+            {
+              "name": "force",
+              "annotation": "Force",
+              "default": "False"
+            },
+            {
+              "name": "readonly",
+              "annotation": "ReadonlyOpt",
+              "default": "False"
+            },
+            {
+              "name": "timeout",
+              "annotation": "Timeout",
+              "default": "120"
+            },
+            {
+              "name": "port",
+              "annotation": "PortOpt",
+              "default": "8012"
+            },
+            {
+              "name": "from_env",
+              "annotation": "FromEnvOpt",
+              "default": "False"
+            },
+            {
+              "name": "cli_token",
+              "annotation": "CliTokenOpt",
+              "default": "False"
+            },
+            {
+              "name": "purge_state",
+              "annotation": "PurgeStateOpt",
+              "default": "False"
+            },
+            {
+              "name": "user_id",
+              "annotation": "UserIdOpt",
+              "default": "None"
+            },
+            {
+              "name": "email",
+              "annotation": "EmailOpt",
+              "default": "None"
+            },
+            {
+              "name": "drive_extra",
+              "annotation": "DriveExtraOpt",
+              "default": "None"
+            },
+            {
+              "name": "dry_run",
+              "annotation": "DryRunOpt",
+              "default": "False"
+            },
+            {
+              "name": "via_cli",
+              "annotation": "ViaCliOpt",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L280"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "umount",
+          "line": 363,
+          "end_line": 387,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Session",
+              "default": "None"
+            },
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Path",
+              "default": "'/content/drive'"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L363"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "status",
+          "line": 391,
+          "end_line": 434,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "session",
+              "annotation": "Session",
+              "default": "None"
+            },
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "DriveAccount",
+              "default": "None"
+            },
+            {
+              "name": "path",
+              "annotation": "Path",
+              "default": "'/content/drive'"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L391"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "consent",
+          "line": 439,
+          "end_line": 481,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "ctx",
+              "annotation": "typer.Context",
+              "default": null
+            },
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "flavor",
+              "annotation": "FlavorOpt",
+              "default": "None"
+            },
+            {
+              "name": "minimal",
+              "annotation": "MinimalOpt",
+              "default": "True"
+            },
+            {
+              "name": "port",
+              "annotation": "ConsentPortOpt",
+              "default": "0"
+            },
+            {
+              "name": "user_id",
+              "annotation": "UserIdOpt",
+              "default": "None"
+            },
+            {
+              "name": "email",
+              "annotation": "EmailOpt",
+              "default": "None"
+            },
+            {
+              "name": "login_hint",
+              "annotation": "LoginHintOpt",
+              "default": "None"
+            },
+            {
+              "name": "code",
+              "annotation": "CodeOpt",
+              "default": "None"
+            },
+            {
+              "name": "url_only",
+              "annotation": "UrlOnlyOpt",
+              "default": "False"
+            },
+            {
+              "name": "no_browser",
+              "annotation": "NoBrowserOpt",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L439"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "show",
+          "line": 485,
+          "end_line": 499,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "DriveAccount",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L485"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "token",
+          "line": 503,
+          "end_line": 523,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "DriveAccount",
+              "default": "None"
+            },
+            {
+              "name": "whoami",
+              "annotation": "WhoamiOpt",
+              "default": "False"
+            },
+            {
+              "name": "json_out",
+              "annotation": "JsonOutOpt",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L503"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "clear",
+          "line": 527,
+          "end_line": 535,
+          "registrations": [],
+          "decorators": [
+            "drive_app.command(context_settings=EXTRA)"
+          ],
+          "parameters": [
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L527"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "install",
+          "line": 541,
+          "end_line": 561,
+          "registrations": [],
+          "decorators": [
+            "ext_app.command(name='install', context_settings=EXTRA)",
+            "drive_app.command(name='install', context_settings=EXTRA, hidden=True)"
+          ],
+          "parameters": [
+            {
+              "name": "site_dir",
+              "annotation": "SiteDirOpt",
+              "default": "None"
+            },
+            {
+              "name": "quiet",
+              "annotation": "QuietOpt",
+              "default": "False"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L541"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "doctor",
+          "line": 567,
+          "end_line": 644,
+          "registrations": [],
+          "decorators": [
+            "ext_app.command(name='doctor', context_settings=EXTRA)",
+            "ext_app.command(name='status', context_settings=EXTRA, hidden=True)",
+            "drive_app.command(name='doctor', context_settings=EXTRA, hidden=True)"
+          ],
+          "parameters": [
+            {
+              "name": "account",
+              "annotation": "Account",
+              "default": "None"
+            },
+            {
+              "name": "drive_account",
+              "annotation": "DriveAccount",
+              "default": "None"
+            }
+          ],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L567"
+        },
+        {
+          "path": "colab_ext/commands.py",
+          "function": "version",
+          "line": 649,
+          "end_line": 654,
+          "registrations": [],
+          "decorators": [
+            "ext_app.command(name='version', context_settings=EXTRA)",
+            "drive_app.command(name='version', context_settings=EXTRA, hidden=True)"
+          ],
+          "parameters": [],
+          "source": "https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/commands.py#L649"
+        }
+      ],
+      "test_functions": [
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_bootstrap_and_lazy_legacy_migration_non_destructive",
+          "line": 202
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_four_tier_resolution_email_lookup_and_routing_rules",
+          "line": 258
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_session_sync_isolation_across_accounts",
+          "line": 331
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_keyring_failure_falls_back_to_0600_file",
+          "line": 356
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_account_crud_and_headless_url_only_code_login",
+          "line": 376
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_parallel_multi_account_probes_and_non_interactive_guard",
+          "line": 463
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_cross_account_shared_drive_and_headless_dfs_consent",
+          "line": 538
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_skill_augmentation_and_url_authuser_clean_stdout",
+          "line": 591
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_enhanced_drivemount_zero_browser_fallback_and_flags",
+          "line": 622
+        },
+        {
+          "path": "tests/test_colab_ext.py",
+          "function": "test_ext_drive_dfs_alias_and_legacy_pth_migration",
+          "line": 751
+        }
+      ],
+      "limitations": [
+        "静态 AST 入口不等于运行时合并后的 help",
+        "不展开 monkey-patch、Annotated 别名或 Typer 自动生成的选项",
+        "测试函数数不等于参数化测试用例数",
+        "未运行认证、目标代码或线上请求"
+      ]
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "files": [
+        {
+          "path": ".github/dependabot.yml",
+          "bytes": 325,
+          "sha256": "fafb433423b106cf7aa18c1d9cfdbd2f42b6c6993b9463f958c38c5152bcd275"
+        },
+        {
+          "path": ".github/workflows/build.yml",
+          "bytes": 3138,
+          "sha256": "13aeb9155437ac112248658673802890ef7bfb63ba84fcc8241d34a585810097"
+        },
+        {
+          "path": ".github/workflows/fix-license-header.yml",
+          "bytes": 1686,
+          "sha256": "fd2260f52beda75a4741dfd7ff3155c14067c6884b05a12543dc256f8610a823"
+        },
+        {
+          "path": ".github/workflows/lint.sh",
+          "bytes": 247,
+          "sha256": "c7b08359f897e018e4a4e6f00c925cf54ab48a6f85e5bc3fb3c667f77cdddfe7"
+        },
+        {
+          "path": ".github/workflows/prep-release.yml",
+          "bytes": 1647,
+          "sha256": "fa48c6f7b198df3b6c780d747e480d1c074fc1fca6959e3903c8b32c8cebbe11"
+        },
+        {
+          "path": ".github/workflows/publish-release.yml",
+          "bytes": 1857,
+          "sha256": "b391f9b907d841cfc1eafccae0484c5593cf0b42a30b404c2d8e4029f33a7fd0"
+        },
+        {
+          "path": ".gitignore",
+          "bytes": 1373,
+          "sha256": "017f996b956d79a2b0d14786c73dd8745ece8e67c1fd7ddad8db4907bcdf33f7"
+        },
+        {
+          "path": ".licenserc.yaml",
+          "bytes": 251,
+          "sha256": "0155c543c85201f85ea1dfdfad3d431a2f8571e0205444a2dcb27af0abd22baf"
+        },
+        {
+          "path": ".pre-commit-config.yaml",
+          "bytes": 993,
+          "sha256": "1768c8f048d723574ef6896347c12fb907e2b3b7522a49c76ff752745d505a72"
+        },
+        {
+          "path": "CHANGELOG.md",
+          "bytes": 7440,
+          "sha256": "629e3dd93634c3626e886d8ea22b444647284dcaf81c452158b7a5772bb53ac6"
+        },
+        {
+          "path": "LICENSE",
+          "bytes": 1517,
+          "sha256": "888ead28a5342901d93e31d09f37782edf695d2f14fbbdb08d3fcf6063f76b66"
+        },
+        {
+          "path": "Makefile",
+          "bytes": 1239,
+          "sha256": "a3c6ff79812b6ae6d37181a4328fb7f8c43ec06daffd745004e246f1dbfc265e"
+        },
+        {
+          "path": "README.md",
+          "bytes": 4514,
+          "sha256": "967906dc6846bc1c18bd7cb6da94ee240f5a3b03b8042784027483cebdf9f3fd"
+        },
+        {
+          "path": "RELEASE.md",
+          "bytes": 1818,
+          "sha256": "db9a5a01d2683ac3bd85a1ac947a137a086b6c688eff91ccb58108e3cb1409d1"
+        },
+        {
+          "path": "dev/test.ipynb",
+          "bytes": 618,
+          "sha256": "9c92bef20079632babfb8873f5c78d6f70172549fd1c06c04dc2b432592f3c59"
+        },
+        {
+          "path": "jupyter_kernel_client/__init__.py",
+          "bytes": 836,
+          "sha256": "a71b7e1df006f82a60ae01ba6df7e01a7c68a207431d4ae4121e330d540eff07"
+        },
+        {
+          "path": "jupyter_kernel_client/_version.py",
+          "bytes": 147,
+          "sha256": "6b1048152c78e17007c94997929182c2127e17806dd0c9bc46bd0b866650df72"
+        },
+        {
+          "path": "jupyter_kernel_client/client.py",
+          "bytes": 23732,
+          "sha256": "d666344ceffd80d6d18a072e5a738069066e32471d97c238344edc108b8fda98"
+        },
+        {
+          "path": "jupyter_kernel_client/constants.py",
+          "bytes": 135,
+          "sha256": "63f874790a6c4cb8de5a4c4c08393e8ea91ddb4fbac2b1247993fe9dda19cb5e"
+        },
+        {
+          "path": "jupyter_kernel_client/konsoleapp.py",
+          "bytes": 7335,
+          "sha256": "5b4e00b805931b0f0a2d4d31b462fe48a6862d6113e26cb973e6a8918f5c8204"
+        },
+        {
+          "path": "jupyter_kernel_client/log.py",
+          "bytes": 1006,
+          "sha256": "015cc01af761d04de75bb41ecd196a671c3d9e0ffa23a4073508f1c25ec58692"
+        },
+        {
+          "path": "jupyter_kernel_client/manager.py",
+          "bytes": 11594,
+          "sha256": "1006dd646953741cec569185075df88bb306efeb50e418a2de1ff44d972feecb"
+        },
+        {
+          "path": "jupyter_kernel_client/models.py",
+          "bytes": 241,
+          "sha256": "0ca21a2b00d1d2b657f52bd7113eee1cc1474094fb8b121eabb72b4b84b498fb"
+        },
+        {
+          "path": "jupyter_kernel_client/shell.py",
+          "bytes": 2081,
+          "sha256": "7acdc05a5670ec3d48860636e96c740dfcdc4cfd58c90210e59d416a170d5676"
+        },
+        {
+          "path": "jupyter_kernel_client/snippets.py",
+          "bytes": 7269,
+          "sha256": "4b2354c51258e7e929d94a2ee1d85ca796d3f022d462f0afa7761c837fb6eae5"
+        },
+        {
+          "path": "jupyter_kernel_client/tests/__init__.py",
+          "bytes": 119,
+          "sha256": "544fd80acc45ac135bc762034905d71eac2bbd8a708d5ddd59eac7b1ec7af69d"
+        },
+        {
+          "path": "jupyter_kernel_client/tests/conftest.py",
+          "bytes": 2282,
+          "sha256": "8a036c270b8d4bb5297ec1ad80f751e67454b9184ecdac9c8df4631ba8c76f95"
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "bytes": 8387,
+          "sha256": "9c1f8b4b4b9eeb99f57c4da13ce25c0b993b7eb362e1e86e1cf813988884f9fa"
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_manager.py",
+          "bytes": 1079,
+          "sha256": "c39541b09ada54368c3e9439361bfe2dcc8deccc0643d3df60f436debe64dacf"
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_utils.py",
+          "bytes": 4568,
+          "sha256": "4646dad7176aaa584ea4664366c54c26b6a98b34d576256a6819d89883fc74c5"
+        },
+        {
+          "path": "jupyter_kernel_client/utils.py",
+          "bytes": 5237,
+          "sha256": "98ffaef260265d0ced4cd7b849f5d9374515027acbe7a8db7b6feb614d7c49d4"
+        },
+        {
+          "path": "jupyter_kernel_client/wsclient.py",
+          "bytes": 47793,
+          "sha256": "1a4456403b972990216012e079c5da0ff8a7c69fd3fcb72b19c20d74bd460bb1"
+        },
+        {
+          "path": "pyproject.toml",
+          "bytes": 2733,
+          "sha256": "ebc60e746b368a38ab337bbdf5c7e20c511ea9dc39275f1891f28bae3330dd19"
+        },
+        {
+          "path": "uv.lock",
+          "bytes": 528077,
+          "sha256": "3877f8d2648f3677b88628e4df0ac82f37c5d3c2881cd2c79c7e3f76479251b4"
+        }
+      ],
+      "command_entrypoints": [],
+      "test_functions": [
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_execution_as_context_manager",
+          "line": 16
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_execution_no_context_manager",
+          "line": 38
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_list_kernels_client",
+          "line": 64
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_list_variables",
+          "line": 89
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_get_all_mimetype_variables",
+          "line": 136
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_get_textplain_variables",
+          "line": 156
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_set_variable_and_get_variable",
+          "line": 176
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_set_variables_on_execute",
+          "line": 200
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_set_variables",
+          "line": 225
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_client.py",
+          "function": "test_multi_execution_in_event_loop",
+          "line": 237
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_manager.py",
+          "function": "test_list_kernels",
+          "line": 11
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_utils.py",
+          "function": "test_serialize_msg_to_ws_json",
+          "line": 9
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_utils.py",
+          "function": "test_serialize_and_deserialize_msg_to_ws_default",
+          "line": 36
+        },
+        {
+          "path": "jupyter_kernel_client/tests/test_utils.py",
+          "function": "test_serialize_and_deserialize_msg_to_ws_v1",
+          "line": 85
+        }
+      ],
+      "limitations": [
+        "静态 AST 入口不等于运行时合并后的 help",
+        "不展开 monkey-patch、Annotated 别名或 Typer 自动生成的选项",
+        "测试函数数不等于参数化测试用例数",
+        "未运行认证、目标代码或线上请求"
+      ]
+    }
+  }
+}

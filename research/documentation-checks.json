@@ -1,0 +1,17 @@
+{
+  "research_date": "2026-11-16",
+  "checks": {
+    "markdown_files": 16,
+    "relative_links": 110,
+    "unique_fixed_source_citations": 114,
+    "source_file_hashes": 143
+  },
+  "errors": [],
+  "not_checked": [
+    "Markdown rendering and Mermaid layout",
+    "claim entailment by automation",
+    "remote URL availability",
+    "target code execution",
+    "OAuth and live Colab behavior"
+  ]
+}
