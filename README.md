@@ -2,13 +2,31 @@
 
 用 Rust 实现 Google Colab CLI 与 colab-ext 的功能合集。长期运行策略、VM 自动重建与任务检查点由任务脚本或外部调度器负责。当前提供多账户、OAuth、部分 ADC、本地存储，以及 Colab 控制面的会话查询、分配、释放、跨账户汇总、CCU 用量查询，Contents 文件操作，以及 Python/Notebook 与一次性脚本执行、历史查询和导出、VM 授权与官方 Drive 挂载、交互 REPL 与 Unix SSH；扩展 DriveFS 的独立凭据已接入，远端控制器已离线实现，挂载 CLI、默认 drivemount 策略与恢复入口已接入。原版 WebSocket 通信、心跳、状态与断线处理继续属于客户端范围。
 
-## 构建与验证
+## 安装与运行
 
-本地应用不依赖 Python。`Cargo.toml` 声明 Rust 1.85+；当前在 macOS、Rust 1.99.1 验证，最低版本和其他平台尚待实测。
+本地应用不依赖 Python。可从 [GitHub Releases](https://github.com/deluxebear/colabcli-rust/releases) 下载对应平台的二进制及 `SHA256SUMS`，核对 SHA-256 后赋予执行权限，将文件命名为 `colab` 并放入 `PATH` 中的目录。
+
+从源码构建需要 Rust 工具链，在仓库根目录执行：
 
 ```sh
-cargo build --locked
-cargo run --locked -- --help
+cargo build --release --locked
+./target/release/colab --help
+```
+
+构建好的程序位于 `target/release/colab`，日常运行无需 Cargo。可将其复制到 `PATH` 中的目录，或在当前终端将构建目录加入 `PATH`：
+
+```sh
+export PATH="$PWD/target/release:$PATH"
+colab --help
+```
+
+以下使用示例均假设 `colab` 已加入 `PATH`；也可将命令中的 `colab` 替换为编译产物的绝对路径。
+
+## 开发验证
+
+`Cargo.toml` 声明 Rust 1.85+；当前在 macOS、Rust 1.99.1 验证，最低版本和其他平台尚待实测。开发时可用 `cargo run -- --help` 构建并运行调试版本。
+
+```sh
 cargo fmt --check
 cargo clippy --locked --all-targets -- -D warnings
 cargo test --locked
@@ -27,13 +45,13 @@ python3 -B tools/tests/test_drivefs_controller.py
 使用独立配置目录体验本地功能，避免与 Python 客户端同时修改同一份配置：
 
 ```sh
-cargo run -- --config-dir /tmp/colab-rust-demo account add work --configure-only
-cargo run -- --config-dir /tmp/colab-rust-demo account use work
-cargo run -- --config-dir /tmp/colab-rust-demo account current
-cargo run -- --config-dir /tmp/colab-rust-demo account list --json
-cargo run -- --config-dir /tmp/colab-rust-demo account status --json
-cargo run -- --config-dir /tmp/colab-rust-demo account add storage --configure-only
-cargo run -- --config-dir /tmp/colab-rust-demo -a work account set-drive storage
+colab --config-dir /tmp/colab-rust-demo account add work --configure-only
+colab --config-dir /tmp/colab-rust-demo account use work
+colab --config-dir /tmp/colab-rust-demo account current
+colab --config-dir /tmp/colab-rust-demo account list --json
+colab --config-dir /tmp/colab-rust-demo account status --json
+colab --config-dir /tmp/colab-rust-demo account add storage --configure-only
+colab --config-dir /tmp/colab-rust-demo -a work account set-drive storage
 ```
 
 `account add` 默认登录，成功后尝试独立 Drive 授权并切换 active；`--no-drive` 跳过 Drive，`--no-use` 保留 active。`--url-only` 保存待完成授权后返回；只登记资料请显式加 `--configure-only`。详见 [联合授权与失败处理](docs/34-account-login-and-drive-consent-implementation.md)。支持 `rename`、`remove`、全局 Drive 默认绑定，以及中断事务的 `account repair`。删除只清理本地资料，不释放 VM。无 `--config-dir` 时使用 `~/.config/colab-cli`；环境变量为 `COLAB_CLI_CONFIG_DIR`。
@@ -45,8 +63,8 @@ cargo run -- --config-dir /tmp/colab-rust-demo -a work account set-drive storage
 OAuth 需要用户提供 Google OAuth client 配置，支持 `installed`、`web` 或直接字段对象；仓库不包含 client secret。默认读取 `~/.colab-cli-oauth-config.json`，也可用 `-c` 指定：
 
 ```sh
-cargo run -- -a work -c /absolute/path/client.json account login --url-only
-cargo run -- -a work account login --code 'AUTHORIZATION_CODE'
+colab -a work -c /absolute/path/client.json account login --url-only
+colab -a work account login --code 'AUTHORIZATION_CODE'
 ```
 
 两次调用必须使用相同配置目录和账户。也可用 `--callback-url '完整回调URL'` 兑换并校验 state；尚无自动回调监听器。client、redirect、scope 是否被 Google 接受仍需真实授权验证。
@@ -54,8 +72,8 @@ cargo run -- -a work account login --code 'AUTHORIZATION_CODE'
 `--token-storage auto|keyring|file` 控制凭据存储。`auto` 在系统凭据库写入失败后使用受限权限文件，并保持文件为权威来源；文件内容未加密。ADC 当前支持 `authorized_user`、`service_account`、`impersonated_service_account`、文件/URL 来源的 `external_account` 及 `external_account_authorized_user` JSON：
 
 ```sh
-cargo run -- account add gcloud --configure-only --adc-file /absolute/path/application_default_credentials.json
-cargo run -- account login gcloud
+colab account add gcloud --configure-only --adc-file /absolute/path/application_default_credentials.json
+colab account login gcloud
 ```
 
 ADC 登录只验证取得 token，不代表具有 Colab 权限。service_account 使用未加密 PKCS#8 RSA 私钥签署 JWT，按 Colab 的公开 scope 集合交换 token，不回写密钥文件。impersonation 支持内嵌的用户或服务账户来源及 IAM delegates，源 token 与目标 token 分别缓存，不把源身份传给 Colab。external_account 支持 STS（含可选 HTTP Basic 客户端认证）、可选 IAM 目标与 workforce user project，来源文件不会被回写。Workforce 用户 ADC 用客户端 Basic 认证刷新令牌，轮换只在当前进程缓存。ADC 在没有显式文件且默认 gcloud 文件不存在时可探测 GCE/GKE metadata；NO_GCE_CHECK=true 可禁用。Unix 可执行令牌来源需显式 GOOGLE_EXTERNAL_ACCOUNT_ALLOW_EXECUTABLES=1，支持非交互 JSON 和输出缓存。AWS aws1 支持环境快照和 EC2 IMDSv1/v2，生成签名主体供 Google STS 验证。X.509 workload ADC 支持证书主体与 STS/IAM mTLS；当前不支持 domain-wide subject、其他 universe、递归 impersonation 或 JWT/SAML 证书绑定 token；metadata 支持 GCE_METADATA_MTLS_MODE 的 none/strict/default 模式。支持矩阵与离线证据见 [服务账户](docs/30-adc-service-account-implementation.md)、[IAM impersonation](docs/31-adc-impersonation-implementation.md)、[外部身份](docs/36-adc-external-account-implementation.md)、[Workforce 用户](docs/37-adc-workforce-user-implementation.md)、[metadata](docs/38-adc-metadata-implementation.md)、[可执行来源](docs/39-adc-executable-implementation.md) 、[AWS](docs/40-adc-aws-implementation.md) 与 [STS 客户端认证](docs/70-external-account-client-auth.md) 与 [X.509/mTLS](docs/71-x509-adc-and-mtls.md) 与 [metadata mTLS](docs/72-metadata-mtls.md)。
@@ -65,12 +83,12 @@ ADC 登录只验证取得 token，不代表具有 Colab 权限。service_account
 先登录所选账户，再显式分配或释放 VM：
 
 ```sh
-cargo run -- -a work new -s cpu-demo --json
-cargo run -- -a work new -s gpu-demo --gpu T4 --high-mem
-cargo run -- -a work sessions --json
-cargo run -- status -s cpu-demo --json
-cargo run -- -a work usage --json
-cargo run -- stop -s cpu-demo
+colab -a work new -s cpu-demo --json
+colab -a work new -s gpu-demo --gpu T4 --high-mem
+colab -a work sessions --json
+colab status -s cpu-demo --json
+colab -a work usage --json
+colab stop -s cpu-demo
 ```
 
 `sessions` 查询后端全部会话，未命名资源以 `?` 显示；`status` 显示本地命名会话的状态及上次执行信息。两者都会刷新本地 token，并裁剪已失效会话。失败分配可用相同硬件参数恢复；未暂存 endpoint 的普通分配可改用 `new -s NAME` 命名恢复，始终复用原 nbh，无需删除日志。`new` 仅使用显式/环境/active 账户，不按同名会话路由；`status -s` 和 `stop -s` 支持会话归属路由。JSON 和终端输出不包含 OAuth、proxy 或 XSRF token。
@@ -82,13 +100,13 @@ cargo run -- stop -s cpu-demo
 以下命令只使用已有会话，不会自动分配 VM：
 
 ```sh
-cargo run -- ls -s cpu-demo
-cargo run -- upload ./local.bin content/remote.bin -s cpu-demo
-cargo run -- download content/remote.bin ./copy.bin -s cpu-demo
-EDITOR='code --wait' cargo run -- edit content/script.py -s cpu-demo
-cargo run -- rm content/remote.bin -s cpu-demo
-cargo run -- sessions --all --json
-cargo run -- usage --all --json
+colab ls -s cpu-demo
+colab upload ./local.bin content/remote.bin -s cpu-demo
+colab download content/remote.bin ./copy.bin -s cpu-demo
+EDITOR='code --wait' colab edit content/script.py -s cpu-demo
+colab rm content/remote.bin -s cpu-demo
+colab sessions --all --json
+colab usage --all --json
 ```
 
 上传/下载文件上限 32 MiB；下载校验成功后才原子替换本地文件。编辑只对 404 创建空文件，未修改时不上传；上传失败会保留本地编辑文件并显示恢复路径。`--all` 最多并发查询四个账户，逐账户保留结果或错误，不触发交互式登录。详细协议、兼容差异与未完成部分见 [文件接口与账户汇总实现](docs/11-contents-and-inventory-implementation.md)。
@@ -96,12 +114,12 @@ cargo run -- usage --all --json
 ## 执行 Python 与 Notebook
 
 ```sh
-printf 'x = 7\nprint(x)\n' | cargo run -- exec -s cpu-demo
-cargo run -- exec -s cpu-demo -f task.py --env MODE=train --timeout 30
-cargo run -- exec -s cpu-demo -f interactive.py --allow-stdin --timeout 120
-cargo run -- exec -s cpu-demo -f experiment.ipynb --output-image plot.png
-cargo run -- kernels -s cpu-demo --json
-cargo run -- restart-kernel -s cpu-demo
+printf 'x = 7\nprint(x)\n' | colab exec -s cpu-demo
+colab exec -s cpu-demo -f task.py --env MODE=train --timeout 30
+colab exec -s cpu-demo -f interactive.py --allow-stdin --timeout 120
+colab exec -s cpu-demo -f experiment.ipynb --output-image plot.png
+colab kernels -s cpu-demo --json
+colab restart-kernel -s cpu-demo
 ```
 
 exec 复用已有 kernel；普通命令退出保留 VM/kernel。Notebook 输出写入 `<stem>_output.ipynb`，失败时保留已有输出。默认超时表示本次相关消息的空闲期限；显式 `--allow-stdin` 需要 Unix 交互终端和 `-f`，允许远端 `input/getpass`，超时改为单次执行的总期限（包含输入等待）。0 为无限等待；断线或超时后不会自动重放代码。结果未知时保存消息 ID 并阻止新执行，先核查或显式重启 kernel。`stop` 可以从另一终端释放运行中的 VM。详见 [执行核心实现](docs/12-jupyter-and-execution-implementation.md)。
@@ -109,8 +127,8 @@ exec 复用已有 kernel；普通命令退出保留 VM/kernel。Notebook 输出�
 ## VM 授权与官方 Drive 挂载
 
 ```sh
-cargo run -- auth -s cpu-demo
-cargo run -- drivemount -s cpu-demo /content/drive --upstream
+colab auth -s cpu-demo
+colab drivemount -s cpu-demo /content/drive --upstream
 ```
 
 这两个命令使用已有 VM 和所选算力账户。已授权流程可以无终端运行；需要人工输入时使用交互终端。auth 默认总期限 600 秒，drivemount 默认 30 秒，不隐式重放结果未知的执行。每次新操作使用独立 kernel，保留普通 exec 的变量环境；结果未知时使用 `automation-cleanup -s cpu-demo` 显式清理待恢复 kernel，创建 ID 未知时先用 kernels 核查。这里显式选择官方 Colab Drive 流程；专用协议与恢复约定见 [16](docs/16-colab-automation-implementation.md)。
@@ -120,8 +138,8 @@ cargo run -- drivemount -s cpu-demo /content/drive --upstream
 ## 远端软件包安装
 
 ```sh
-cargo run -- install -s cpu-demo numpy pandas
-cargo run -- install -s cpu-demo -r requirements.txt
+colab install -s cpu-demo numpy pandas
+colab install -s cpu-demo -r requirements.txt
 ```
 
 只操作已有 VM。requirements 在创建独立安装 kernel 前上传，执行结果未知时不自动重放；默认不限时，可用 `--timeout` 设置空闲期限。用法与未完成的真实安装验收见 [安装说明](docs/17-install-implementation.md)。
@@ -129,12 +147,12 @@ cargo run -- install -s cpu-demo -r requirements.txt
 ## 一次性脚本与历史
 
 ```sh
-cargo run -- run --gpu T4 --env MODE=train -s training train.py --epochs 5
-cargo run -- run --keep -s retained job.py
-cargo run -- runs
-cargo run -- run-cleanup RUN_UUID
-cargo run -- log -s training --type execution --lines 10 --json
-cargo run -- log -s training -o training.ipynb
+colab run --gpu T4 --env MODE=train -s training train.py --epochs 5
+colab run --keep -s retained job.py
+colab runs
+colab run-cleanup RUN_UUID
+colab log -s training --type execution --lines 10 --json
+colab log -s training -o training.ipynb
 ```
 
 run 的客户端选项放在脚本路径前，后续参数原样传给脚本。默认申请新 VM、执行并释放；--keep 保留 VM。清理失败保留 run 计划，可用 run-cleanup 恢复，恢复不会重放脚本。脚本非零退出码独立于清理结果；SIGINT/SIGTERM/SIGHUP 会请求取消等待并进入清理。历史还支持 `.md/.txt/.jsonl`，停止会话后仍可离线导出。详见 [run 与历史实现](docs/13-run-and-history-implementation.md)。
