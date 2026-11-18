@@ -10,6 +10,8 @@ on:
         required: false
 permissions:
   contents: read
+env:
+  RUST_TEST_THREADS: '4'
 jobs:
   channel:
     runs-on: ubuntu-24.04

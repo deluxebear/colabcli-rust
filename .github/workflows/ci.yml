@@ -4,6 +4,8 @@ on:
   pull_request:
 permissions:
   contents: read
+env:
+  RUST_TEST_THREADS: '4'
 jobs:
   msrv:
     runs-on: ubuntu-latest

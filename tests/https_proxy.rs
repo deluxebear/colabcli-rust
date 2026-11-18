@@ -504,12 +504,15 @@ fn dripping_proxy_tls_records_cannot_extend_the_negotiation_deadline() {
 
 #[test]
 fn proxy_tls_and_encrypted_connect_share_the_same_deadline() {
+    const CONNECT_DEADLINE: Duration = Duration::from_millis(1500);
+    const HANDSHAKE_DELAY: Duration = Duration::from_millis(550);
+    const HEADER_BYTE_INTERVAL: Duration = Duration::from_millis(70);
     let fixture = TlsFixture::new("127.0.0.1", false);
     let listener = listener();
     let environment = fixture.environment(&listener);
     let handler = thread::spawn(move || {
         let socket = accept(listener);
-        thread::sleep(Duration::from_millis(70));
+        thread::sleep(HANDSHAKE_DELAY);
         let mut stream = tls(socket, fixture.server);
         assert!(header(&mut stream).starts_with("CONNECT 127.0.0.1:1 HTTP/1.1"));
         for byte in b"HTTP/1.1 200 OK\r\n\r\n" {
@@ -520,19 +523,19 @@ fn proxy_tls_and_encrypted_connect_share_the_same_deadline() {
             {
                 break;
             }
-            thread::sleep(Duration::from_millis(20));
+            thread::sleep(HEADER_BYTE_INTERVAL);
         }
     });
     let start = Instant::now();
     assert!(matches!(
         transport::connect(
             &Url::parse("ws://127.0.0.1:1/").unwrap(),
-            start + Duration::from_millis(200),
+            start + CONNECT_DEADLINE,
             &environment
         ),
         Err(Error::WebSocketTransport)
     ));
-    assert!(start.elapsed() < Duration::from_millis(800));
+    assert!(start.elapsed() < Duration::from_secs(3));
     handler.join().unwrap();
 }
 #[test]
