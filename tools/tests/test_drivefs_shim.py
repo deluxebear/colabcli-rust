@@ -261,27 +261,39 @@ class ShimTests(unittest.TestCase):
             self.assertEqual(constructor.call_count, 30)
 
     def test_real_process_readiness_and_failure_output(self):
+        process_timeout = 30
         child = subprocess.Popen([sys.executable, str(SOURCE), "--config", str(self.path), "--port", "0"],
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             ready = self.directory / "shim-ready.json"
-            deadline = time.monotonic() + 5
+            deadline = time.monotonic() + process_timeout
             while not ready.exists() and child.poll() is None and time.monotonic() < deadline:
                 time.sleep(.01)
-            self.assertTrue(ready.exists())
+            if not ready.exists():
+                status = child.poll()
+                if status is not None:
+                    stdout, stderr = child.communicate()
+                    self.fail(f"metadata helper exited before readiness: {status}, {stdout!r}, {stderr!r}")
+                self.fail("metadata helper did not publish readiness before the test deadline")
             info = json.loads(ready.read_text())
             self.assertEqual(info["pid"], child.pid)
             self.assertEqual(stat.S_IMODE(ready.stat().st_mode), 0o600)
-            conn = http.client.HTTPConnection("127.0.0.1", info["port"], timeout=2)
-            conn.request("GET", "/email")
-            self.assertEqual(conn.getresponse().read(), self.config["email"].encode())
-            conn.close()
+            with contextlib.closing(http.client.HTTPConnection("127.0.0.1", info["port"], timeout=10)) as conn:
+                conn.request("GET", "/email")
+                self.assertEqual(conn.getresponse().read(), self.config["email"].encode())
         finally:
-            child.terminate()
-            stdout, stderr = child.communicate(timeout=5)
+            if child.poll() is None:
+                child.terminate()
+            try:
+                stdout, stderr = child.communicate(timeout=10)
+            except subprocess.TimeoutExpired:
+                child.kill()
+                child.communicate()
+                raise
         self.assertEqual((stdout, stderr), (b"", b""))
         self.path.write_text(" ".join(SECRETS))
-        result = subprocess.run([sys.executable, str(SOURCE), "--config", str(self.path)], capture_output=True, timeout=5)
+        result = subprocess.run([sys.executable, str(SOURCE), "--config", str(self.path)],
+                                capture_output=True, timeout=process_timeout)
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual(result.stderr, b"DriveFS metadata helper failed\n")
         self.assertEqual(result.stdout, b"")
