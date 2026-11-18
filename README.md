@@ -148,7 +148,7 @@ run 的客户端选项放在脚本路径前，后续参数原样传给脚本。�
 - [Rust 架构与实施顺序](docs/05-rust-architecture.md)
 - [生命周期职责边界与历史方案](docs/08-supervision-and-recovery.md)
 
-研究工具在 `tools/`，固定上游提交与离线证据在 `research/`。GitHub Actions 已配置 Linux/macOS 检查，尚未远程执行。
+研究工具在 `tools/`，固定上游提交与离线证据在 `research/`。[GitHub Actions](https://github.com/deluxebear/colabcli-rust/actions) 提供 Linux/macOS 检查和四平台发行候选构建。
 
 REPL 支持 `colab repl -s NAME` 和管道输入；Enter 提交，Ctrl-J/Alt-Enter 换行，EOF 或 `/quit` 退出。底层 WebSocket 每 60 秒发送协议心跳；这不保证 VM 不被回收。执行中断必须收到远端确认，断线或结果未知时禁止自动重放。详见 [REPL 与心跳实现](docs/18-repl-and-websocket-implementation.md)。
 
@@ -166,7 +166,9 @@ DriveFS 也支持 `--from-env`、实验性 `--cli-token`、`--user-id/--email` �
 
 `colab url -s work` 只读取本地会话并输出单行浏览器 URL，`--open` 才启动系统浏览器。`whoami --json` 会刷新所选账户并查询 Google 身份；`readme/README` 和 `skill/SKILL` 输出内嵌文档。详见 [工具命令说明](docs/27-utility-commands-implementation.md)。
 
-`colab update --manifest URL` 检查原生发行，`--install` 校验并安装，`--status` 与 `--rollback` 离线核查和恢复。发行渠道选择 GitHub Releases，仓库为 [deluxebear/colabcli-rust](https://github.com/deluxebear/colabcli-rust)，尚未发布；可用 `COLAB_CLI_UPDATE_MANIFEST` 指定可信清单；预计清单地址为 `https://github.com/deluxebear/colabcli-rust/releases/latest/download/colab-update.json`。支持 Linux GNU/macOS 的 x86_64、aarch64，默认请求期限 30 秒。见 [更新与发行候选](docs/32-native-update-and-release-implementation.md)。
+从 [GitHub Releases](https://github.com/deluxebear/colabcli-rust/releases) 下载对应平台的二进制及 `SHA256SUMS`，核对文件的 SHA-256，赋予执行权限并将文件安装为 `colab`。提供 Linux GNU 和 macOS 的 x86_64、aarch64 构建。
+
+发行二进制的默认发行源为 GitHub Releases。使用 `colab update` 检查，`colab update --install` 校验并安装，`colab update --status` 和 `colab update --rollback` 可离线核查与恢复。源码构建可用 `--manifest URL` 或 `COLAB_CLI_UPDATE_MANIFEST` 指定可信清单，默认请求期限 30 秒。[公开清单](https://github.com/deluxebear/colabcli-rust/releases/latest/download/colab-update.json) · [更新与发行说明](docs/32-native-update-and-release-implementation.md)
 
 `colab --show-completion bash|zsh|fish|powershell|pwsh` 离线生成补全脚本；显式 `--install-completion bash|zsh|fish` 才安装到用户 shell 配置。`drive status --drive-account NAME` 可展示存储账户选择与本地凭据文件是否存在，仍只用计算账户查询 VM。见 [补全与状态选择](docs/35-completion-and-drive-status-implementation.md)。
 
