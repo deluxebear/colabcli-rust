@@ -85,3 +85,5 @@ python3 -B tools/rehearse_native_update.py --package dist --older /path/to/older
 工具核对 `latest` 与固定版本的公开清单均和本地清单逐字节一致。然后用临时目录中的旧版客户端，从固定版本地址执行真实 `update --install`，验证安装字节、版本和同版本检查，再以无效发行源配置执行离线回滚，核对旧版字节和权限。公开清单不可用或不一致时，在执行客户端前退出。省略 `--published-manifest` 可继续做本机篡改拒绝、安装和回滚演练。
 
 本机 macOS ARM64 候选再次通过 loopback 安装和回滚。实际 GitHub `latest` 与 `v0.1.0` 清单均返回 HTTP 404，线上验收在运行旧版客户端前停止。线上成功需要同一 Release 的公开清单与本平台资产可下载。详见 [验收工具测试](../tools/tests/test_rehearse_native_update.py)。
+
+首轮 GitHub Actions 的 Linux 更新测试在启动原生版本自检时偶发失败。更新器现在在同步下载内容后立即关闭写句柄，Linux 遇到 `ETXTBSY` 时在同一 5 秒自检期限内重试启动。其他启动错误即时返回。回归用例持有可执行文件写句柄，确认 Linux 返回 `ETXTBSY`，关闭句柄后安装继续完成。[更新测试](../tests/update.rs)

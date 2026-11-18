@@ -191,6 +191,7 @@ impl UpdateClient {
             return Err(Error::Update("发行物长度不匹配"));
         }
         file.sync_all().map_err(|e| io(path, e))?;
+        drop(file);
         if fingerprint(path)?.0 != artifact.sha256.to_ascii_lowercase() {
             return Err(Error::Update("发行物 SHA-256 不匹配"));
         }
@@ -339,6 +340,17 @@ fn validate_image(path: &Path) -> Result<()> {
     }
     Ok(())
 }
+fn executable_busy(error: &std::io::Error) -> bool {
+    #[cfg(target_os = "linux")]
+    {
+        error.raw_os_error() == Some(libc::ETXTBSY)
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        let _ = error;
+        false
+    }
+}
 fn probe_version(path: &Path) -> Result<Version> {
     let output =
         tempfile::NamedTempFile::new().map_err(|_| Error::Update("不能建立版本自检输出"))?;
@@ -358,17 +370,25 @@ fn probe_version(path: &Path) -> Result<Version> {
         use std::os::unix::process::CommandExt;
         command.process_group(0);
     }
-    let mut child = command
-        .spawn()
-        .map_err(|_| Error::Update("原生版本自检无法启动"))?;
-    let started = Instant::now();
+    let deadline = Instant::now() + Duration::from_secs(5);
+    let mut child = loop {
+        match command.spawn() {
+            Ok(child) => break child,
+            // A concurrent Linux fork can briefly inherit a writable handle
+            // until its own exec closes it, even if the writer has closed it.
+            Err(error) if executable_busy(&error) && Instant::now() < deadline => {
+                std::thread::sleep(Duration::from_millis(10));
+            }
+            Err(_) => return Err(Error::Update("原生版本自检无法启动")),
+        }
+    };
     let outcome = loop {
         match child.try_wait() {
             Ok(Some(status)) => break status.success(),
             Ok(None) => {}
             Err(_) => break false,
         }
-        if started.elapsed() > Duration::from_secs(5)
+        if Instant::now() >= deadline
             || output
                 .as_file()
                 .metadata()

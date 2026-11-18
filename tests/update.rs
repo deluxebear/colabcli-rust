@@ -334,6 +334,26 @@ fn a_hung_native_version_probe_is_killed_without_touching_the_installation() {
     assert_eq!(fs::read(&f.target).unwrap(), images()["old"]);
     assert!(!journal(&f).exists());
 }
+#[cfg(target_os = "linux")]
+#[test]
+fn a_briefly_writable_executable_can_be_probed_after_the_writer_closes() {
+    let f = Fixture::new();
+    let writer = fs::OpenOptions::new().write(true).open(&f.target).unwrap();
+    let error = Command::new(&f.target).arg("version").spawn().unwrap_err();
+    assert_eq!(error.raw_os_error(), Some(libc::ETXTBSY));
+
+    thread::scope(|scope| {
+        let (ready, start) = std::sync::mpsc::channel();
+        scope.spawn(move || {
+            start.recv().unwrap();
+            thread::sleep(Duration::from_millis(250));
+            drop(writer);
+        });
+        ready.send(()).unwrap();
+        assert_eq!(install(&f, "0.2.0", "new").unwrap().status, "installed");
+    });
+    assert_eq!(fs::read(&f.target).unwrap(), images()["new"]);
+}
 #[test]
 fn a_prepared_or_rolling_back_record_blocks_new_install_and_can_resume_rollback() {
     for (phase, image) in [
