@@ -1691,13 +1691,15 @@ fn runtime_waits_for_both_idle_and_reply_in_either_order() {
 }
 #[test]
 fn continuous_relevant_output_can_exceed_idle_timeout_total_duration() {
+    const IDLE_TIMEOUT: Duration = Duration::from_secs(1);
+    const PROGRESS_INTERVAL: Duration = Duration::from_millis(250);
     let listener = listener();
     let rest = KernelRest::new(&state(&listener), Duration::from_secs(2)).unwrap();
     let handler = thread::spawn(move || {
         let mut socket = websocket(&listener);
         let request = read_message(&mut socket);
-        for _ in 0..5 {
-            thread::sleep(Duration::from_millis(35));
+        for _ in 0..6 {
+            thread::sleep(PROGRESS_INTERVAL);
             send(
                 &mut socket,
                 incoming(
@@ -1713,14 +1715,12 @@ fn continuous_relevant_output_can_exceed_idle_timeout_total_duration() {
     let mut runtime = KernelRuntime::connect(&rest, "kernel-1", "s").unwrap();
     let started = Instant::now();
     let report = runtime
-        .execute(
-            "work()",
-            ExecutionTimeout::Idle(Some(Duration::from_millis(90))),
-            |_| Ok(()),
-        )
+        .execute("work()", ExecutionTimeout::Idle(Some(IDLE_TIMEOUT)), |_| {
+            Ok(())
+        })
         .unwrap();
-    assert!(report.succeeded());
-    assert!(started.elapsed() > Duration::from_millis(150));
+    assert!(report.succeeded(), "{report:?}");
+    assert!(started.elapsed() > IDLE_TIMEOUT);
     handler.join().unwrap();
 }
 #[test]

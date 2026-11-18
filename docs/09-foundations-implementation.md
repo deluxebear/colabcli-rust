@@ -696,3 +696,7 @@ ADC 支持将 `external_account_authorized_user` 作为 `impersonated_service_ac
 ## 116. `run` 共用账户认证客户端
 
 分配、执行和释放共用本次命令的认证客户端，避免新阶段重新读取仍有效的钥匙串凭据或丢失 ADC 内存中的 refresh token 轮换状态。凭据刷新失败时保留释放日志供恢复。[钥匙串实测与剩余缺口](69-macos-keychain-code-identity.md#减少-run-生命周期内的重复访问)
+
+## 117. Linux 原生更新自检
+
+更新器在完成下载与同步后关闭写句柄。Linux 的临时 `ETXTBSY` 启动错误在同一自检期限内重试，文件校验、版本确认和原子替换仍是安装条件。Linux 容器通过 16 项更新测试，macOS 通过 15 项。[原生更新与发行](32-native-update-and-release-implementation.md)
