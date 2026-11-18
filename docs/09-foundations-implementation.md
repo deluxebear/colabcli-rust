@@ -700,3 +700,7 @@ ADC 支持将 `external_account_authorized_user` 作为 `impersonated_service_ac
 ## 117. Linux 原生更新自检
 
 更新器在完成下载与同步后关闭写句柄。Linux 的临时 `ETXTBSY` 启动错误在同一自检期限内重试，文件校验、版本确认和原子替换仍是安装条件。Linux 容器通过 16 项更新测试，macOS 通过 15 项。[原生更新与发行](32-native-update-and-release-implementation.md)
+
+## 118. DriveFS 元数据代理启动
+
+元数据代理直接绑定数值地址 `127.0.0.1` 并记录内核分配的端口，启动过程中无需通过 HTTPServer 反查主机名。回归在反向查询被拒绝时验证绑定成功，进程测试继续核对私有就绪文件、实际 HTTP 响应及脱敏错误。[实现](../src/drivefs/metadata_shim.py) · [测试](../tools/tests/test_drivefs_shim.py)

@@ -10,6 +10,7 @@ import http.server
 import json
 import math
 import os
+import socketserver
 import stat
 import tempfile
 import threading
@@ -223,6 +224,12 @@ class MetadataServer(http.server.ThreadingHTTPServer):
     daemon_threads = True
     allow_reuse_address = False
     request_queue_size = 16
+
+    def server_bind(self):
+        # The metadata listener is bound to a numeric loopback address.
+        # HTTPServer.server_bind would perform an unrelated reverse DNS lookup.
+        socketserver.TCPServer.server_bind(self)
+        self.server_name, self.server_port = self.server_address[:2]
 
     def handle_error(self, request, client_address):
         pass  # The stdlib default prints a traceback containing handler state.

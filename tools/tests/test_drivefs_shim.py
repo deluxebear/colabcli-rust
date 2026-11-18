@@ -7,6 +7,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import signal
 import socket
 import stat
 import subprocess
@@ -260,9 +261,21 @@ class ShimTests(unittest.TestCase):
                 shim.bind(shim.Tokens(self.path), 8012)
             self.assertEqual(constructor.call_count, 30)
 
+    def test_metadata_binding_does_not_resolve_a_loopback_name(self):
+        with mock.patch.object(socket, "getfqdn", side_effect=AssertionError("reverse lookup")):
+            with shim.bind(shim.Tokens(self.path), 0) as server:
+                self.assertEqual(server.server_name, "127.0.0.1")
+                self.assertEqual(server.server_port, server.server_address[1])
+
     def test_real_process_readiness_and_failure_output(self):
         process_timeout = 30
-        child = subprocess.Popen([sys.executable, str(SOURCE), "--config", str(self.path), "--port", "0"],
+        trace_on_signal = (
+            "import faulthandler, runpy, signal, sys; "
+            "faulthandler.register(signal.SIGUSR1); "
+            "runpy.run_path(sys.argv.pop(1), run_name='__main__')"
+        )
+        child = subprocess.Popen([sys.executable, "-B", "-c", trace_on_signal, str(SOURCE),
+                                  "--config", str(self.path), "--port", "0"],
                                  stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         try:
             ready = self.directory / "shim-ready.json"
@@ -274,7 +287,12 @@ class ShimTests(unittest.TestCase):
                 if status is not None:
                     stdout, stderr = child.communicate()
                     self.fail(f"metadata helper exited before readiness: {status}, {stdout!r}, {stderr!r}")
-                self.fail("metadata helper did not publish readiness before the test deadline")
+                try:
+                    child.send_signal(signal.SIGUSR1)
+                    child.communicate(timeout=1)
+                except subprocess.TimeoutExpired as error:
+                    self.fail(f"metadata helper did not publish readiness: {error.stderr!r}")
+                self.fail(f"metadata helper did not publish readiness: exit {child.returncode}")
             info = json.loads(ready.read_text())
             self.assertEqual(info["pid"], child.pid)
             self.assertEqual(stat.S_IMODE(ready.stat().st_mode), 0o600)
