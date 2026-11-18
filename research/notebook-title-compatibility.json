@@ -1,0 +1,66 @@
+{
+  "scope": "offline upstream TITLE_REGEX projection and Rust CLI integration",
+  "upstream_sha256": "1ecda352fb3a59f3a320fc28d4822c3c48bfe8423aa020d2c72382f7e4ebce20",
+  "cases": [
+    {
+      "source": "  #\t@title   中文标题  \r\nprint(1)",
+      "title": "中文标题"
+    },
+    {
+      "source": "#@title 紧凑标题",
+      "title": "紧凑标题"
+    },
+    {
+      "source": "# @titleSuffix invalid\n# @title Valid",
+      "title": "Valid"
+    },
+    {
+      "source": "#\n  @title\n  Other line",
+      "title": "Other line"
+    },
+    {
+      "source": "# @title ",
+      "title": ""
+    },
+    {
+      "source": "# @title",
+      "title": null
+    },
+    {
+      "source": "print(1) # @title Inline",
+      "title": null
+    }
+  ],
+  "upstream_commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+  "unit_test_passed": true,
+  "cli_loopback": {
+    "title_in_progress": true,
+    "title_in_last_execution": true,
+    "invalid_directive_falls_back_to_id": true
+  },
+  "inputs_sha256": {
+    "src/execution.rs": "556e45750d61d8df4deced600f2f16f4683aa03b590604da3fc5dfa6ca9447da",
+    "tests/jupyter.rs": "f3c96a877974b58d621b6a9e8cc11af32c76611daaa85a3ec0e3e378fa6fb971"
+  },
+  "regression": {
+    "default": {
+      "passed": 503,
+      "ignored": 0,
+      "log_sha256": "d0a36459758aa4d8edfd4f83e6e7e472b1196890e46acdd84c8a326bc0bd0349"
+    },
+    "no-default": {
+      "passed": 501,
+      "ignored": 0,
+      "log_sha256": "15bf7be8d2f070c4c2743b26718783821914356a6bb977c870aa36a874dd9edf"
+    },
+    "clippy": {
+      "log_sha256": "5876f915823039d6e89c73caebb1c59c3e2ed543c3817058f5cad716dcb487ad",
+      "exit_code": 0
+    },
+    "build": {
+      "log_sha256": "efc82e65cd1a8c58421467c92da1e6450289980d7ee0498b155af587a8de8269",
+      "exit_code": 0
+    }
+  },
+  "debug_sha256": "98da0bc12680923d18a240acc90f023291556f5ca7d4cee15cec77ed08f2adbb"
+}

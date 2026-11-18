@@ -1,0 +1,6 @@
+{
+  "passed": false,
+  "reason": "Input snapshot invalidated by rustfmt of two newly adapted fixture imports; stopped deliberately before accepting evidence",
+  "exit_code": 137,
+  "live_cloud_calls": 0
+}

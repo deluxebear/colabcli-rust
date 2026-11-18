@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:27:18.977780+08:00",
+  "passed": true,
+  "scope": "Local opaque relay and workflow safety regressions; no real credentials or cloud resources from these tests",
+  "focused": {
+    "included_in_python_tools_run": true,
+    "tests_run": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "python_tools": {
+    "command": "python3 -m unittest discover -s tools/tests",
+    "tests_run": 91,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "platform": "macOS ARM64"
+  },
+  "checks": [
+    "CONNECT only to allowed authority",
+    "Opaque 65539-byte binary round trip",
+    "Cut and later reconnect counting",
+    "Preflight never allocates",
+    "Existing journal blocks new work",
+    "Probe failure releases captured endpoint",
+    "Unknown allocation reconciles same request without executing code",
+    "Cleanup-only refuses baseline ownership",
+    "Durable transport cause and partial marker required",
+    "Timeout Unknown cannot be accepted as transport disconnect",
+    "Kernel-death mode shares proven ownership and guarded teardown",
+    "Kernel-death probe failure still releases owned VM"
+  ],
+  "input_sha256": {
+    "tools/validate_live_disconnect.py": "e62bc80b1aaca07cfebe653ccf392d4add53aed499aa77395d4c24d2e5337665",
+    "tools/tests/test_live_disconnect_validation.py": "8f2a2b3cb3ac237dd651a6bcb58a1e840f1983f2c8af2dc5b11149c20ce6cbab",
+    "tools/validate_live_ssh.py": "77d80788abeccbafdda56f8d2766a87d9ad94dbe1c6ad5580445432978eb7ff9"
+  },
+  "limitations": [
+    "Synthetic local evidence does not establish Colab compatibility",
+    "One Linux-only test skipped on macOS",
+    "No Rust source changed or Rust suites rerun"
+  ]
+}

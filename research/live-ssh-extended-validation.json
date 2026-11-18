@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+  "passed": true,
+  "checks": [
+    {
+      "name": "raw_proxy_banner_and_eof",
+      "passed": true
+    },
+    {
+      "name": "identity_and_workdir",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "quoted_argv",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "binary_stdio",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "remote_exit_code",
+      "exit_code": 23,
+      "passed": true
+    },
+    {
+      "name": "interactive_shell_remote_pty",
+      "passed": true
+    },
+    {
+      "name": "command_sigterm_after_remote_marker",
+      "exit_code": 143,
+      "passed": true
+    }
+  ],
+  "execute_requested": true,
+  "cleanup_only": false,
+  "cleanup": "confirmed_released",
+  "created_sessions": 1,
+  "baseline_assignment_count": 0,
+  "credentials_ready": true,
+  "other_new_assignment_count": 0,
+  "validated_at": "2026-11-18T03:00:57.339151+08:00",
+  "authentication_source": "user-authorized existing system keyring",
+  "scope": "Third independent attempt: seven real Colab CPU SSH checks including login shell PTY and command SIGTERM; no Drive",
+  "temporary_keys_removed": true,
+  "validator_sha256": "77d80788abeccbafdda56f8d2766a87d9ad94dbe1c6ad5580445432978eb7ff9",
+  "limitations": [
+    "One macOS ARM64 OAuth profile, one passing seven-check attempt",
+    "Two earlier attempts failed and are retained separately; causes remain unresolved",
+    "No interactive Ctrl-C, window resize, proxy --rm allocation or cleanup failure acceptance",
+    "Command signal is SIGTERM only; does not prove immediate remote process cancellation",
+    "No long session, other platforms, new OAuth, ADC or Drive acceptance"
+  ]
+}

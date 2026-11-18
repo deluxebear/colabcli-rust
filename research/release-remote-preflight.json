@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-11-18T05:04:23.205262+00:00",
+  "repository": "https://github.com/deluxebear/colabcli-rust",
+  "observations": {
+    "visibility": "public",
+    "default_branch": "main",
+    "repository_size_kb": 0,
+    "repository_license_metadata": null,
+    "release_count": 0,
+    "branch_count": 0
+  },
+  "source": [
+    "GET https://api.github.com/repos/deluxebear/colabcli-rust",
+    "GET https://api.github.com/repos/deluxebear/colabcli-rust/releases",
+    "GET https://api.github.com/repos/deluxebear/colabcli-rust/branches"
+  ],
+  "mutations": 0,
+  "release_download_verified": false,
+  "limits": [
+    "Repository metadata is not a source-reuse license determination",
+    "No source push, workflow dispatch or release publication performed"
+  ]
+}

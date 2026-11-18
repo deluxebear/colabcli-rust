@@ -2,7 +2,7 @@
 
 本文定义官方 CLI 与扩展的合并目标。命令名称、默认值和别名以固定提交实际注册为依据；README 示例仅辅助说明。完整静态参数记录见 [源码清单](../research/source-inventory.json) 的 `command_entrypoints`。
 
-当前 Rust 仅提供 `account` 与 `version` 基础命令；已实现行为及阶段差异见 [09](09-foundations-implementation.md)。本文其余命令仍是目标契约。
+当前 Rust 已实现账户、会话控制、文件、执行/run、历史、install、REPL、Unix SSH、VM auth/官方 drivemount，以及 Drive 独立凭据授权；已实现行为及阶段差异见 [09](09-foundations-implementation.md)、[16](16-colab-automation-implementation.md)。Drive 凭据阶段见 [20](20-drive-credentials-implementation.md)，远端控制器已离线实现，见 [22](22-drivefs-controller-implementation.md)，DriveFS 核心挂载 CLI 与恢复入口已接入，见 [24](24-drivefs-lifecycle-implementation.md)。URL、身份诊断和内嵌资源已接入，见 [27](27-utility-commands-implementation.md)。根 drivemount 的默认 DriveFS 与回退策略见 [28](28-drivemount-strategy-implementation.md)。account status 的联合汇总已接入，见 [29](29-account-status-implementation.md)。本篇完整矩阵仍是目标契约，不代表所有命令已实现。
 
 ## C01 命令来源
 
@@ -31,7 +31,9 @@
 | `-a/--account` | 扩展支持名称或邮箱 | 支持顶层及扩展现有入口；`--` 后属于用户脚本的参数不得被截取 |
 | `COLAB_ACCOUNT` | 当前 shell 的账户覆盖 | 与持久 active profile 分开，不因一次调用修改 active |
 
-所有命令的 `-h/--help` 和 `help [COMMAND]` 均为兼容范围。参数确切位置、短选项和错误退出码需由运行时 help fixtures 补齐，不能把静态 AST 当作完整 Click/Typer 语法。
+根入口支持 --show-completion 和显式 --install-completion，范围见 [35](35-completion-and-drive-status-implementation.md)。
+
+所有命令的 `-h/--help` 和 `help [COMMAND]` 均为兼容范围。合并版运行时命令树、参数与 help 已采集，见 [33](33-merged-help-and-aliases-implementation.md)；错误解析与完整业务 fixtures 仍待补齐，不能把静态 AST 当作完整 Click/Typer 语法。
 
 ## 会话和执行能力
 
@@ -48,7 +50,7 @@
 | `run` | 新建 VM、执行本地脚本、退出时释放；支持 `--keep` | 脚本参数、环境变量、SystemExit、异常清理 |
 | `ssh` | 交互 shell、一次性命令、ProxyCommand 桥接 | 自动创建矩阵与 `--rm` 语义必须按模式区分 |
 
-GPU 接受 T4/L4/G4/H100/A100，TPU 接受 v5e1/v6e1，按大小写不敏感解析。基线 `resolve_runtime_options` 同时收到 gpu/tpu 时优先 TPU；Rust 建议对冲突显式报参数错误，并作为有意差异记录。L4/V5E1/V6E1 的高内存参数省略，其他支持选择的型号发送 `shape=hm`。这些是客户端映射，不保证账户有权限获得该硬件。[C02]
+GPU 接受 T4/L4/G4/H100/A100，TPU 接受 v5e1/v6e1，按大小写不敏感解析。基线 `resolve_runtime_options` 同时收到 gpu/tpu 时优先 TPU；Rust 已按兼容对齐要求采用同一 TPU 优先规则。L4/V5E1/V6E1 的高内存参数省略，其他支持选择的型号发送 `shape=hm`。这些是客户端映射，不保证账户有权限获得该硬件。[C02]
 
 ### exec 具体契约
 
@@ -60,7 +62,7 @@ GPU 接受 T4/L4/G4/H100/A100，TPU 接受 v5e1/v6e1，按大小写不敏感解�
 6. 带输出 notebook 保存为 `<原文件名>_output.ipynb`；异常路径也进入保存 finally。
 7. 保留图片输出、富文本转文本、stdout/stderr、traceback 与 output 类型。
 
-基线 `execute_code` 将 Python 错误作为 output 返回，`exec` 命令没有像 `run` 那样统一根据 outputs 推导非零退出码；不能在文档中默认两者退出码相同。Rust 建议脚本错误返回 1，并在兼容清单标记行为变更。[C03；runtime.py:260]
+基线 `execute_code` 将 Python 错误作为 output 返回，`exec` 命令没有像 `run` 那样统一根据 outputs 推导非零退出码；不能在文档中默认两者退出码相同。Rust 的文本 exec 已按官方返回 0，JSON 扩展保留错误返回 1；run 仍按脚本结果返回状态。[C03；runtime.py:260]
 
 ### run 具体契约
 
@@ -84,10 +86,10 @@ README 将任务描述为包含产物获取，但基线 `run` 实际签名和执
 | `auth` | 隐藏的 VM 内 GCP 授权；与 CLI 登录是两个层次 |
 | `install [-r FILE] [PKG...]` | requirements 上传到 VM；优先 uv，失败回退 pip |
 | `drivemount [PATH]` | 扩展默认改走已有凭据的 DriveFS；可 `--upstream` |
-| `log` | 列出历史、按会话/事件过滤与行数截取，导出 ipynb/md/txt/jsonl |
+| `log` | 列出历史、按会话与事件过滤。正数 `--lines` 取末尾，负数跳过开头，零保留全部。支持导出 ipynb/md/txt/jsonl |
 | `usage` | CCU 余额、速率；扩展 `--all [--json]` |
 | `pay` | 打开订阅页面 |
-| `version`、`update` | 本地版本、检查更新、可选安装 |
+| `version`、`update` | 已实现本地版本、原生清单检查、显式安装和离线一代回滚；GitHub 仓库已创建，发行物待发布，见 [32](32-native-update-and-release-implementation.md) |
 | `whoami` | 隐藏的认证诊断；不得默认输出 token |
 | `readme/README`、`skill/SKILL` | 内嵌文档，skill 含扩展业务说明 |
 
@@ -99,9 +101,9 @@ README 将任务描述为包含产物获取，但基线 `run` 实际签名和执
 
 | 命令组 | 子命令 | 语义 |
 | --- | --- | --- |
-| `account`，隐藏别名 `acct` | `list`、`current` | 离线列表与当前解析账户，支持 JSON |
-| `account` | `add`、`login` | OAuth/ADC 建立账户；交互或两步授权 |
-| `account` | `use`、`rename`、`remove` | 本地账户生命周期；remove 不等于停止 VM |
+| `account`，隐藏别名 `acct` | `list`（ls）、`current` | 离线列表与当前解析账户，支持 JSON |
+| `account` | `add`、`login` | 默认认证、可选 Drive 联合授权；URL-only 两步流程及 configure-only 离线登记，见 [34](34-account-login-and-drive-consent-implementation.md) |
+| `account` | `use`（switch）、`rename`、`remove`（rm） | 本地账户生命周期；remove 不等于停止 VM |
 | `account` | `status` | 并发读取所有账户状态，单账户失败不拖垮整个结果 |
 | `account` | `set-drive` | 指定账户或全局默认 Drive 绑定，支持 clear |
 | `drive`，隐藏别名 `dfs` | `mount`、`umount`、`status` | 挂载、卸载与检查 |
@@ -110,7 +112,9 @@ README 将任务描述为包含产物获取，但基线 `run` 实际签名和执
 | `ext` | `doctor`、`version` | Rust 版提供内建能力与依赖诊断 |
 | `ext` | `install` | Python `.pth` 修复不适用；Rust 兼容入口解释已内建，不操作 Python 环境 |
 
-`drive` 隐藏的 install/doctor/version 与 `ext status` 是兼容入口。`drive mount` 参数还包括 `--mode shim|rt`、`--port`、`--from-env`、`--cli-token`、`--user-id`、`--email`、`--drive-extra`、`--via-cli`、`--dry-run`。Rust 不再需要通过 Python CLI fallback 执行；兼容入口可映射为原生路径并说明差异。[C10]
+`drive` 隐藏的 install/doctor/version 与 `ext status` 是兼容入口，当前实现及只读诊断边界见 [26](26-extension-diagnostics-implementation.md)。`drive mount` 参数还包括 `--mode shim|rt`、`--port`、`--from-env`、`--cli-token`、`--user-id`、`--email`、`--drive-extra`、`--via-cli`、`--dry-run`。Rust 不再需要通过 Python CLI fallback 执行；兼容入口可映射为原生路径并说明差异。[C10]
+
+Drive consent 的授权起始支持命名账户自动登记和所选存储账户邮箱提示，失败与完成阶段的创建边界见 [58](58-drive-consent-profile-implementation.md)。
 
 文档中的 `connect` 示例不构成实现依据：固定 CLI 的命令注册中没有 connect；`new`/已有会话执行路径应作为真实入口。短参数 `-g` 也不能凭 README 示例默认存在，需以 help 及 AST 参数为准。[C01、C02]
 
@@ -130,8 +134,18 @@ README 将任务描述为包含产物获取，但基线 `run` 实际签名和执
 
 本章已覆盖命令分组与核心语义；运行时合并 help、Typer 自动短选项和各错误路径的精确文案仍待离线采集，不应据本章宣称 CLI 解析兼容已经通过。
 
-## 新增保活与自动恢复命令
+## 生命周期职责边界
 
-新增 `watch add/list/status/pause/resume/remove`、`supervisor run` 及 `new --supervise --restart-on-loss`，具体语法为设计草案，见 [保活监控与自动恢复](08-supervision-and-recovery.md)。这些命令独立于上游兼容面，不能作为现有 CLI 的功能列入差分基线。
+客户端继续实现固定上游的 WebSocket 通信，包括握手、消息收发、输出流、协议心跳、交互输入、专用消息、断线检测与状态核对。当前已实现范围见 [12](12-jupyter-and-execution-implementation.md)；其余协议能力仍需开发和验收。连接重建不代表代码可以重放，执行结果未知时保留恢复线索并返回明确状态。
 
-连接维护与自动重建分别显示状态；`run --keep` 不等于启用监控。受管 VM 的 stop 必须先禁用恢复计划；watch pause/remove 默认保留当前 VM，避免命令语义混淆。账户 rename/remove 同时处理受管计划引用。
+持续保活策略、自动申请替代 VM、任务重试和检查点恢复由任务脚本或外部调度器决定。原 `watch`、`supervisor run`、`new --supervise --restart-on-loss` 草案退出本项目当前范围；`run --keep` 仍仅表示跳过本次 VM 自动释放。分配/释放事务恢复、`run-cleanup` 和账户事务恢复继续属于 CLI。职责划分及历史草案见 [08](08-supervision-and-recovery.md)。
+
+外部身份 ADC 已接入文件/URL 主体与 STS、可选 IAM，复用账户登录与计算命令；范围和失败恢复见 [36](36-adc-external-account-implementation.md)。
+
+Workforce 用户 external_account_authorized_user 的原生 STS Basic 刷新与支持边界见 [37](37-adc-workforce-user-implementation.md)。
+
+metadata ADC 作为默认 gcloud 文件缺失后的最后发现源，显式或坏文件不降级；实现、环境快照和平台限制见 [38](38-adc-metadata-implementation.md)。
+
+Unix external_account 可执行来源现支持显式 opt-in、非交互执行和输出缓存，见 [39](39-adc-executable-implementation.md)；不会在 doctor 中执行。
+
+后续已接入 AWS aws1 的环境/EC2 与 SigV4 主体，见 [40](40-adc-aws-implementation.md)；并未验证真实云端接受性。

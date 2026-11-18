@@ -2,6 +2,20 @@ use std::path::PathBuf;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+    #[error("原生更新: {0}")]
+    Update(&'static str),
+    #[error("原生更新网络请求失败")]
+    UpdateTransport,
+    #[error("原生更新请求失败 (HTTP {0})")]
+    UpdateStatus(u16),
+    #[error("已有未确认的更新操作；请先 update --status 或 update --rollback")]
+    UpdatePending,
+    #[error("SSH: {0}")]
+    Ssh(&'static str),
+    #[error("SSH 握手失败 (HTTP {status}): {reason}")]
+    SshHandshake { status: u16, reason: String },
+    #[error("CLI exited with status {0}")]
+    CliExit(i32),
     #[error("文件操作失败 {path}: {source}")]
     Io {
         path: PathBuf,
@@ -23,6 +37,8 @@ pub enum Error {
     AccountExists(String),
     #[error("账户或会话存在歧义: {0}")]
     Ambiguous(String),
+    #[error("[colab] Session '{}' exists in multiple accounts ({accounts}); specify one with `colab -a <account> ...`.", session.escape_debug())]
+    SessionAccountAmbiguous { session: String, accounts: String },
     #[error("账户仍有本地会话或受管恢复计划")]
     AccountInUse,
     #[error("凭据存储不可用；系统凭据库可能未解锁或不可访问")]
@@ -33,6 +49,8 @@ pub enum Error {
     CredentialBackend(&'static str),
     #[error("需要登录或重新授权")]
     NeedsAuth,
+    #[error("Shell 补全失败: {0}")]
+    Completion(&'static str),
     #[error("OAuth 配置或请求无效: {0}")]
     OAuth(&'static str),
     #[error("OAuth 服务请求失败 (HTTP {0})")]
@@ -69,8 +87,26 @@ pub enum Error {
     InventoryWorker,
     #[error("Jupyter 协议或参数无效: {0}")]
     KernelProtocol(&'static str),
+    #[error("此操作需要交互终端；请在终端重试")]
+    InteractionRequired,
     #[error("WebSocket 建立或传输失败")]
     WebSocketTransport,
+    #[error("WebSocket 代理配置或协议无效: {0}")]
+    WebSocketProxy(&'static str),
+    #[error("WebSocket 代理拒绝 CONNECT (HTTP {0})")]
+    WebSocketProxyStatus(u16),
+    #[error("WebSocket HTTPS 代理 TLS 验证或握手失败")]
+    WebSocketProxyTls,
+    #[error("WebSocket SOCKS5 CONNECT 被拒绝 (状态 {0})")]
+    WebSocketSocksStatus(u8),
+    #[error(
+        "自动化操作待恢复；相同参数只可恢复未执行的连接；结果未知时先用 automation-cleanup 清理独立 kernel"
+    )]
+    AutomationPending,
+    #[error(
+        "自动化 kernel 创建结果未知；用 kernels 核查后，显式通过 automation-cleanup --kernel-id ID 清理"
+    )]
+    AutomationKernelUnknown,
     #[error("上次 kernel 重启结果未知；核查后显式重试 restart-kernel")]
     KernelRestartPending,
     #[error("上次 kernel 创建结果未知；请显式指定已有 kernel ID 后恢复，不能自动重复创建")]

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "source": "derived from real Colab DEFAULT frames",
+  "sanitization": "headers replaced, metadata/convenience fields removed, JSON and offsets reencoded; fixed content and buffers unchanged",
+  "raw_rust_and_official_decoders_agreed": true,
+  "samples": [
+    {
+      "wire_type": "binary",
+      "wire_base64": "AAAAAwAAABAAAAFdAAABYXsiaGVhZGVyIjogeyJtc2dfaWQiOiAiZml4dHVyZS1iaW5hcnkiLCAic2Vzc2lvbiI6ICJmaXh0dXJlLXNlc3Npb24iLCAidXNlcm5hbWUiOiAiZml4dHVyZSIsICJkYXRlIjogIjIwMjYtMTEtMThUMDA6MDA6MDBaIiwgInZlcnNpb24iOiAiNS4zIiwgIm1zZ190eXBlIjogImRpc3BsYXlfZGF0YSJ9LCAicGFyZW50X2hlYWRlciI6IHsibXNnX2lkIjogImZpeHR1cmUtcmVxdWVzdCJ9LCAibWV0YWRhdGEiOiB7fSwgImNvbnRlbnQiOiB7ImRhdGEiOiB7InRleHQvcGxhaW4iOiAiQ09MQUJDTElfQ09ERUNfQklOQVJZIn0sICJtZXRhZGF0YSI6IHt9fSwgImNoYW5uZWwiOiAiaW9wdWIifQD/gEE=",
+      "expected_envelope": {
+        "header": {
+          "msg_id": "fixture-binary",
+          "session": "fixture-session",
+          "username": "fixture",
+          "date": "2026-11-18T00:00:00Z",
+          "version": "5.3",
+          "msg_type": "display_data"
+        },
+        "parent_header": {
+          "msg_id": "fixture-request"
+        },
+        "metadata": {},
+        "content": {
+          "data": {
+            "text/plain": "COLABCLI_CODEC_BINARY"
+          },
+          "metadata": {}
+        },
+        "channel": "iopub"
+      },
+      "buffers_base64": [
+        "AP+AQQ==",
+        ""
+      ]
+    },
+    {
+      "wire_type": "text",
+      "wire_base64": "eyJoZWFkZXIiOiB7Im1zZ19pZCI6ICJmaXh0dXJlLXRleHQiLCAic2Vzc2lvbiI6ICJmaXh0dXJlLXNlc3Npb24iLCAidXNlcm5hbWUiOiAiZml4dHVyZSIsICJkYXRlIjogIjIwMjYtMTEtMThUMDA6MDA6MDBaIiwgInZlcnNpb24iOiAiNS4zIiwgIm1zZ190eXBlIjogInN0cmVhbSJ9LCAicGFyZW50X2hlYWRlciI6IHsibXNnX2lkIjogImZpeHR1cmUtcmVxdWVzdCJ9LCAibWV0YWRhdGEiOiB7fSwgImNvbnRlbnQiOiB7Im5hbWUiOiAic3Rkb3V0IiwgInRleHQiOiAiQ09MQUJDTElfQ09ERUNfVEVYVFxuIn0sICJjaGFubmVsIjogImlvcHViIn0=",
+      "expected_envelope": {
+        "header": {
+          "msg_id": "fixture-text",
+          "session": "fixture-session",
+          "username": "fixture",
+          "date": "2026-11-18T00:00:00Z",
+          "version": "5.3",
+          "msg_type": "stream"
+        },
+        "parent_header": {
+          "msg_id": "fixture-request"
+        },
+        "metadata": {},
+        "content": {
+          "name": "stdout",
+          "text": "COLABCLI_CODEC_TEXT\n"
+        },
+        "channel": "iopub"
+      },
+      "buffers_base64": []
+    }
+  ]
+}

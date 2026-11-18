@@ -1,6 +1,10 @@
 # Contents 文件接口与账户汇总实现
 
-更新日期：2026-11-16。本章记录 P2 文件操作与跨账户查询的已实现行为；协议依据为 [07](07-control-plane-and-contents.md)。本次只使用 loopback HTTP，没有创建真实 Colab VM。
+更新日期：2026-11-16。本章记录 P2 文件操作与跨账户查询的已实现行为；协议依据为 [07](07-control-plane-and-contents.md)。离线回归使用 loopback HTTP；后续真实 CPU 验收见 [15](15-live-cpu-validation.md)。
+
+后续实际合并版十二组文件请求与下载字节对照见 [75](75-merged-files-and-json-bytes.md)：JSON 下载新增原版 ASCII 转义，目录下载错误文本与输出流对齐；失败仍不覆盖本地文件。
+
+JSON 大整数精度、浮点指数、重复文档键及扩展十八组对照见 [76](76-json-number-download-compatibility.md)；控制面和凭据的 JSON 解析特性保持原配置。
 
 ## 命令与输入验证
 
@@ -40,14 +44,14 @@ HTTP 连接超时 5 秒，总超时沿用控制面的请求 timeout（默认 20 
 
 ## 跨账户汇总
 
-[inventory.rs](../src/inventory.rs) 每批最多四个账户并发查询，按注册表的账户名称顺序输出。每个 worker 独立显式解析账户，不受 COLAB_ACCOUNT 的单账户选择影响，不触发交互式登录。`--all` 与 -a 冲突；status --all 也与 -s 冲突。
+[inventory.rs](../src/inventory.rs) 每批最多四个账户并发查询，按注册表文件顺序输出。每个 worker 独立显式解析账户，不受合法 COLAB_ACCOUNT 的单账户选择影响，不触发交互式登录。合并版 account status、sessions/usage 会先校验全局资料；sessions/usage --all 不以 -a 过滤范围。Rust 专属 status --all 仍与 -s/-a 冲突并保持原有上下文规则。
 
-JSON 是数组，每行包含 account 与 result 或 error；status 的 result 为既有脱敏会话数组，usage 的 result 为 currentBalance/consumptionRateHourly/assignmentsCount。成功结果和错误分别保留，部分或全部账户失败仍完成汇总并返回 0；调用方应检查逐账户 error。文本每行显示账户与对应结果或错误。此 JSON 是本项目当前契约，尚无上游合并 help/输出 fixtures，不能宣称精确兼容。
+sessions/usage JSON 已迁移为合并版账户行和逐账户 error，文本同样对齐；结构与调用方迁移见 [44](44-merged-inventory-implementation.md)。只有 Rust 专属 status --all 继续使用 account 与 result/error 数组。部分或全部账户查询失败仍返回 0，应检查每行 error；命令级配置、解析和恢复错误仍非零。
 
 ## 验证与剩余目标
 
 新增 [Contents 测试](../tests/contents.rs) 16 项、[汇总测试](../tests/inventory.rs) 3 项。验证包含完整请求 target/header/body、无 Bearer 串用、特殊字符路径、二进制/空文件/文本/notebook、失败下载保留目标、目录/格式/404/认证错误、禁止重定向、大小/路径前置校验、符号链接、编辑不变/取消/失败保留、编辑期间 VM 替换、runtime token 刷新、跨账户 CLI 文件流程、有界并发和混合成功失败汇总。
 
-完整默认测试 139 项、关闭原生凭据库后 138 项通过；fmt、两种特性的 clippy、默认 build 与研究文档静态检查通过。
+完整默认测试 180 项、关闭原生凭据库后 178 项通过；fmt、两种特性的 clippy、默认 build 与研究文档静态检查通过。
 
-P2 的线上 CPU 分配、文件往返、释放复查仍待验证；文件操作与生命周期历史已见 [13](13-run-and-history-implementation.md)。P3 的 Jupyter REST/WS、执行消息状态机与 exec 已见 [12](12-jupyter-and-execution-implementation.md)，run、history 与导出已见 [13](13-run-and-history-implementation.md)；P4–P7 的交互、SSH、DriveFS、完整分发、supervisor 和任务恢复仍属于完整目标，不能因本章完成而标记全部设计已交付。
+P2 的线上 CPU 分配、文件往返、释放复查见 [15](15-live-cpu-validation.md)；文件操作与生命周期历史已见 [13](13-run-and-history-implementation.md)。P3 的 Jupyter REST/WS、执行消息状态机与 exec 已见 [12](12-jupyter-and-execution-implementation.md)，run、history 与导出已见 [13](13-run-and-history-implementation.md)；P4–P6 的交互、SSH、DriveFS 和完整分发仍属于完整目标；持续保活策略、自动重建和任务恢复已移至外部调度层，不能因本章完成而标记全部设计已交付。

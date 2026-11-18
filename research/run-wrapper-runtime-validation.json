@@ -1,0 +1,161 @@
+{
+  "date": "2026-11-18",
+  "source": "src/runs.rs",
+  "source_sha256": "7a2bbfd09ca30beca30b881543bd721ea707584ff4fd345796d98a3f46bccce7",
+  "passed_checks": [
+    "normal __main__/argv/file/future",
+    "SystemExit None",
+    "SystemExit zero",
+    "SystemExit integer",
+    "SystemExit negative modulo 256",
+    "SystemExit string",
+    "ordinary exception",
+    "compile error still publishes result",
+    "script main module supports imports and pickle",
+    "runtime error keeps physical source line"
+  ],
+  "limitations": [
+    "synthetic scripts in a local Python process and a local IPython kernel",
+    "does not verify the Colab gateway or Google's runtime version"
+  ],
+  "local_kernel": {
+    "python": "3.14.0",
+    "dependencies": {
+      "ipykernel": "7.4.0",
+      "ipython": "9.18.1",
+      "jupyter-client": "8.10.0"
+    },
+    "checks": [
+      {
+        "case": "main identity and pickle",
+        "shell_status": "ok",
+        "script_exit_code": 0,
+        "kernel_state_restored": true
+      },
+      {
+        "case": "system exit",
+        "shell_status": "ok",
+        "script_exit_code": 23,
+        "kernel_state_restored": true
+      },
+      {
+        "case": "exception preserves line",
+        "shell_status": "error",
+        "script_exit_code": 1,
+        "kernel_state_restored": true
+      }
+    ]
+  },
+  "rust_regression": {
+    "cargo_test_locked_test_jupyter_test_runs": {
+      "passed": 88,
+      "failed": 0,
+      "ignored": 0
+    },
+    "cargo_test_locked_no_default_features_test_jupyter_test_runs": {
+      "passed": 88,
+      "failed": 0,
+      "ignored": 0
+    }
+  },
+  "official_cli_comparison": {
+    "selection": "^run-",
+    "rust_binary_sha256": "912665cb76020b084912eb1833898e50ae7b3f0e9fb43954ad49253422e792cc",
+    "raw_report_sha256": "811bd4ef3e1fc268b4e3df2c02748000ac0ed750fca598e34edaf86124bacddd",
+    "official_sources": {
+      "cli": {
+        "repository": "https://github.com/googlecolab/google-colab-cli",
+        "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+        "verified_files": 92
+      },
+      "kernel": {
+        "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+        "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+        "verified_files": 34
+      }
+    },
+    "summary": {
+      "different": 3,
+      "matched": 3,
+      "rust_extension": 2
+    },
+    "cases": [
+      {
+        "name": "run-release",
+        "status": "different",
+        "differences": [
+          "wire"
+        ],
+        "exit_codes": {
+          "rust": 0,
+          "official": 0
+        }
+      },
+      {
+        "name": "run-default-name",
+        "status": "different",
+        "differences": [
+          "wire"
+        ],
+        "exit_codes": {
+          "rust": 0,
+          "official": 0
+        }
+      },
+      {
+        "name": "run-error",
+        "status": "different",
+        "differences": [
+          "wire"
+        ],
+        "exit_codes": {
+          "rust": 1,
+          "official": 1
+        }
+      },
+      {
+        "name": "run-keep",
+        "status": "matched",
+        "differences": [],
+        "exit_codes": {
+          "rust": 0,
+          "official": 0
+        }
+      },
+      {
+        "name": "run-missing-script",
+        "status": "matched",
+        "differences": [],
+        "exit_codes": {
+          "rust": 2,
+          "official": 2
+        }
+      },
+      {
+        "name": "run-no-script",
+        "status": "matched",
+        "differences": [],
+        "exit_codes": {
+          "rust": 2,
+          "official": 2
+        }
+      },
+      {
+        "name": "run-cleanup-owned",
+        "status": "rust_extension",
+        "differences": [],
+        "exit_codes": {
+          "rust": 0
+        }
+      },
+      {
+        "name": "run-cleanup-invalid",
+        "status": "rust_extension",
+        "differences": [],
+        "exit_codes": {
+          "rust": 1
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,414 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "c6b679254ab9bd8d667ee648e0a0b4a4a543cfc810a7b24852723f77537cac73",
+  "isolation": {
+    "official_no_site_hooks": true,
+    "official_network": "loopback_only",
+    "credentials": "synthetic file credentials; real keyring forbidden",
+    "rust_network": "fixture URLs only; no real account data"
+  },
+  "normalization": [
+    "temporary paths, ports and terminal UUIDs",
+    "validated six-hex automatic names",
+    "notebook cell IDs and Jupyter session IDs; raw observations retained"
+  ],
+  "cases": [
+    {
+      "name": "repl-image",
+      "command": [
+        "repl",
+        "-s",
+        "compare",
+        "--output-image",
+        "output.png"
+      ],
+      "status": "matched",
+      "differences": [],
+      "results": {
+        "rust": {
+          "exit_code": 0,
+          "stdout": "\n[Image saved to: output.png]\n",
+          "stderr": "",
+          "duration_seconds": 0.417,
+          "implementation": "rust",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {
+            "output.png": {
+              "bytes": 68,
+              "sha256": "02bdccb1bea6c2eb32cc2301ab98b3bd77f40de47e9ee934438ec7b044da4e86"
+            }
+          },
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "IMAGE_FIXTURE"
+          ],
+          "active_after": true
+        },
+        "official": {
+          "exit_code": 0,
+          "stdout": "\n[Image saved to: output.png]\n",
+          "stderr": "",
+          "duration_seconds": 0.707,
+          "implementation": "official",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {
+            "output.png": {
+              "bytes": 68,
+              "sha256": "02bdccb1bea6c2eb32cc2301ab98b3bd77f40de47e9ee934438ec7b044da4e86"
+            }
+          },
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "IMAGE_FIXTURE"
+          ],
+          "active_after": true
+        }
+      }
+    },
+    {
+      "name": "exec-image",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--output-image",
+        "output.png"
+      ],
+      "status": "matched",
+      "differences": [],
+      "results": {
+        "rust": {
+          "exit_code": 0,
+          "stdout": "\n[Image saved to: output.png]\n",
+          "stderr": "",
+          "duration_seconds": 0.083,
+          "implementation": "rust",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {
+            "output.png": {
+              "bytes": 68,
+              "sha256": "02bdccb1bea6c2eb32cc2301ab98b3bd77f40de47e9ee934438ec7b044da4e86"
+            }
+          },
+          "submitted_code": [
+            "__import__('os').chdir('/content')\n__import__('os').environ.update(__import__('json').loads(\"{}\"))\n",
+            "IMAGE_FIXTURE"
+          ],
+          "active_after": true
+        },
+        "official": {
+          "exit_code": 0,
+          "stdout": "\n[Image saved to: output.png]\n",
+          "stderr": "",
+          "duration_seconds": 0.345,
+          "implementation": "official",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {
+            "output.png": {
+              "bytes": 68,
+              "sha256": "02bdccb1bea6c2eb32cc2301ab98b3bd77f40de47e9ee934438ec7b044da4e86"
+            }
+          },
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "IMAGE_FIXTURE"
+          ],
+          "active_after": true
+        }
+      }
+    }
+  ],
+  "summary": {
+    "matched": 2
+  },
+  "behavior_summary": {
+    "matched": 2
+  },
+  "dependency_versions": {
+    "shellingham": "1.5.4",
+    "markdown-it-py": "4.3.0",
+    "platformdirs": "4.14.5",
+    "jupyter_kernel_client": "0.9.0",
+    "jaraco.classes": "3.4.0",
+    "google-auth-oauthlib": "1.5.0",
+    "packaging": "26.3",
+    "google-colab-cli": "0.8.0",
+    "jaraco.context": "6.1.2",
+    "nbformat": "5.11.1",
+    "Pygments": "2.21.0",
+    "prompt_toolkit": "3.0.53",
+    "jsonschema-specifications": "2025.9.1",
+    "pyzmq": "27.3.0",
+    "requests": "2.34.2",
+    "rich": "15.0.0",
+    "certifi": "2026.10.23",
+    "jsonschema": "4.26.0",
+    "oauthlib": "4.0.1",
+    "wcwidth": "0.9.4",
+    "pydantic": "2.14.3",
+    "traitlets": "5.16.1",
+    "click": "8.5.1",
+    "pyarrow": "26.0.1",
+    "jaraco.functools": "4.6.0",
+    "cryptography": "50.0.2",
+    "pycparser": "3.12",
+    "annotated-doc": "0.0.6",
+    "pydantic_core": "2.50.4",
+    "typing-inspection": "0.4.5",
+    "jupyter-mimetypes": "0.2.0",
+    "urllib3": "2.8.0",
+    "mdurl": "0.1.2",
+    "fastjsonschema": "2.22.3",
+    "html2text": "2025.4.15",
+    "jupyter_client": "8.10.0",
+    "cffi": "2.1.1",
+    "jupyter_core": "5.9.1",
+    "annotated-types": "0.8.0",
+    "referencing": "0.37.0",
+    "tzdata": "2026.6",
+    "google-auth": "2.62.2",
+    "rpds-py": "2026.9.1",
+    "typer": "0.29.1",
+    "attrs": "26.1.0",
+    "tornado": "6.6.1",
+    "websocket-client": "1.9.2",
+    "more-itertools": "11.2.1",
+    "typing_extensions": "4.16.0",
+    "pyasn1": "0.6.5",
+    "pyasn1_modules": "0.4.2",
+    "filelock": "4.2.10",
+    "python-dateutil": "4.0.0",
+    "charset-normalizer": "3.5.2",
+    "keyring": "25.7.0",
+    "requests-oauthlib": "2.0.0",
+    "idna": "3.20"
+  },
+  "rust_regressions": null,
+  "command_coverage": {
+    "discovered": [],
+    "expected": [
+      "account",
+      "auth",
+      "automation-cleanup",
+      "download",
+      "drive",
+      "drivemount",
+      "edit",
+      "exec",
+      "ext",
+      "help",
+      "install",
+      "kernels",
+      "log",
+      "ls",
+      "new",
+      "pay",
+      "readme",
+      "repl",
+      "restart-kernel",
+      "rm",
+      "run",
+      "run-cleanup",
+      "runs",
+      "sessions",
+      "skill",
+      "ssh",
+      "status",
+      "stop",
+      "update",
+      "upload",
+      "url",
+      "usage",
+      "version"
+    ],
+    "account_subcommands": [
+      "status",
+      "list",
+      "current",
+      "add",
+      "use",
+      "set-drive",
+      "rename",
+      "remove",
+      "login",
+      "repair"
+    ],
+    "account_discovered": [],
+    "drive_subcommands": [
+      "consent",
+      "import",
+      "show",
+      "token",
+      "clear",
+      "status",
+      "probe-cleanup",
+      "mount",
+      "umount",
+      "leases",
+      "lease-cleanup"
+    ],
+    "drive_discovered": [],
+    "ext_subcommands": [
+      "doctor",
+      "install",
+      "version"
+    ],
+    "ext_discovered": [],
+    "unmapped": []
+  }
+}

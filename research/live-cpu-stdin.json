@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-18",
+  "environment": "macOS arm64 with local PTY",
+  "binary_sha256": "b1d0f1cb858f8cef11bf41bf176879e958dc5b90613cffb44e4538cd83dae51a",
+  "authentication": "existing system keychain, OAuth",
+  "checks": [
+    "empty_backend_baseline",
+    "cpu_assignment_captured",
+    "backend_inventory_and_named_status_agree",
+    "real_unicode_and_password_replies_verified",
+    "password_hidden_and_terminal_echo_restored",
+    "input_replies_absent_from_exec_json_and_history",
+    "backend_release_and_local_cleanup_confirmed"
+  ],
+  "created_sessions": 1,
+  "cleanup": {
+    "stop_exit_code": 0,
+    "expected_endpoint_guarded": true,
+    "post_stop_backend_query_confirmed_absence": true,
+    "local_session_and_release_journals_absent": true,
+    "other_new_assignment_count": 0
+  },
+  "limits": [
+    "one real CPU and one completed interaction",
+    "only synthetic inputs, plaintext replies excluded from evidence",
+    "no live cancellation or timeout during input",
+    "no REPL or Drive access"
+  ],
+  "passed": true
+}

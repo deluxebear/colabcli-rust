@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "binary_sha256": "b2315bfd39ce5ddf850043569551275939a2eeb6a58089283fe6ce7231f21dc1",
+  "probe_sha256": "795d361a9cc0b5c86d32d65abd33624171b0c45bb5fd03d53129131bec8e7cae",
+  "created_sessions": 1,
+  "cleanup": "confirmed_released",
+  "execute_requested": true,
+  "cleanup_only": false,
+  "official_source": {
+    "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+    "path": "jupyter_kernel_client/utils.py",
+    "sha256": "98ffaef260265d0ced4cd7b849f5d9374515027acbe7a8db7b6feb614d7c49d4"
+  },
+  "credentials_ready": true,
+  "raw_codecs_agreed": true,
+  "sanitized_samples_replayed": 2,
+  "actual_non_utf8_buffer_verified": true,
+  "actual_empty_buffer_verified": true,
+  "reply_and_idle_verified": true,
+  "other_new_assignment_count": 0,
+  "sanitized_samples_sha256": "a16ce77b99b23183f3902614ab10a78f304cd65d822ef883e8a61388286e04e8",
+  "probe_source_sha256": "e3ada5cb07c2032f59384a32f30a6c433664d2f968cee4f91fe5d39cc14c5e15",
+  "validator_source_sha256": "4bdd22d26187bf1fb9cd493bbeec378ced97938466c9afaef2ee65d32a5f158b",
+  "sample_byte_identity_with_raw_capture": false,
+  "sanitized_content_and_buffers_unchanged": true,
+  "raw_frame_shapes": [
+    {
+      "wire_type": "binary",
+      "bytes": 669,
+      "segment_count": 3,
+      "first_offset": 16,
+      "buffer_sizes": [
+        4,
+        0
+      ]
+    },
+    {
+      "wire_type": "text",
+      "bytes": 638
+    }
+  ],
+  "validator_followup": {
+    "change": "failed validation exits nonzero after cleanup",
+    "source_sha256": "b9a6f8bc791c6972e446d03bd4da1ddc3854680ae89ac5aaab25d38d8bdc96a4",
+    "preflight_report": "research/live-codec-preflight.json",
+    "preflight_sha256": "3256e295a13fb6d9e7a2e92d0d8904ab63481f2fe8a75937ac7f7d41553a11ad",
+    "created_sessions": 0
+  }
+}

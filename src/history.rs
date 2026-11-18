@@ -287,6 +287,16 @@ impl History {
         Ok(false)
     }
     pub fn read(&self, name: &str, query: HistoryQuery<'_>) -> Result<Vec<Value>> {
+        self.read_skipping(name, query, 0)
+    }
+
+    /// Skip a prefix of events matching the type filter before collecting results.
+    pub fn read_skipping(
+        &self,
+        name: &str,
+        query: HistoryQuery<'_>,
+        mut skip: usize,
+    ) -> Result<Vec<Value>> {
         let _guard = self.guard()?;
         let mut paths = Vec::new();
         if safe_legacy_name(name) {
@@ -308,6 +318,10 @@ impl History {
                     .event_type
                     .is_some_and(|kind| event["event_type"].as_str() != Some(kind))
                 {
+                    return Ok(());
+                }
+                if skip > 0 {
+                    skip -= 1;
                     return Ok(());
                 }
                 event["account"] = json!(self.profile);
@@ -393,7 +407,7 @@ fn secret_key(key: &str) -> bool {
             | "client_config"
     )
 }
-fn redact(value: &mut Value) {
+pub(crate) fn redact(value: &mut Value) {
     match value {
         Value::Object(map) => {
             if map.get("event_type").and_then(Value::as_str) == Some("input_reply") {

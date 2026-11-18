@@ -1,0 +1,56 @@
+{
+  "google_auth_version": "2.62.2",
+  "transport": "stdlib HMAC + in-memory SDK signer; no credentials or network",
+  "cases": [
+    {
+      "region": "us-east-1",
+      "template": "https://sts.{region}.amazonaws.com?Action=GetCallerIdentity&Version=2011-06-15",
+      "audience": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p",
+      "instant": "2026-11-17T01:02:03Z",
+      "access_key": "AKIDEXAMPLE",
+      "secret_key": "synthetic-secret-key-not-a-real-credential",
+      "session_token": null,
+      "url": "https://sts.us-east-1.amazonaws.com?Action=GetCallerIdentity&Version=2011-06-15",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261117/us-east-1/sts/aws4_request, SignedHeaders=host;x-amz-date;x-goog-cloud-target-resource, Signature=e778d3607585e2a474d8fca23eae98317247e6641c34d44fd4446dab47995cf7",
+      "headers": {
+        "host": "sts.us-east-1.amazonaws.com",
+        "x-amz-date": "20261117T010203Z",
+        "x-goog-cloud-target-resource": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p"
+      }
+    },
+    {
+      "region": "eu-west-2",
+      "template": "https://sts.{region}.amazonaws.com?Action=GetCallerIdentity&Version=2011-06-15",
+      "audience": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p",
+      "instant": "2026-11-17T01:02:03Z",
+      "access_key": "AKIDEXAMPLE",
+      "secret_key": "synthetic-secret-key-not-a-real-credential",
+      "session_token": "synthetic-session+/=",
+      "url": "https://sts.eu-west-2.amazonaws.com?Action=GetCallerIdentity&Version=2011-06-15",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261117/eu-west-2/sts/aws4_request, SignedHeaders=host;x-amz-date;x-amz-security-token;x-goog-cloud-target-resource, Signature=31519127de04a4e0214f2b0d1fdf4f439087318fb7b21d9b4b45b150abc5b9bc",
+      "headers": {
+        "host": "sts.eu-west-2.amazonaws.com",
+        "x-amz-date": "20261117T010203Z",
+        "x-goog-cloud-target-resource": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p",
+        "x-amz-security-token": "synthetic-session+/="
+      }
+    },
+    {
+      "region": "cn-north-1",
+      "template": "https://sts.{region}.amazonaws.com.cn?Action=GetCallerIdentity&Version=2011-06-15",
+      "audience": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p",
+      "instant": "2026-11-17T01:02:03Z",
+      "access_key": "AKIDEXAMPLE",
+      "secret_key": "synthetic-secret-key-not-a-real-credential",
+      "session_token": "synthetic-china-session",
+      "url": "https://sts.cn-north-1.amazonaws.com.cn?Action=GetCallerIdentity&Version=2011-06-15",
+      "authorization": "AWS4-HMAC-SHA256 Credential=AKIDEXAMPLE/20261117/cn-north-1/sts/aws4_request, SignedHeaders=host;x-amz-date;x-amz-security-token;x-goog-cloud-target-resource, Signature=b9445c2826dce73ebd866d69fb81faa70cb4a36382c2f1e43ef1feb806560ff3",
+      "headers": {
+        "host": "sts.cn-north-1.amazonaws.com.cn",
+        "x-amz-date": "20261117T010203Z",
+        "x-goog-cloud-target-resource": "//iam.googleapis.com/projects/123/locations/global/workloadIdentityPools/p/providers/p",
+        "x-amz-security-token": "synthetic-china-session"
+      }
+    }
+  ]
+}

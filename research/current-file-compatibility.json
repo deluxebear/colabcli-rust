@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "scope": "fixed Python references, synthetic loopback only",
+  "official": {
+    "sources": {
+      "cli": {
+        "repository": "https://github.com/googlecolab/google-colab-cli",
+        "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+        "verified_files": 92
+      },
+      "kernel": {
+        "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+        "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+        "verified_files": 34
+      }
+    },
+    "rust_binary_sha256": "b7255d8951b9a48e84b1989f30c2d4c8d1a86b04870ee36af5f5142fee0c923b",
+    "isolation": {
+      "official_no_site_hooks": true,
+      "official_network": "loopback_only",
+      "credentials": "synthetic file credentials; real keyring forbidden",
+      "rust_network": "fixture URLs only; no real account data"
+    },
+    "summary": {
+      "matched": 12,
+      "rust_extension": 1
+    },
+    "cases": [
+      {
+        "name": "ls-unique",
+        "status": "matched"
+      },
+      {
+        "name": "ls-directory",
+        "status": "matched"
+      },
+      {
+        "name": "ls-file",
+        "status": "matched"
+      },
+      {
+        "name": "ls-missing",
+        "status": "matched"
+      },
+      {
+        "name": "ls-json",
+        "status": "rust_extension"
+      },
+      {
+        "name": "upload-binary",
+        "status": "matched"
+      },
+      {
+        "name": "upload-unicode-path",
+        "status": "matched"
+      },
+      {
+        "name": "upload-missing",
+        "status": "matched"
+      },
+      {
+        "name": "download-binary",
+        "status": "matched"
+      },
+      {
+        "name": "download-missing",
+        "status": "matched"
+      },
+      {
+        "name": "rm-file",
+        "status": "matched"
+      },
+      {
+        "name": "rm-missing",
+        "status": "matched"
+      },
+      {
+        "name": "edit-file",
+        "status": "matched"
+      }
+    ]
+  },
+  "merged": {
+    "sources": {
+      "cli": {
+        "repository": "https://github.com/googlecolab/google-colab-cli",
+        "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+        "verified_files": 92
+      },
+      "ext": {
+        "repository": "https://github.com/deluxebear/colab-ext",
+        "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+        "verified_files": 17
+      },
+      "kernel": {
+        "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+        "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+        "verified_files": 34
+      }
+    },
+    "rust_binary_sha256": "3dad370972a7474e2a7a4d176a8aad3bf8f822355406e9bb99b227e7f17b054a",
+    "native_keyring_compiled": false,
+    "summary": {
+      "cases": 18,
+      "matched": 18
+    },
+    "cases": [
+      {
+        "name": "list-directory",
+        "status": "matched"
+      },
+      {
+        "name": "list-file",
+        "status": "matched"
+      },
+      {
+        "name": "list-missing",
+        "status": "matched"
+      },
+      {
+        "name": "upload-binary",
+        "status": "matched"
+      },
+      {
+        "name": "upload-empty",
+        "status": "matched"
+      },
+      {
+        "name": "download-binary",
+        "status": "matched"
+      },
+      {
+        "name": "download-empty",
+        "status": "matched"
+      },
+      {
+        "name": "download-text",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-unicode",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-floats",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-large-integers",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-escapes",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-float-corpus",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-duplicate-keys",
+        "status": "matched"
+      },
+      {
+        "name": "download-json-number-lexemes",
+        "status": "matched"
+      },
+      {
+        "name": "download-directory",
+        "status": "matched"
+      },
+      {
+        "name": "download-missing",
+        "status": "matched"
+      },
+      {
+        "name": "remove",
+        "status": "matched"
+      }
+    ]
+  }
+}

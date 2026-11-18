@@ -174,6 +174,54 @@ fn legacy_history_filters_and_tail_limits_work_without_network() {
         .unwrap();
     assert_eq!(events.len(), 1);
     assert_eq!(events[0]["code"], "new");
+    let invoke = |args: &[&str]| {
+        let output = Command::new(env!("CARGO_BIN_EXE_colab"))
+            .args(["--config-dir"])
+            .arg(f.temp.path())
+            .args([
+                "--token-storage",
+                "file",
+                "log",
+                "-s",
+                "old",
+                "-t",
+                "execution",
+            ])
+            .args(args)
+            .env_remove("COLAB_ACCOUNT")
+            .output()
+            .unwrap();
+        assert!(
+            output.status.success(),
+            "{}",
+            String::from_utf8_lossy(&output.stderr)
+        );
+        output.stdout
+    };
+    for (args, expected) in [
+        (&["-n", "-1", "--json"][..], vec!["new"]),
+        (&["--lines=-2", "--json"][..], vec![]),
+        (&["--lines", "0", "--json"][..], vec!["old", "new"]),
+        (&["--lines", "1", "--json"][..], vec!["new"]),
+    ] {
+        let events: Vec<Value> = serde_json::from_slice(&invoke(args)).unwrap();
+        assert_eq!(
+            events
+                .iter()
+                .map(|row| row["code"].as_str().unwrap())
+                .collect::<Vec<_>>(),
+            expected
+        );
+    }
+    assert!(invoke(&["--lines=-2"]).is_empty());
+    let exported_path = f.temp.path().join("skipped.jsonl");
+    invoke(&["-n", "-1", "-o", exported_path.to_str().unwrap()]);
+    let exported = fs::read_to_string(exported_path).unwrap();
+    assert_eq!(exported.lines().count(), 1);
+    assert_eq!(
+        serde_json::from_str::<Value>(&exported).unwrap()["code"],
+        "new"
+    );
     assert!(
         history(&f)
             .read(
@@ -261,6 +309,70 @@ fn stopped_session_history_routes_to_owner_and_cli_export_is_offline() {
         .unwrap();
     let events: Value = serde_json::from_slice(&result.stdout).unwrap();
     assert_eq!(events[0]["account"], "other");
+}
+
+#[test]
+fn log_routes_to_the_session_owner_before_consulting_retained_history() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let active = id("default");
+    let work = f.add("work");
+    let third = f.add("third");
+    for profile in [&active, &work] {
+        History::new(f.storage.clone(), profile.clone())
+            .append(
+                "shared",
+                Some("ep-shared"),
+                "execution",
+                json!({"code":profile.to_string()}),
+                None,
+            )
+            .unwrap();
+    }
+    f.storage.save_session(&work, session("shared")).unwrap();
+    let log = |options: &[&str], selected: Option<&str>| {
+        let mut command = Command::new(env!("CARGO_BIN_EXE_colab"));
+        command.env_clear().env("HOME", f.temp.path());
+        if let Some(selected) = selected {
+            command.env("COLAB_ACCOUNT", selected);
+        }
+        command
+            .arg("--config-dir")
+            .arg(f.temp.path())
+            .args(["--token-storage", "file"])
+            .args(options)
+            .args(["log", "-s", "shared", "--json"])
+            .output()
+            .unwrap()
+    };
+    let read_code = |result: &std::process::Output| {
+        assert!(
+            result.status.success(),
+            "{}",
+            String::from_utf8_lossy(&result.stderr)
+        );
+        let events: Value = serde_json::from_slice(&result.stdout).unwrap();
+        events[0]["code"].as_str().unwrap().to_owned()
+    };
+    let routed = log(&[], None);
+    assert_eq!(read_code(&routed), "work");
+    assert_eq!(
+        routed.stderr,
+        b"[colab] Routing session 'shared' -> account 'work'.\n"
+    );
+    assert_eq!(read_code(&log(&["-a", "default"], Some("work"))), "default");
+    assert_eq!(read_code(&log(&["-a", ""], Some("work"))), "work");
+    assert_eq!(read_code(&log(&[], Some("default"))), "default");
+
+    f.storage.save_session(&third, session("shared")).unwrap();
+    let ambiguous = log(&[], None);
+    assert_eq!(ambiguous.status.code(), Some(1));
+    assert!(ambiguous.stdout.is_empty());
+    assert_eq!(ambiguous.stderr, b"[colab] Session 'shared' exists in multiple accounts (work, third); specify one with `colab -a <account> ...`.\n");
+    f.storage.save_session(&active, session("shared")).unwrap();
+    let preferred = log(&[], None);
+    assert_eq!(read_code(&preferred), "default");
+    assert!(preferred.stderr.is_empty());
+    assert_eq!(f.accounts.registry().unwrap().active, active);
 }
 #[test]
 fn stale_history_writer_cannot_recreate_removed_profile() {

@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": [
+    {
+      "name": "disconnect_reports_and_persists_unknown",
+      "passed": true
+    },
+    {
+      "name": "no_automatic_tunnel_reconnect",
+      "passed": true
+    },
+    {
+      "name": "subsequent_exec_blocked_until_explicit_recovery",
+      "passed": true
+    },
+    {
+      "name": "remote_continued_once_without_code_replay",
+      "passed": true
+    },
+    {
+      "name": "explicit_restart_recovers_execution_without_replaying_script",
+      "passed": true
+    },
+    {
+      "name": "transport_disconnect_reason_and_partial_output_retained",
+      "passed": true,
+      "verification": "post-run durable history and blocked-retry message correlation"
+    }
+  ],
+  "created_sessions": 1,
+  "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+  "cleanup": "confirmed_released",
+  "credentials_ready": true,
+  "baseline_assignment_count": 0,
+  "fault_injected_after_remote_marker": true,
+  "relay_tunnels_before_cut": 2,
+  "relay_tunnels_after_cut": 0,
+  "relay_rejected_requests": 0,
+  "other_new_assignment_count": 0,
+  "validated_at": "2026-11-18T03:08:50.259650+08:00",
+  "authentication_source": "user-authorized existing system keyring",
+  "scope": "One real Colab CPU with TLS opaque CONNECT fault injection after actual remote output; unknown state, no replay, explicit recovery and guarded teardown; no Drive",
+  "disconnect_cause": "connection_lost",
+  "history_followup_verified": true,
+  "executed_validator_sha256": "5da720bac57390ead1842fa06afe3e1d2aa57bab62331f1c340ab4808142900d",
+  "history_followup_validator_sha256": "090926d71fb617171ef855837f9aeaf19355597c9ce357b996a46d60f1b55a5c",
+  "limitations": [
+    "One macOS ARM64 OAuth profile and a single abrupt transport fault",
+    "Cuts live relay connections belonging only to the test CLI; two tunnels established before cut, no per-tunnel live count, TLS decryption or frame-level timing injection",
+    "No dead/restarting broadcast, token expiry, long session, Google service outage or release failure injected",
+    "CPU hardware confirmed from allocation accelerator NONE, not independently measured",
+    "No new OAuth, ADC, Drive or other platform acceptance"
+  ]
+}

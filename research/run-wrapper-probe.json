@@ -1,7 +1,7 @@
 {
   "date": "2026-11-16",
   "source": "src/runs.rs",
-  "source_sha256": "e7b164562afa4ce71c820dd240f657150f519efc1b61dedbbbcacf209b482108",
+  "source_sha256": "5e6d25b02551631a1210bb3f1de2ca554347d3dffac85286c8848a1ba05b77a2",
   "passed_checks": [
     "normal __main__/argv/file/future",
     "SystemExit None",

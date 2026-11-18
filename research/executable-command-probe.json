@@ -1,0 +1,143 @@
+{
+  "python_version": "3.14.0",
+  "operation": "stdlib shlex.split, posix=True, comments=False; no subprocess",
+  "cases": [
+    {
+      "command": "/bin/tool a b",
+      "expected": [
+        "/bin/tool",
+        "a",
+        "b"
+      ]
+    },
+    {
+      "command": "/bin/tool \"a b\" 'c d'",
+      "expected": [
+        "/bin/tool",
+        "a b",
+        "c d"
+      ]
+    },
+    {
+      "command": "/bin/tool #literal",
+      "expected": [
+        "/bin/tool",
+        "#literal"
+      ]
+    },
+    {
+      "command": "/bin/tool a#literal",
+      "expected": [
+        "/bin/tool",
+        "a#literal"
+      ]
+    },
+    {
+      "command": "/bin/tool \"\\$value\" \"\\`literal\"",
+      "expected": [
+        "/bin/tool",
+        "\\$value",
+        "\\`literal"
+      ]
+    },
+    {
+      "command": "/bin/tool \"a\\\\b\" \"a\\\"b\"",
+      "expected": [
+        "/bin/tool",
+        "a\\b",
+        "a\"b"
+      ]
+    },
+    {
+      "command": "/bin/tool a\\\nb",
+      "expected": [
+        "/bin/tool",
+        "a\nb"
+      ]
+    },
+    {
+      "command": "/bin/tool \"a\\\nb\"",
+      "expected": [
+        "/bin/tool",
+        "a\\\nb"
+      ]
+    },
+    {
+      "command": "/bin/tool \"\" ''",
+      "expected": [
+        "/bin/tool",
+        "",
+        ""
+      ]
+    },
+    {
+      "command": "/bin/tool a\"\"b",
+      "expected": [
+        "/bin/tool",
+        "ab"
+      ]
+    },
+    {
+      "command": "/bin/tool a\\ b",
+      "expected": [
+        "/bin/tool",
+        "a b"
+      ]
+    },
+    {
+      "command": "/bin/tool a\rb",
+      "expected": [
+        "/bin/tool",
+        "a",
+        "b"
+      ]
+    },
+    {
+      "command": "/bin/tool a b",
+      "expected": [
+        "/bin/tool",
+        "a b"
+      ]
+    },
+    {
+      "command": "/bin/tool \"$HOME\" `literal` ;",
+      "expected": [
+        "/bin/tool",
+        "$HOME",
+        "`literal`",
+        ";"
+      ]
+    },
+    {
+      "command": "/bin/tool \"unfinished",
+      "expected": null
+    },
+    {
+      "command": "/bin/tool trailing\\",
+      "expected": null
+    },
+    {
+      "command": "/bin/tool 'unfinished",
+      "expected": null
+    },
+    {
+      "command": "/bin/tool \"trailing\\",
+      "expected": null
+    },
+    {
+      "command": "",
+      "expected": []
+    },
+    {
+      "command": "  \t\n",
+      "expected": []
+    },
+    {
+      "command": "/bin/tool \"你好 参数\"",
+      "expected": [
+        "/bin/tool",
+        "你好 参数"
+      ]
+    }
+  ]
+}

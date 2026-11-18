@@ -1,4 +1,6 @@
 #![allow(dead_code)]
+pub mod interrupted_stream;
+pub mod service_account;
 use chrono::{DateTime, Utc};
 use colabcli_rust::{
     Error, Result,

@@ -1,0 +1,14 @@
+{
+  "google_auth_version": "2.62.2",
+  "transport": "in-memory callback; no credentials or network",
+  "checks": [
+    "exchange has no Authorization",
+    "options JSON quoted before outer form encoding",
+    "refresh uses UTF-8 Basic client authentication",
+    "refresh body has only grant_type and refresh_token"
+  ],
+  "limitations": [
+    "installed library protocol observation only",
+    "no live STS or Colab acceptance"
+  ]
+}

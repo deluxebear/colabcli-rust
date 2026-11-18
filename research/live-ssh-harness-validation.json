@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "validated_at_utc": "2026-11-17T16:13:58.235172+00:00",
+  "scope": "Synthetic subprocess validation of the live SSH harness; no Colab or real credentials",
+  "command": "python3 -B -m unittest discover -s tools/tests -v",
+  "exit_code": 0,
+  "tests": {
+    "total": 74,
+    "passed": 73,
+    "skipped_linux_only": 1,
+    "live_ssh_harness": 15
+  },
+  "input_sha256": {
+    "tools/validate_live_ssh.py": "43d598bf4214114354fd03403287914b5ea90e78de0710d7f50356d478a26b0a",
+    "tools/tests/test_live_ssh_validation.py": "c35e96053d9d5083bea889ef55b6bd3d505db2b586e178efb24d2275abc38923"
+  },
+  "created_cloud_sessions": 0,
+  "real_ssh_executed": false,
+  "workflow_cases": [
+    "preflight_success",
+    "account_error_blocks_allocation",
+    "successful_five_checks_and_release",
+    "failed_handshake_cleanup",
+    "unknown_allocation_same_request_reconciliation",
+    "cleanup_only_after_failed_stop"
+  ],
+  "product_binaries_rebuilt": false
+}

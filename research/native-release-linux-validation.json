@@ -1,0 +1,48 @@
+{
+  "version": "0.1.0",
+  "target": "aarch64-unknown-linux-gnu",
+  "release_binary_size": 10361416,
+  "release_binary_sha256": "e1fdf76be2f623f48dcbe66791ad9f2f7e33ff9acc0f73716cd20de8adcefeaa",
+  "debug_binary_size": 170065648,
+  "packaged_version_output": "Version: 0.1.0",
+  "executable_adc": {
+    "disabled_exit_code": 1,
+    "enabled_exit_code": 0,
+    "expired_exit_code": 1,
+    "sts_requests": 1,
+    "expiry_rejected": true
+  },
+  "aws_adc": {
+    "exit_code": 0,
+    "sts_requests": 1,
+    "signature_verified": true
+  },
+  "checks": [
+    "packaged merged JSON account failures",
+    "packaged root/local account validation preserves registry",
+    "packaged account list/current projections",
+    "packaged offline native readiness remains unknown",
+    "native release build",
+    "host native architecture",
+    "byte-identical packaged executable",
+    "manifest size and SHA-256",
+    "SHA256SUMS for executable and manifest",
+    "packaged executable version",
+    "packaged account aliases help",
+    "packaged joint account flow options help",
+    "packaged shell completion scripts",
+    "packaged executable ADC opt-in and loopback STS exchange",
+    "packaged executable ADC expiry during execution",
+    "packaged AWS ADC SigV4 and loopback STS"
+  ],
+  "source": "local cargo build --release --locked; tools/validate_native_release.py",
+  "download_base_url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0",
+  "published": false,
+  "limitations": [
+    "single host validation only",
+    "GitHub workflow not run",
+    "no remote release download",
+    "no platform signing or notarization verification",
+    "no real IdP or Google authentication"
+  ]
+}

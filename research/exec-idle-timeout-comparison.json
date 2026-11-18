@@ -1,0 +1,512 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "c9fa9fac04df1855b00df1bef0dccb1eddbe3f1d353a2b0679f04e543d4a7a87",
+  "isolation": {
+    "official_no_site_hooks": true,
+    "official_network": "loopback_only",
+    "credentials": "synthetic file credentials; real keyring forbidden",
+    "rust_network": "fixture URLs only; no real account data"
+  },
+  "normalization": [
+    "temporary paths, ports and terminal UUIDs",
+    "validated six-hex automatic names",
+    "notebook cell IDs and Jupyter session IDs; raw observations retained"
+  ],
+  "cases": [
+    {
+      "name": "exec-idle-timeout",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0.2"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "results": {
+        "rust": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "执行结果未知，消息 ID <UUID>；没有自动重放或取消远端代码\n",
+          "duration_seconds": 0.286,
+          "implementation": "rust",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "__import__('os').chdir('/content')\n__import__('os').environ.update(__import__('json').loads(\"{}\"))\n",
+            "SILENCE_FIXTURE"
+          ],
+          "active_after": true
+        },
+        "official": {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "╭───────────────────────────────────────────────────────────── Traceback (most recent call last) ──────────────────────────────────────────────────────────────╮\n│ /private/tmp/google-colab-cli-study-20261116/src/colab_cli/commands/execution.py:266 in exec_command                                                         │\n│                                                                                                                                                              │\n│   263 │   │   │   )                                                                                                                                          │\n│   264 │   │   │   state.store.add(s)                                                                                                                         │\n│   265 │   │   │                                                                                                                                              │\n│ ❱ 266 │   │   │   outputs = runtime.execute_code(                                                                                                            │\n│   267 │   │   │   │   code,                                                                                                                                  │\n│   268 │   │   │   │   output_hook=lambda o: display_output(o, output_image),                                                                                 │\n│   269 │   │   │   │   timeout=timeout,                                                                                                                       │\n│                                                                                                                                                              │\n│ /private/tmp/google-colab-cli-study-20261116/src/colab_cli/runtime.py:259 in execute_code                                                                    │\n│                                                                                                                                                              │\n│   256 │   │   │   │   │   │   if idx < len(outputs):                                                                                                         │\n│   257 │   │   │   │   │   │   │   output_hook(outputs[idx])                                                                                                  │\n│   258 │   │   │                                                                                                                                              │\n│ ❱ 259 │   │   │   reply = self._execute_streaming(code, wrapped_output_hook, timeout)                                                                        │\n│   260 │   │   │   reply_content = reply[\"content\"] if reply else {\"status\": \"error\"}                                                                         │\n│   261 │   │                                                                                                                                                  │\n│   262 │   │   # If there's an error status but no error in outputs, synthesize one                                                                           │\n│                                                                                                                                                              │\n│ /private/tmp/google-colab-cli-study-20261116/src/colab_cli/runtime.py:329 in _execute_streaming                                                              │\n│                                                                                                                                                              │\n│   326 │   │   │   │   │   return msg                                                                                                                         │\n│   327 │   │                                                                                                                                                  │\n│   328 │   │   while True:                                                                                                                                    │\n│ ❱ 329 │   │   │   msg = next_message(client.get_iopub_msg, \"output\")                                                                                         │\n│   330 │   │   │   output_hook(msg)                                                                                                                           │\n│   331 │   │   │   if (                                                                                                                                       │\n│   332 │   │   │   │   msg[\"header\"][\"msg_type\"] == \"status\"                                                                                                  │\n│                                                                                                                                                              │\n│ /private/tmp/google-colab-cli-study-20261116/src/colab_cli/runtime.py:310 in next_message                                                                    │\n│                                                                                                                                                              │\n│   307 │   │   │   │   if deadline is not None:                                                                                                               │\n│   308 │   │   │   │   │   left = deadline - time.monotonic()                                                                                                 │\n│   309 │   │   │   │   │   if left <= 0:                                                                                                                      │\n│ ❱ 310 │   │   │   │   │   │   raise TimeoutError(                                                                                                            │\n│   311 │   │   │   │   │   │   │   f\"Timeout waiting for {waiting_for}: no message from \"                                                                     │\n│   312 │   │   │   │   │   │   │   f\"the kernel for {timeout:g}s. Use --timeout to allow \"                                                                    │\n│   313 │   │   │   │   │   │   │   \"longer silences.\"                                                                                                         │\n╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯\nTimeoutError: Timeout waiting for output: no message from the kernel for 0.2s. Use --timeout to allow longer silences.\n",
+          "duration_seconds": 0.93,
+          "implementation": "official",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "SILENCE_FIXTURE"
+          ],
+          "active_after": true
+        }
+      }
+    },
+    {
+      "name": "exec-idle-timeout-zero",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0"
+      ],
+      "status": "matched",
+      "differences": [],
+      "results": {
+        "rust": {
+          "exit_code": 0,
+          "stdout": "delayed output\n",
+          "stderr": "",
+          "duration_seconds": 0.79,
+          "implementation": "rust",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "__import__('os').chdir('/content')\n__import__('os').environ.update(__import__('json').loads(\"{}\"))\n",
+            "DELAYED_OUTPUT_FIXTURE"
+          ],
+          "active_after": true
+        },
+        "official": {
+          "exit_code": 0,
+          "stdout": "delayed output\n",
+          "stderr": "",
+          "duration_seconds": 1.085,
+          "implementation": "official",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "DELAYED_OUTPUT_FIXTURE"
+          ],
+          "active_after": true
+        }
+      }
+    },
+    {
+      "name": "exec-idle-timeout-progress",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0.4"
+      ],
+      "status": "matched",
+      "differences": [],
+      "results": {
+        "rust": {
+          "exit_code": 0,
+          "stdout": "progress 0\nprogress 1\nprogress 2\nprogress 3\nprogress 4\nprogress 5\nprogress 6\n",
+          "stderr": "",
+          "duration_seconds": 0.821,
+          "implementation": "rust",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "__import__('os').chdir('/content')\n__import__('os').environ.update(__import__('json').loads(\"{}\"))\n",
+            "REPEATED_OUTPUT_FIXTURE"
+          ],
+          "active_after": true
+        },
+        "official": {
+          "exit_code": 0,
+          "stdout": "progress 0\nprogress 1\nprogress 2\nprogress 3\nprogress 4\nprogress 5\nprogress 6\n",
+          "stderr": "",
+          "duration_seconds": 1.13,
+          "implementation": "official",
+          "checks_failed": [],
+          "wire": [
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare",
+              "query": {},
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            },
+            {
+              "method": "GET",
+              "path": "/runtime/api/kernels/kernel-compare/channels",
+              "query": {
+                "session_id": "<IDENTITY>"
+              },
+              "oauth": false,
+              "xsrf": false,
+              "proxy": true
+            }
+          ],
+          "executions": 2,
+          "session_names_after": [
+            "compare"
+          ],
+          "session_state_after": {
+            "compare": {
+              "name": "compare",
+              "endpoint": "ep-compare",
+              "accelerator": "NONE",
+              "variant": "DEFAULT",
+              "machine_shape": "STANDARD",
+              "kernel_id": "kernel-compare",
+              "session_id": "session-compare",
+              "running": null
+            }
+          },
+          "artifacts": {},
+          "submitted_code": [
+            "import os; os.makedirs('/content', exist_ok=True); os.chdir('/content')",
+            "REPEATED_OUTPUT_FIXTURE"
+          ],
+          "active_after": true
+        }
+      }
+    }
+  ],
+  "summary": {
+    "different": 1,
+    "matched": 2
+  },
+  "behavior_summary": {
+    "different": 1,
+    "matched": 2
+  },
+  "dependency_versions": {
+    "shellingham": "1.5.4",
+    "markdown-it-py": "4.3.0",
+    "platformdirs": "4.14.5",
+    "jupyter_kernel_client": "0.9.0",
+    "jaraco.classes": "3.4.0",
+    "google-auth-oauthlib": "1.5.0",
+    "packaging": "26.3",
+    "google-colab-cli": "0.8.0",
+    "jaraco.context": "6.1.2",
+    "nbformat": "5.11.1",
+    "Pygments": "2.21.0",
+    "prompt_toolkit": "3.0.53",
+    "jsonschema-specifications": "2025.9.1",
+    "pyzmq": "27.3.0",
+    "requests": "2.34.2",
+    "rich": "15.0.0",
+    "certifi": "2026.10.23",
+    "jsonschema": "4.26.0",
+    "oauthlib": "4.0.1",
+    "wcwidth": "0.9.4",
+    "pydantic": "2.14.3",
+    "traitlets": "5.16.1",
+    "click": "8.5.1",
+    "pyarrow": "26.0.1",
+    "jaraco.functools": "4.6.0",
+    "cryptography": "50.0.2",
+    "pycparser": "3.12",
+    "annotated-doc": "0.0.6",
+    "pydantic_core": "2.50.4",
+    "typing-inspection": "0.4.5",
+    "jupyter-mimetypes": "0.2.0",
+    "urllib3": "2.8.0",
+    "mdurl": "0.1.2",
+    "fastjsonschema": "2.22.3",
+    "html2text": "2025.4.15",
+    "jupyter_client": "8.10.0",
+    "cffi": "2.1.1",
+    "jupyter_core": "5.9.1",
+    "annotated-types": "0.8.0",
+    "referencing": "0.37.0",
+    "tzdata": "2026.6",
+    "google-auth": "2.62.2",
+    "rpds-py": "2026.9.1",
+    "typer": "0.29.1",
+    "attrs": "26.1.0",
+    "tornado": "6.6.1",
+    "websocket-client": "1.9.2",
+    "more-itertools": "11.2.1",
+    "typing_extensions": "4.16.0",
+    "pyasn1": "0.6.5",
+    "pyasn1_modules": "0.4.2",
+    "filelock": "4.2.10",
+    "python-dateutil": "4.0.0",
+    "charset-normalizer": "3.5.2",
+    "keyring": "25.7.0",
+    "requests-oauthlib": "2.0.0",
+    "idna": "3.20"
+  },
+  "rust_regressions": null,
+  "command_coverage": {
+    "discovered": [],
+    "expected": [
+      "account",
+      "auth",
+      "automation-cleanup",
+      "download",
+      "drive",
+      "drivemount",
+      "edit",
+      "exec",
+      "ext",
+      "help",
+      "install",
+      "kernels",
+      "log",
+      "ls",
+      "new",
+      "pay",
+      "readme",
+      "repl",
+      "restart-kernel",
+      "rm",
+      "run",
+      "run-cleanup",
+      "runs",
+      "sessions",
+      "skill",
+      "ssh",
+      "status",
+      "stop",
+      "update",
+      "upload",
+      "url",
+      "usage",
+      "version"
+    ],
+    "account_subcommands": [
+      "status",
+      "list",
+      "current",
+      "add",
+      "use",
+      "set-drive",
+      "rename",
+      "remove",
+      "login",
+      "repair"
+    ],
+    "account_discovered": [],
+    "drive_subcommands": [
+      "consent",
+      "import",
+      "show",
+      "token",
+      "clear",
+      "status",
+      "probe-cleanup",
+      "mount",
+      "umount",
+      "leases",
+      "lease-cleanup"
+    ],
+    "drive_discovered": [],
+    "ext_subcommands": [
+      "doctor",
+      "install",
+      "version"
+    ],
+    "ext_discovered": [],
+    "unmapped": []
+  }
+}

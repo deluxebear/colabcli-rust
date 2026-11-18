@@ -12,7 +12,6 @@ use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
 use std::{
     io::Read,
-    net::{TcpStream, ToSocketAddrs},
     time::{Duration, Instant},
 };
 use tungstenite::{Message, WebSocket, client::IntoClientRequest, stream::MaybeTlsStream};
@@ -26,6 +25,7 @@ pub struct KernelModel {
     #[serde(flatten)]
     pub extra: serde_json::Map<String, Value>,
 }
+#[derive(Clone)]
 pub struct KernelRest {
     client: Client,
     base: Url,
@@ -78,6 +78,7 @@ impl KernelRest {
         action: Option<&str>,
         body: Option<Value>,
     ) -> Result<Option<Value>> {
+        let empty_post = method == Method::POST && body.is_none();
         let mut request = self
             .client
             .request(method, self.url(id, action)?)
@@ -87,6 +88,8 @@ impl KernelRest {
             .header("Accept", "application/json");
         if let Some(body) = body {
             request = request.json(&body);
+        } else if empty_post {
+            request = request.header(reqwest::header::CONTENT_LENGTH, "0");
         }
         let response = request.send().map_err(|_| Error::RuntimeTransport)?;
         let status = response.status().as_u16();
@@ -182,6 +185,9 @@ pub struct ExecutionResult {
     pub outputs: Vec<Output>,
     pub reply: Option<Value>,
     pub error: Option<String>,
+    /// Classifies the local wait limit separately from other unknown results.
+    #[serde(skip)]
+    pub timed_out: bool,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub history_error: Option<String>,
 }
@@ -191,15 +197,67 @@ impl ExecutionResult {
     }
 }
 
+/// A request for user input. Values returned by the handler are never added to execution history.
+#[derive(Clone)]
+pub struct InputRequest {
+    pub id: String,
+    pub prompt: String,
+    pub password: bool,
+}
+
+/// Called repeatedly while input is pending. Implementations must not block: None keeps
+/// socket reads, PING/PONG, cancellation and execution deadlines active.
+#[derive(Clone)]
+pub struct ColabRequest {
+    pub id: String,
+    pub colab_msg_id: Value,
+    pub auth_type: String,
+}
+enum PendingInput {
+    Standard(InputRequest),
+    Colab(ColabRequest),
+}
+
+pub trait InputHandler {
+    fn bind_endpoint(&mut self, _endpoint: &str) -> Result<()> {
+        Ok(())
+    }
+    fn poll_colab(&mut self, _request: &ColabRequest) -> Result<bool> {
+        Err(Error::KernelProtocol("未配置 Colab 专用请求处理器"))
+    }
+    fn poll(&mut self, request: &InputRequest) -> Result<Option<String>>;
+}
+impl<F: FnMut(&InputRequest) -> Result<Option<String>>> InputHandler for F {
+    fn poll(&mut self, request: &InputRequest) -> Result<Option<String>> {
+        self(request)
+    }
+}
+
 pub struct KernelRuntime {
-    socket: WebSocket<MaybeTlsStream<TcpStream>>,
+    socket: WebSocket<MaybeTlsStream<crate::websocket_transport::Stream>>,
     session: String,
     usable: bool,
     cancellation: Option<std::sync::Arc<std::sync::atomic::AtomicUsize>>,
+    heartbeat_interval: Duration,
+    last_ping: Instant,
+    interrupt: Option<(KernelRest, String, Duration)>,
 }
 impl KernelRuntime {
     /// Persist the kernel ID before this call; a failed WS handshake must not cause another kernel POST.
     pub fn connect(rest: &KernelRest, kernel_id: &str, session: &str) -> Result<Self> {
+        Self::connect_with_proxy(
+            rest,
+            kernel_id,
+            session,
+            &crate::websocket_transport::ProxyEnvironment::capture(),
+        )
+    }
+    pub fn connect_with_proxy(
+        rest: &KernelRest,
+        kernel_id: &str,
+        session: &str,
+        proxy: &crate::websocket_transport::ProxyEnvironment,
+    ) -> Result<Self> {
         if session.is_empty() {
             return Err(Error::KernelProtocol("Jupyter session ID 为空"));
         }
@@ -226,46 +284,10 @@ impl KernelRuntime {
                     .map_err(|_| Error::KernelProtocol("无效的 proxy header"))?,
             );
         }
-        let host = url
-            .host_str()
-            .ok_or(Error::KernelProtocol("runtime 缺少主机名"))?;
-        let host = host
-            .strip_prefix('[')
-            .and_then(|host| host.strip_suffix(']'))
-            .unwrap_or(host);
-        let port = url
-            .port_or_known_default()
-            .ok_or(Error::KernelProtocol("runtime 缺少端口"))?;
         let deadline = Instant::now()
             .checked_add(rest.timeout)
             .ok_or(Error::KernelProtocol("连接期限溢出"))?;
-        let addresses = (host, port)
-            .to_socket_addrs()
-            .map_err(|_| Error::WebSocketTransport)?;
-        let mut stream = None;
-        for address in addresses {
-            let left = deadline.saturating_duration_since(Instant::now());
-            if left.is_zero() {
-                break;
-            }
-            if let Ok(socket) =
-                TcpStream::connect_timeout(&address, left.min(Duration::from_secs(5)))
-            {
-                stream = Some(socket);
-                break;
-            }
-        }
-        let stream = stream.ok_or(Error::WebSocketTransport)?;
-        let left = deadline.saturating_duration_since(Instant::now());
-        if left.is_zero() {
-            return Err(Error::WebSocketTransport);
-        }
-        stream
-            .set_read_timeout(Some(left))
-            .map_err(|_| Error::WebSocketTransport)?;
-        stream
-            .set_write_timeout(Some(left))
-            .map_err(|_| Error::WebSocketTransport)?;
+        let stream = crate::websocket_transport::connect(&url, deadline, proxy)?;
         let config = tungstenite::protocol::WebSocketConfig::default()
             .max_message_size(Some(codec::MAX_MESSAGE_BYTES))
             .max_frame_size(Some(codec::MAX_MESSAGE_BYTES))
@@ -279,7 +301,83 @@ impl KernelRuntime {
             session: session.into(),
             usable: true,
             cancellation: None,
+            heartbeat_interval: Duration::from_secs(60),
+            last_ping: Instant::now(),
+            interrupt: None,
         })
+    }
+    /// WebSocket protocol traffic only; this does not renew a VM allocation.
+    pub fn set_heartbeat_interval(&mut self, interval: Duration) -> Result<()> {
+        if interval.is_zero() {
+            return Err(Error::KernelProtocol("心跳间隔必须大于零"));
+        }
+        self.heartbeat_interval = interval;
+        Ok(())
+    }
+    fn heartbeat(&mut self) -> Result<()> {
+        if self.last_ping.elapsed() >= self.heartbeat_interval {
+            self.socket
+                .send(Message::Ping(b"colab-cli".to_vec().into()))
+                .map_err(|_| Error::WebSocketTransport)?;
+            self.last_ping = Instant::now();
+        }
+        Ok(())
+    }
+    /// Opt in to interrupting one execution on SIGINT. REST success alone is not
+    /// completion: execute_reply AND idle must still arrive within the grace period.
+    pub fn interrupt_on_sigint(
+        &mut self,
+        rest: KernelRest,
+        kernel_id: String,
+        grace: Duration,
+    ) -> Result<()> {
+        if grace.is_zero() || Instant::now().checked_add(grace).is_none() {
+            return Err(Error::KernelProtocol("无效的中断确认期限"));
+        }
+        self.interrupt = Some((rest, kernel_id, grace));
+        Ok(())
+    }
+    /// Service an idle socket once (bounded by the 100 ms read timeout). Never
+    /// replay code or expose late outputs as the next execution's output.
+    pub fn poll_idle(&mut self) -> Result<()> {
+        let result = self.poll_idle_inner();
+        if result.is_err() {
+            self.usable = false;
+        }
+        result
+    }
+    fn poll_idle_inner(&mut self) -> Result<()> {
+        if !self.usable {
+            return Err(Error::WebSocketTransport);
+        }
+        self.heartbeat()?;
+        let incoming = match self.socket.read() {
+            Ok(Message::Text(text)) => codec::decode_text(&text)?,
+            Ok(Message::Binary(bytes)) => codec::decode_binary(&bytes)?,
+            Ok(Message::Ping(_)) => {
+                return self.socket.flush().map_err(|_| Error::WebSocketTransport);
+            }
+            Ok(Message::Close(_)) => return Err(Error::WebSocketTransport),
+            Ok(_) => return Ok(()),
+            Err(tungstenite::Error::Io(error))
+                if matches!(
+                    error.kind(),
+                    std::io::ErrorKind::WouldBlock
+                        | std::io::ErrorKind::TimedOut
+                        | std::io::ErrorKind::Interrupted
+                ) =>
+            {
+                return Ok(());
+            }
+            Err(_) => return Err(Error::WebSocketTransport),
+        };
+        if incoming.kind() == "status"
+            && [Some("dead"), Some("restarting")]
+                .contains(&incoming.content()["execution_state"].as_str())
+        {
+            return Err(Error::KernelProtocol("kernel 已停止或正在重启"));
+        }
+        Ok(())
     }
     pub fn execute(
         &mut self,
@@ -300,7 +398,17 @@ impl KernelRuntime {
         code: &str,
         timeout: ExecutionTimeout,
         before_send: impl FnOnce(&str) -> Result<()>,
+        output_hook: impl FnMut(&OutputChange) -> Result<()>,
+    ) -> Result<ExecutionResult> {
+        self.execute_with_input(code, timeout, before_send, output_hook, None)
+    }
+    pub fn execute_with_input(
+        &mut self,
+        code: &str,
+        timeout: ExecutionTimeout,
+        before_send: impl FnOnce(&str) -> Result<()>,
         mut output_hook: impl FnMut(&OutputChange) -> Result<()>,
+        mut input: Option<&mut dyn InputHandler>,
     ) -> Result<ExecutionResult> {
         if !self.usable {
             return Err(Error::KernelProtocol(
@@ -319,13 +427,14 @@ impl KernelRuntime {
             "shell",
             &self.session,
             json!({"code":code,"silent":false,"store_history":true,
-            "user_expressions":{},"allow_stdin":false,"stop_on_error":true}),
+            "user_expressions":{},"allow_stdin":input.is_some(),"stop_on_error":true}),
         );
         let id = message.id().to_owned();
         let frame = codec::encode(&message)?;
         let mut outputs = OutputCollector::default();
         let mut reply = None;
         let mut idle = false;
+        let mut pending_input: Option<(PendingInput, Value)> = None;
         let started = Instant::now();
         let mut activity = started;
         let (limit, total) = match timeout {
@@ -348,16 +457,53 @@ impl KernelRuntime {
         } else {
             None
         };
+        let mut interrupted = None;
+        let mut timed_out = false;
         while failure.is_none() && !(idle && reply.is_some()) {
-            if self
+            use std::sync::atomic::Ordering::SeqCst;
+            let signal = self
                 .cancellation
                 .as_ref()
-                .is_some_and(|flag| flag.load(std::sync::atomic::Ordering::SeqCst) != 0)
-            {
+                .map_or(0, |flag| flag.load(SeqCst));
+            if signal != 0 {
+                if let (true, true, Some((rest, kernel, grace))) = (
+                    signal == signal_hook::consts::SIGINT as usize,
+                    interrupted.is_none(),
+                    self.interrupt.as_ref(),
+                ) {
+                    // Clear only the observed signal; do not overwrite a newer TERM/HUP.
+                    let cleared = self
+                        .cancellation
+                        .as_ref()
+                        .unwrap()
+                        .compare_exchange(signal, 0, SeqCst, SeqCst)
+                        .is_ok();
+                    if !cleared || rest.interrupt(kernel).is_err() {
+                        failure = Some((
+                            ExecutionStatus::Unknown,
+                            "中断请求未确认；远端执行结果未知".into(),
+                        ));
+                        break;
+                    }
+                    interrupted = Some((Instant::now(), *grace));
+                    pending_input = None;
+                } else {
+                    failure = Some((
+                        ExecutionStatus::Unknown,
+                        "收到终止信号；尚未确认远端执行结束".into(),
+                    ));
+                    break;
+                }
+            }
+            if interrupted.is_some_and(|(start, grace)| start.elapsed() >= grace) {
                 failure = Some((
                     ExecutionStatus::Unknown,
-                    "收到终止信号；尚未确认远端执行结束".into(),
+                    "中断后未收到执行完成确认；结果未知".into(),
                 ));
+                break;
+            }
+            if self.heartbeat().is_err() {
+                failure = Some((ExecutionStatus::Unknown, "WS 心跳发送失败；结果未知".into()));
                 break;
             }
             if limit.is_some_and(|limit| {
@@ -367,11 +513,78 @@ impl KernelRuntime {
                     activity.elapsed() >= limit
                 }
             }) {
+                timed_out = true;
                 failure = Some((
                     ExecutionStatus::Unknown,
                     "等待本次执行消息超时；未取消远端执行".into(),
                 ));
                 break;
+            }
+            if let Some((request, parent)) = &pending_input {
+                let handler = input.as_deref_mut().unwrap();
+                let polled = match request {
+                    PendingInput::Standard(request) => {
+                        handler.poll(request).map(|value| value.map(Value::String))
+                    }
+                    PendingInput::Colab(request) => handler.poll_colab(request).map(|ready| {
+                        ready.then(
+                            || json!({"type":"colab_reply","colab_msg_id":request.colab_msg_id}),
+                        )
+                    }),
+                };
+                match polled {
+                    Ok(Some(value)) => {
+                        let mut response = KernelMessage::new(
+                            "input_reply",
+                            "stdin",
+                            &self.session,
+                            json!({"value":value}),
+                        );
+                        response.envelope["parent_header"] = parent.clone();
+                        let sent = match codec::encode(&response) {
+                            Ok(Frame::Text(text)) => {
+                                self.socket.send(Message::Text(text.into())).is_ok()
+                            }
+                            Ok(Frame::Binary(bytes)) => {
+                                self.socket.send(Message::Binary(bytes.into())).is_ok()
+                            }
+                            Err(_) => false,
+                        };
+                        if !sent {
+                            failure = Some((
+                                ExecutionStatus::Unknown,
+                                "stdin 回复发送失败，结果未知".into(),
+                            ));
+                            break;
+                        }
+                        pending_input = None;
+                        activity = Instant::now();
+                    }
+                    Ok(None) => {}
+                    Err(error) => {
+                        // Never format arbitrary handler errors: they may contain private input.
+                        let message = match request {
+                            PendingInput::Colab(_) => match error {
+                                Error::InteractionRequired => {
+                                    "Colab 授权需要交互终端；未回复内核".into()
+                                }
+                                Error::ControlStatus(status) => {
+                                    format!("Colab 凭据传播请求失败 (HTTP {status})；未回复内核")
+                                }
+                                _ => "Colab 凭据传播未完成；未回复内核".into(),
+                            },
+                            PendingInput::Standard(_) => {
+                                if matches!(error, Error::InteractionRequired) {
+                                    "远端输入需要交互终端；未确认远端执行结束".into()
+                                } else {
+                                    "读取交互输入失败；未确认远端执行结束".into()
+                                }
+                            }
+                        };
+                        failure = Some((ExecutionStatus::Unknown, message));
+                        break;
+                    }
+                }
             }
             let incoming = match self.socket.read() {
                 Ok(Message::Text(text)) => codec::decode_text(&text),
@@ -391,7 +604,9 @@ impl KernelRuntime {
                 Err(tungstenite::Error::Io(error))
                     if matches!(
                         error.kind(),
-                        std::io::ErrorKind::WouldBlock | std::io::ErrorKind::TimedOut
+                        std::io::ErrorKind::WouldBlock
+                            | std::io::ErrorKind::TimedOut
+                            | std::io::ErrorKind::Interrupted
                     ) =>
                 {
                     continue;
@@ -409,10 +624,16 @@ impl KernelRuntime {
                 }
             };
             if incoming.kind() == "status"
+                && incoming.channel() == "iopub"
                 && [Some("dead"), Some("restarting")]
                     .contains(&incoming.content()["execution_state"].as_str())
             {
-                failure = Some((ExecutionStatus::Failed, "kernel 已停止或正在重启".into()));
+                // A broadcast does not acknowledge this request or its side effects.
+                // Keep the durable replay guard until explicit recovery.
+                failure = Some((
+                    ExecutionStatus::Unknown,
+                    "kernel 已停止或正在重启；尚未确认本次执行结果".into(),
+                ));
                 break;
             }
             if incoming.parent() != Some(id.as_str()) {
@@ -420,11 +641,31 @@ impl KernelRuntime {
             }
             if incoming.channel() == "iopub" {
                 if incoming.kind() == "colab_request" {
-                    failure = Some((
-                        ExecutionStatus::Unknown,
-                        "收到 Colab 专用请求；当前执行未配置专用处理器".into(),
+                    let auth_type = incoming.content()["request"]["authType"].as_str();
+                    let colab_id = &incoming.envelope["metadata"]["colab_msg_id"];
+                    if input.is_none()
+                        || pending_input.is_some()
+                        || idle
+                        || auth_type.is_none()
+                        || !(colab_id.as_u64().is_some()
+                            || colab_id.as_str().is_some_and(|id| !id.is_empty()))
+                    {
+                        failure = Some((
+                            ExecutionStatus::Unknown,
+                            "Colab 专用请求无效或未配置处理器".into(),
+                        ));
+                        break;
+                    }
+                    pending_input = Some((
+                        PendingInput::Colab(ColabRequest {
+                            id: incoming.id().to_owned(),
+                            colab_msg_id: colab_id.clone(),
+                            auth_type: auth_type.unwrap().into(),
+                        }),
+                        incoming.envelope["header"].clone(),
                     ));
-                    break;
+                    activity = Instant::now();
+                    continue;
                 }
                 if !idle {
                     activity = Instant::now();
@@ -462,12 +703,35 @@ impl KernelRuntime {
                 }
                 reply = Some(incoming.content().clone());
             } else if incoming.channel() == "stdin" && incoming.kind() == "input_request" {
-                failure = Some((
-                    ExecutionStatus::Unknown,
-                    "非交互执行收到 stdin 请求；未自动回复".into(),
+                if input.is_none() {
+                    failure = Some((
+                        ExecutionStatus::Unknown,
+                        "非交互执行收到 stdin 请求；未自动回复".into(),
+                    ));
+                    break;
+                }
+                let prompt = incoming.content()["prompt"].as_str();
+                let password = incoming.content()["password"].as_bool();
+                if pending_input.is_some() || prompt.is_none() || password.is_none() || idle {
+                    failure = Some((ExecutionStatus::Unknown, "无效或重叠的 stdin 请求".into()));
+                    break;
+                }
+                pending_input = Some((
+                    PendingInput::Standard(InputRequest {
+                        id: incoming.id().to_owned(),
+                        prompt: prompt.unwrap().to_owned(),
+                        password: password.unwrap(),
+                    }),
+                    incoming.envelope["header"].clone(),
                 ));
-                break;
+                activity = Instant::now();
             }
+        }
+        if failure.is_none() && pending_input.is_some() {
+            failure = Some((
+                ExecutionStatus::Unknown,
+                "执行结束时仍有未回复的 stdin 请求".into(),
+            ));
         }
         if failure.is_none() {
             for change in outputs.synthesize_error(reply.as_ref().unwrap())? {
@@ -494,6 +758,7 @@ impl KernelRuntime {
             outputs: outputs.outputs,
             reply,
             error,
+            timed_out,
             history_error: None,
         })
     }
@@ -508,7 +773,7 @@ impl Drop for KernelRuntime {
     }
 }
 fn set_timeouts(
-    stream: &mut MaybeTlsStream<TcpStream>,
+    stream: &mut MaybeTlsStream<crate::websocket_transport::Stream>,
     read: Duration,
     write: Duration,
 ) -> Result<()> {

@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "google_auth_version": "2.62.2",
+  "network_calls": 0,
+  "host_certificates_read": false,
+  "selection_cases": [
+    {
+      "mode": "none",
+      "root_exists": false,
+      "bundle_exists": false,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "none",
+      "root_exists": true,
+      "bundle_exists": false,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "none",
+      "root_exists": false,
+      "bundle_exists": true,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "none",
+      "root_exists": true,
+      "bundle_exists": true,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "strict",
+      "root_exists": false,
+      "bundle_exists": false,
+      "enabled": null,
+      "error": true
+    },
+    {
+      "mode": "strict",
+      "root_exists": true,
+      "bundle_exists": false,
+      "enabled": null,
+      "error": true
+    },
+    {
+      "mode": "strict",
+      "root_exists": false,
+      "bundle_exists": true,
+      "enabled": null,
+      "error": true
+    },
+    {
+      "mode": "strict",
+      "root_exists": true,
+      "bundle_exists": true,
+      "enabled": true,
+      "error": false
+    },
+    {
+      "mode": "default",
+      "root_exists": false,
+      "bundle_exists": false,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "default",
+      "root_exists": true,
+      "bundle_exists": false,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "default",
+      "root_exists": false,
+      "bundle_exists": true,
+      "enabled": false,
+      "error": false
+    },
+    {
+      "mode": "default",
+      "root_exists": true,
+      "bundle_exists": true,
+      "enabled": true,
+      "error": false
+    }
+  ],
+  "adapter_cases": [
+    {
+      "mode": "strict",
+      "outcome": "ok",
+      "http_fallbacks": 0,
+      "raised": false
+    },
+    {
+      "mode": "strict",
+      "outcome": "status_503",
+      "http_fallbacks": 0,
+      "raised": false
+    },
+    {
+      "mode": "strict",
+      "outcome": "tls_error",
+      "http_fallbacks": 0,
+      "raised": true
+    },
+    {
+      "mode": "default",
+      "outcome": "ok",
+      "http_fallbacks": 0,
+      "raised": false
+    },
+    {
+      "mode": "default",
+      "outcome": "status_503",
+      "http_fallbacks": 1,
+      "raised": false
+    },
+    {
+      "mode": "default",
+      "outcome": "tls_error",
+      "http_fallbacks": 1,
+      "raised": false
+    }
+  ],
+  "port_cases": [
+    {
+      "authority": "metadata.google.internal:80",
+      "https_port": 80
+    },
+    {
+      "authority": "[::1]:80",
+      "https_port": 80
+    },
+    {
+      "authority": "metadata.google.internal",
+      "https_port": 443
+    }
+  ],
+  "metadata_source_sha256": "1e485a5fcccfffb854fd163043c384b62635fb8858dc985a8271d7f38aa3ebad",
+  "source_sha256": "fd94a959f8777d66e2c5c9fa98507dec937e4a78ba33a30f6572871243791363",
+  "probe_sha256": "f990f2b46e0613a3a8c3cf1f811ecd08768d1595b102f64d0bfce1cc9fba3e65"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "binary_sha256": "b2315bfd39ce5ddf850043569551275939a2eeb6a58089283fe6ce7231f21dc1",
+  "probe_sha256": "795d361a9cc0b5c86d32d65abd33624171b0c45bb5fd03d53129131bec8e7cae",
+  "created_sessions": 0,
+  "cleanup": "not_allocated",
+  "execute_requested": false,
+  "cleanup_only": false,
+  "official_source": {
+    "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+    "path": "jupyter_kernel_client/utils.py",
+    "sha256": "98ffaef260265d0ced4cd7b849f5d9374515027acbe7a8db7b6feb614d7c49d4"
+  },
+  "credentials_ready": true,
+  "preflight_only": true,
+  "validator_source_sha256": "b9a6f8bc791c6972e446d03bd4da1ddc3854680ae89ac5aaab25d38d8bdc96a4"
+}

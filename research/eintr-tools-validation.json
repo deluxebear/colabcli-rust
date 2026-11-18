@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "scope": "macOS complete Python tools, synthetic/local fixtures only",
+  "total_tests": 153,
+  "passed_tests": 152,
+  "skipped_tests": 1,
+  "failed_tests": 0,
+  "linux_harness_tests": 4,
+  "drive_preparation_tests": 18,
+  "log_sha256": "ac126afb6cc583a70f7d53f16b9a4ce555b6aad605f090b82573948c7896bf98",
+  "input_sha256": {
+    "tools/drive_validation_payload.py": "e0acd6eff333f3fe71d9fd13e42a8058419f537683b431a32274754b1f847819",
+    "tools/tests/test_live_drive_preparation.py": "1dda7472aabd06121c24c55fb8983039ec770e2e1a88dd0c661bab340ad50431",
+    "tools/linux-validation/validate.py": "e360fd3f27ac08aa2f95f8254f38f5271b10965905854574deb840652a421c45",
+    "tools/tests/test_linux_validation.py": "9422fe5a837d1336450d077773bf46d90ea2bc191c981791295228d2bd29910f",
+    "tools/drive_api_validation.py": "718be89a6d4e92eb53ab623108b8714d99dd8982d54d3a0643ce7e72b20b25d3",
+    "tools/validate_live_drive.py": "3b23c49be677dae6da136e8a9cc3c8f7d8063d1b8af63800ad99c87098ffb4c4",
+    "tools/prepare_live_drive_validation.py": "427c921be13ca09ba2fcf290be5f13072a14cfa78714fa64eb6e2c379e85ccbd"
+  },
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "live_google_accepted": false
+}

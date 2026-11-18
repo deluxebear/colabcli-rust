@@ -48,6 +48,10 @@ CLI 传入 `extra_params` 和 `session`，但锁定依赖构造代码没有消�
 **设计**：Rust 明确设置消息 session 和 WS session_id，并记录实际值。
 **待验证**：服务端是否要求特定 session 身份；重连后状态能否一致恢复。
 
+后续动态证据：[构造探针](../tools/probe_kernel_session.py) 实际运行固定 KernelClient、KernelHttpManager、KernelWebSocketClient 的构造及 URL 生成路径，分别不传 session、传入两个不同持久化值。三组均确认传入值未被消费，消息头使用新 WSSession 身份，query 与消息头一致；extra_params 未进入 query，而显式 token query 与 runtime header 保留。REST 响应、WebSocket 和线程边界使用替身，禁用实际网络；记录见 [kernel-session-probe.json](../research/kernel-session-probe.json)。运行时必须使用 Python -S，避免已安装 CLI 的 .pth 在导入前预载另一份依赖；探针对所有固定包 Python 源码核对哈希，并确认实际导入路径。
+
+Rust 的 loopback 回归直接比较持久化 session、两次握手 query 和执行消息头，确认三者一致且重连复用。此前 [单次真实 CPU 验收](15-live-cpu-validation.md) 已验证跨命令变量保留；该历史结果没有捕获真实 query 身份，也不能证明服务器必须使用某个特定值。由此澄清固定依赖的传递行为，服务端身份限制仍不作超出证据的推定。
+
 ## 3. Jupyter REST 表面
 
 以下是依赖直接使用的 HTTP 接口，不是推测出的私有 RPC：[R03][R26]
@@ -288,3 +292,5 @@ proxy bridge 读写异常被原实现吞掉并返回 0；完整兼容需明确�
 [R28]: https://github.com/googlecolab/jupyter-kernel-client/blob/f18e982c3265df5e923aa9def101ab3fd737e139/jupyter_kernel_client/wsclient.py#L1253-L1271
 [R29]: https://github.com/googlecolab/jupyter-kernel-client/blob/f18e982c3265df5e923aa9def101ab3fd737e139/jupyter_kernel_client/wsclient.py#L910-L982
 [R30]: https://github.com/googlecolab/google-colab-cli/blob/02d2321c38dd215b7804eebf78b61d98b856bcd3/src/colab_cli/commands/execution.py#L266-L291
+
+后续 [真实 DEFAULT 采集](67-live-codec-capture-and-replay.md) 已完成一台 CPU 的 TEXT、含非 UTF-8/空 buffer 的 BINARY、双 decoder 对照及脱敏样本重放。原始与脱敏后重新编码的字节分别记录；它补齐 U06，不外推其他 V05 的时序、故障和平台要求。

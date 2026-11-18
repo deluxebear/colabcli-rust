@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "scope": "Synthetic credentials, loopback-only HTTP and fake CLI; no real Google/keyring/cloud requests",
+  "api_tests": 17,
+  "executor_tests": 23,
+  "full_python_tests": 148,
+  "passed_tests": 147,
+  "skipped_tests": 1,
+  "failed_tests": 0,
+  "real_network_calls": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "default_entry_remains_offline": true,
+  "live_validation_passed": false,
+  "permanent_deletion_verified": false,
+  "log_sha256": "60456c88a495308dae5683f4ff564c78d12a1e310d9127367bccab18d4c56f14",
+  "input_sha256": {
+    "tools/drive_api_validation.py": "718be89a6d4e92eb53ab623108b8714d99dd8982d54d3a0643ce7e72b20b25d3",
+    "tools/validate_live_drive.py": "3b23c49be677dae6da136e8a9cc3c8f7d8063d1b8af63800ad99c87098ffb4c4",
+    "tools/tests/test_drive_api_validation.py": "3c11094885195c37460500280a9d96e81fea2988c98c8cc00f68246f39e51d86",
+    "tools/tests/test_live_drive_executor.py": "794c472e465f50dcb904d44e38bc27de1fcdfe4d077c11d92bd3ee4ac1ceb96a",
+    "tools/prepare_live_drive_validation.py": "427c921be13ca09ba2fcf290be5f13072a14cfa78714fa64eb6e2c379e85ccbd",
+    "tools/drive_validation_payload.py": "2b94fac2301d37e7fe3e92a0bb1f17db2e6af6cc7ae546a9db5fc3aa9427f49c"
+  },
+  "limitations": [
+    "Only independently byte-verified object IDs can form a cleanup snapshot",
+    "Snapshot stays in memory; cleanup-only cannot recreate full acceptance",
+    "Trashed and missing do not prove permanent deletion",
+    "No real Drive ownership, persistence, cross-account or long-lived refresh acceptance"
+  ]
+}

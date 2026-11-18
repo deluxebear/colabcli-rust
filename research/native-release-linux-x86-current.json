@@ -1,0 +1,50 @@
+{
+  "version": "0.1.0",
+  "target": "x86_64-unknown-linux-gnu",
+  "release_binary_size": 12148128,
+  "release_binary_sha256": "788f29b42a9b450ecde9f2bf82788d57c07663851952458b453ad182647c7a32",
+  "debug_binary_size": 179598832,
+  "packaged_version_output": "Version: 0.1.0",
+  "executable_adc": {
+    "disabled_exit_code": 1,
+    "enabled_exit_code": 0,
+    "expired_exit_code": 1,
+    "sts_requests": 1,
+    "expiry_rejected": true
+  },
+  "aws_adc": {
+    "exit_code": 0,
+    "sts_requests": 1,
+    "signature_verified": true
+  },
+  "checks": [
+    "packaged Drive metadata/clear and consent registration/hint",
+    "packaged merged JSON account failures",
+    "packaged root/local account validation preserves registry",
+    "packaged account list/current projections",
+    "packaged offline native readiness remains unknown",
+    "native release build",
+    "host native architecture",
+    "byte-identical packaged executable",
+    "manifest size and SHA-256",
+    "SHA256SUMS for all candidate files",
+    "byte-identical upstream and Rust dependency notices",
+    "packaged executable version",
+    "packaged account aliases help",
+    "packaged joint account flow options help",
+    "packaged shell completion scripts",
+    "packaged executable ADC opt-in and loopback STS exchange",
+    "packaged executable ADC expiry during execution",
+    "packaged AWS ADC SigV4 and loopback STS"
+  ],
+  "source": "local cargo build --release --locked; tools/validate_native_release.py",
+  "download_base_url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0",
+  "published": false,
+  "limitations": [
+    "single host validation only",
+    "GitHub workflow not run",
+    "no remote release download",
+    "no platform signing or notarization verification",
+    "no real IdP or Google authentication"
+  ]
+}

@@ -138,3 +138,12 @@ pub fn encode(message: &KernelMessage) -> Result<Frame> {
 pub fn message_id() -> String {
     crate::colab_api::notebook_identity()[..36].replace('_', "-")
 }
+
+/// jupyter_client.session.new_id: 16 random bytes rendered as 8 + 24 hex characters.
+pub fn session_id() -> String {
+    use rand::RngCore;
+    let mut bytes = [0u8; 16];
+    rand::thread_rng().fill_bytes(&mut bytes);
+    let hex: String = bytes.iter().map(|byte| format!("{byte:02x}")).collect();
+    format!("{}-{}", &hex[..8], &hex[8..])
+}

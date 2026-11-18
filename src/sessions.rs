@@ -2,12 +2,16 @@
 use crate::{
     Error, Result,
     colab_api::{Assignment, ColabApi, RuntimeOptions, notebook_identity},
+    jupyter::runtime::KernelRest,
     models::{ProfileId, Registry, SessionState, Sessions},
     storage::{FileLock, Storage},
 };
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Map;
+use std::{path::PathBuf, sync::Arc, time::Duration};
+
+pub const PARALLEL_RELEASE_JOURNAL: &str = "control_parallel_release.json";
 
 #[derive(Debug, Serialize)]
 pub struct SessionView {
@@ -25,6 +29,10 @@ pub struct SessionView {
     pub kernel_start_pending: bool,
     pub kernel_restart_pending: bool,
     pub last_execution: Option<(String, Option<String>, String)>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub automation_pending: Option<serde_json::Value>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub drive_probe: Option<serde_json::Value>,
 }
 #[derive(Serialize, Deserialize)]
 #[serde(tag = "operation", rename_all = "snake_case")]
@@ -36,29 +44,81 @@ enum Operation {
         session: Option<Box<SessionState>>,
         #[serde(default)]
         owner_id: Option<String>,
+        #[serde(default = "operation_was_attempted")]
+        post_attempted: bool,
     },
     Release {
         name: String,
         endpoint: String,
         #[serde(default)]
         event_id: Option<String>,
+        #[serde(default = "operation_was_attempted")]
+        attempted: bool,
     },
 }
+fn operation_was_attempted() -> bool {
+    true
+}
 
+struct ReleaseJournal {
+    path: PathBuf,
+    pending: Option<Operation>,
+    allocating_endpoint: Option<String>,
+}
+
+impl ReleaseJournal {
+    fn check_endpoint(&self, endpoint: &str) -> Result<()> {
+        if self.allocating_endpoint.as_deref() == Some(endpoint) {
+            return Err(Error::ControlPending);
+        }
+        Ok(())
+    }
+}
+
+#[derive(Clone)]
 pub struct SessionService {
     storage: Storage,
     profile: ProfileId,
     api: ColabApi,
+    expected_endpoint: Option<String>,
 }
 impl SessionService {
+    pub(crate) fn profile(&self) -> &ProfileId {
+        &self.profile
+    }
+    pub(crate) fn storage(&self) -> &Storage {
+        &self.storage
+    }
     pub fn new(storage: Storage, profile: ProfileId, api: ColabApi) -> Self {
         Self {
             storage,
             profile,
             api,
+            expected_endpoint: None,
         }
     }
-    fn guard(&self) -> Result<FileLock> {
+    /// Bind runtime operations to a captured endpoint while holding the account lock.
+    /// The condition is checked before refresh and again after server reconciliation.
+    pub fn with_expected_endpoint(mut self, expected: Option<String>) -> Self {
+        self.expected_endpoint = expected;
+        self
+    }
+    fn check_expected_endpoint(&self, state: &SessionState) -> Result<()> {
+        if self
+            .expected_endpoint
+            .as_ref()
+            .is_some_and(|expected| expected != &state.endpoint)
+        {
+            return Err(Error::KernelProtocol(
+                "会话 endpoint 与预期不匹配；未连接运行时",
+            ));
+        }
+        Ok(())
+    }
+    pub(crate) fn control_api(&self) -> ColabApi {
+        self.api.clone()
+    }
+    fn guard(&self) -> Result<Arc<FileLock>> {
         let guard = self.storage.profile_lock(&self.profile)?;
         if self.storage.path("account-transaction.json")?.exists() {
             return Err(Error::MigrationPending);
@@ -71,11 +131,46 @@ impl SessionService {
         if !registry.accounts.contains_key(&self.profile) {
             return Err(Error::AccountMissing(self.profile.to_string()));
         }
-        Ok(guard)
+        Ok(Arc::new(guard))
     }
     fn journal(&self) -> Result<std::path::PathBuf> {
         self.storage
             .profile_path(&self.profile, "control_operation.json")
+    }
+    // Caller holds the lifecycle lock. A different existing session may be released
+    // without overwriting the notebook identity needed to reconcile an allocation.
+    fn release_journal(&self, name: &str) -> Result<ReleaseJournal> {
+        let path = self.journal()?;
+        let pending: Option<Operation> = self.storage.read(&path)?;
+        let parallel = self
+            .storage
+            .profile_path(&self.profile, PARALLEL_RELEASE_JOURNAL)?;
+        if let Some(Operation::Allocate {
+            name: allocating,
+            session,
+            ..
+        }) = &pending
+        {
+            if allocating != name {
+                let pending: Option<Operation> = self.storage.read(&parallel)?;
+                if matches!(pending, Some(Operation::Allocate { .. })) {
+                    return Err(Error::ControlPending);
+                }
+                return Ok(ReleaseJournal {
+                    path: parallel,
+                    pending,
+                    allocating_endpoint: session.as_ref().map(|state| state.endpoint.clone()),
+                });
+            }
+        }
+        if parallel.exists() {
+            return Err(Error::ControlPending);
+        }
+        Ok(ReleaseJournal {
+            path,
+            pending,
+            allocating_endpoint: None,
+        })
     }
     // Caller holds the lifecycle lock. Also coordinate with ordinary session writers.
     fn update(&self, change: impl FnOnce(&mut Sessions) -> Result<()>) -> Result<()> {
@@ -108,15 +203,23 @@ impl SessionService {
             ));
         }
         let _guard = self.guard()?;
+        if self
+            .storage
+            .profile_path(&self.profile, PARALLEL_RELEASE_JOURNAL)?
+            .exists()
+        {
+            return Err(Error::ControlPending);
+        }
         let path = self.journal()?;
         let pending: Option<Operation> = self.storage.read(&path)?;
-        let (name, nbh, session, owner_id) = match pending {
+        let (name, nbh, session, owner_id, mut post_attempted) = match pending {
             Some(Operation::Allocate {
                 name: old,
                 nbh,
                 options: old_options,
                 session,
                 owner_id: old_owner,
+                post_attempted,
             }) if (name.is_none_or(|n| n == old)
                 || (session.is_none() && old_owner.is_none() && owner_id.is_none()))
                 && options == old_options
@@ -141,17 +244,18 @@ impl SessionService {
                             options: old_options,
                             session: None,
                             owner_id: None,
+                            post_attempted,
                         },
                     )?;
                 }
-                (new_name, nbh, session, old_owner)
+                (new_name, nbh, session, old_owner, post_attempted)
             }
             Some(_) => return Err(Error::ControlPending),
             None => {
                 let nbh = notebook_identity();
                 let name = name
                     .map(str::to_owned)
-                    .unwrap_or_else(|| format!("session-{}", &nbh[..8]));
+                    .unwrap_or_else(|| nbh[..6].to_owned());
                 if self.storage.sessions(&self.profile)?.contains_key(&name) {
                     return Err(Error::SessionExists(name));
                 }
@@ -163,16 +267,47 @@ impl SessionService {
                         options: options.clone(),
                         session: None,
                         owner_id: owner_id.map(str::to_owned),
+                        post_attempted: false,
                     },
                 )?;
-                (name, nbh, None, owner_id.map(str::to_owned))
+                (name, nbh, None, owner_id.map(str::to_owned), false)
             }
         };
         let event_id = format!("allocate:{nbh}");
         let session = match session {
             Some(session) => *session,
             None => {
-                let assignment = self.api.assign(&nbh, &options)?;
+                let assignment = self.api.under_account_guard(&_guard).assign_checkpointed(
+                    &nbh,
+                    &options,
+                    post_attempted,
+                    || {
+                        if !post_attempted {
+                            self.storage.write(
+                                &path,
+                                &Operation::Allocate {
+                                    name: name.clone(),
+                                    nbh: nbh.clone(),
+                                    options: options.clone(),
+                                    session: None,
+                                    owner_id: owner_id.clone(),
+                                    post_attempted: true,
+                                },
+                            )?;
+                            post_attempted = true;
+                        }
+                        Ok(())
+                    },
+                );
+                let assignment = match assignment {
+                    Ok(assignment) => assignment,
+                    Err(failure) => {
+                        if failure.definitive_refusal {
+                            self.storage.remove(&path)?;
+                        }
+                        return Err(failure.error);
+                    }
+                };
                 let proxy = &assignment.runtime_proxy_info;
                 let mut session = SessionState {
                     name: name.clone(),
@@ -203,9 +338,15 @@ impl SessionService {
                     extra: Map::new(),
                 };
                 if let Some(owner) = &owner_id {
-                    session
-                        .extra
-                        .insert("run_owner".into(), serde_json::json!(owner));
+                    session.extra.insert(
+                        if owner.starts_with("ssh:") {
+                            "ssh_owner"
+                        } else {
+                            "run_owner"
+                        }
+                        .into(),
+                        serde_json::json!(owner),
+                    );
                 }
                 // If this write fails, the original notebook identity still permits reconciliation.
                 self.storage.write(
@@ -216,6 +357,7 @@ impl SessionService {
                         options,
                         session: Some(Box::new(session.clone())),
                         owner_id,
+                        post_attempted,
                     },
                 )?;
                 session
@@ -240,7 +382,7 @@ impl SessionService {
     }
     pub fn status(&self, name: Option<&str>) -> Result<Vec<SessionView>> {
         let _guard = self.guard()?;
-        let assignments = self.sync_locked()?;
+        let assignments = self.sync_locked(&_guard)?;
         let sessions = self.storage.sessions(&self.profile)?;
         if let Some(name) = name {
             let session = sessions
@@ -259,9 +401,9 @@ impl SessionService {
         }
         Ok(views)
     }
-    fn sync_locked(&self) -> Result<Vec<Assignment>> {
+    fn sync_locked(&self, guard: &Arc<FileLock>) -> Result<Vec<Assignment>> {
         // Never prune on a transport, HTTP or schema failure.
-        let assignments = self.api.assignments()?;
+        let assignments = self.api.under_account_guard(guard).assignments()?;
         self.update(|sessions| {
             for session in sessions
                 .values()
@@ -325,17 +467,19 @@ impl SessionService {
         let session = sessions
             .get(&name)
             .ok_or_else(|| Error::SessionMissing(name.clone()))?;
+        self.check_expected_endpoint(session)?;
         if session.token.is_empty()
             || session
                 .token_expires_at
                 .is_none_or(|expiry| expiry <= Utc::now() + chrono::Duration::minutes(5))
         {
-            self.sync_locked()?;
+            self.sync_locked(&_guard)?;
         }
         let sessions = self.storage.sessions(&self.profile)?;
         let state = sessions
             .get(&name)
             .ok_or_else(|| Error::SessionMissing(name.clone()))?;
+        self.check_expected_endpoint(state)?;
         let checkpoint = |updated: SessionState| {
             if updated.name != name || updated.endpoint != state.endpoint {
                 return Err(Error::KernelProtocol("checkpoint 不能切换会话或 endpoint"));
@@ -367,6 +511,7 @@ impl SessionService {
             return Err(Error::KernelProtocol("等待执行租约期间 VM 已被替换"));
         }
         let generation = state.extra.get("kernel_generation").cloned();
+        let checkpoint_extra = std::cell::RefCell::new(state.extra.clone());
         let checkpoint = |updated: SessionState| {
             if updated.name != state.name || updated.endpoint != state.endpoint {
                 return Err(Error::KernelProtocol("checkpoint 不能切换会话或 endpoint"));
@@ -375,6 +520,8 @@ impl SessionService {
             if self.journal()?.exists() {
                 return Err(Error::ControlPending);
             }
+            let mut previous = checkpoint_extra.borrow_mut();
+            let next_extra = updated.extra.clone();
             self.update(|sessions| {
                 let current = sessions
                     .get_mut(&state.name)
@@ -391,7 +538,27 @@ impl SessionService {
                 current.session_id = updated.session_id;
                 current.running = updated.running;
                 current.last_execution = updated.last_execution;
-                for key in ["kernel_start_pending", "kernel_restart_pending"] {
+                for key in [
+                    "kernel_start_pending",
+                    "kernel_restart_pending",
+                    "execution_pending",
+                    "automation_pending",
+                    "automation_last",
+                    "drive_probe",
+                    "drive_plan",
+                    "drive_mounts",
+                ] {
+                    // An unchanged field is not owned by this checkpoint.
+                    // A different writer may have added or advanced a recovery
+                    // record since this execution took its snapshot.
+                    if updated.extra.get(key) == previous.get(key) {
+                        continue;
+                    }
+                    if current.extra.get(key) != previous.get(key) {
+                        return Err(Error::KernelProtocol(
+                            "恢复记录已被其他操作修改；没有覆盖旧快照",
+                        ));
+                    }
                     if let Some(value) = updated.extra.get(key) {
                         current.extra.insert(key.into(), value.clone());
                     } else {
@@ -399,7 +566,9 @@ impl SessionService {
                     }
                 }
                 Ok(())
-            })
+            })?;
+            *previous = next_extra;
+            Ok(())
         };
         action(&state, &checkpoint)
     }
@@ -415,8 +584,12 @@ impl SessionService {
     ) -> Result<Option<String>> {
         let endpoint = {
             let _guard = self.guard()?;
-            let path = self.journal()?;
-            let pending: Option<Operation> = self.storage.read(&path)?;
+            let mut journal = self.release_journal(name)?;
+            let pending = journal.pending.take();
+            let attempted = match &pending {
+                Some(Operation::Release { attempted, .. }) => *attempted,
+                _ => false,
+            };
             let endpoint = match pending {
                 Some(Operation::Allocate {
                     name: old,
@@ -425,13 +598,14 @@ impl SessionService {
                     ..
                 }) if old == name && owner_id.as_deref() == Some(owner) => {
                     session.map(|s| s.endpoint).ok_or(Error::Run(
-                        "分配结果未知；先用同一账户和参数 new 调和，再 run-cleanup",
+                        "分配结果未知；先用同一账户和参数 new 调和，再执行对应资源清理",
                     ))?
                 }
                 Some(Operation::Release {
                     name: old,
                     endpoint,
                     event_id,
+                    ..
                 }) if old == name
                     && (known_endpoint == Some(endpoint.as_str())
                         || event_id.as_deref()
@@ -443,19 +617,28 @@ impl SessionService {
                 None => match known_endpoint {
                     Some(endpoint) => endpoint.into(),
                     None => match self.storage.sessions(&self.profile)?.get(name).filter(|s| {
-                        s.extra.get("run_owner").and_then(serde_json::Value::as_str) == Some(owner)
+                        s.extra
+                            .get(if owner.starts_with("ssh:") {
+                                "ssh_owner"
+                            } else {
+                                "run_owner"
+                            })
+                            .and_then(serde_json::Value::as_str)
+                            == Some(owner)
                     }) {
                         Some(session) => session.endpoint.clone(),
                         None => return Ok(None),
                     },
                 },
             };
+            journal.check_endpoint(&endpoint)?;
             self.storage.write(
-                &path,
+                &journal.path,
                 &Operation::Release {
                     name: name.into(),
                     endpoint: endpoint.clone(),
                     event_id: Some(format!("run-release:{owner}")),
+                    attempted,
                 },
             )?;
             endpoint
@@ -465,51 +648,114 @@ impl SessionService {
     }
     pub fn stop_if_endpoint(&self, name: &str, expected: Option<&str>) -> Result<()> {
         let _guard = self.guard()?;
-        let path = self.journal()?;
-        let pending: Option<Operation> = self.storage.read(&path)?;
-        let (endpoint, event_id) = match pending {
+        self.stop_locked(name, expected, _guard, None)
+    }
+
+    /// Select and stop an existing session against one server snapshot under the same lock.
+    pub fn stop_resolved(
+        &self,
+        resolve: impl FnOnce(Vec<String>, usize) -> Result<String>,
+    ) -> Result<()> {
+        let guard = self.guard()?;
+        let before = self.storage.sessions(&self.profile)?;
+        let assignments = if before.is_empty() {
+            Vec::new()
+        } else {
+            self.sync_locked(&guard)?
+        };
+        let sessions = self.storage.sessions(&self.profile)?;
+        let pruned = before
+            .keys()
+            .filter(|name| !sessions.contains_key(*name))
+            .count();
+        let name = resolve(sessions.keys().cloned().collect(), pruned)?;
+        let state = sessions
+            .get(&name)
+            .ok_or_else(|| Error::SessionMissing(name.clone()))?;
+        self.stop_locked(&name, Some(&state.endpoint), guard, Some(assignments))
+    }
+
+    fn stop_locked(
+        &self,
+        name: &str,
+        expected: Option<&str>,
+        _guard: Arc<FileLock>,
+        assignments: Option<Vec<Assignment>>,
+    ) -> Result<()> {
+        let mut journal = self.release_journal(name)?;
+        let pending = journal.pending.take();
+        let local_session = self.storage.sessions(&self.profile)?.remove(name);
+        let (endpoint, event_id, attempted) = match pending {
             Some(Operation::Release {
                 name: old,
                 endpoint,
                 event_id,
+                attempted,
             }) if old == name => (
                 endpoint,
                 event_id.unwrap_or_else(crate::jupyter::codec::message_id),
+                attempted,
             ),
             Some(_) => return Err(Error::ControlPending),
             None => {
-                let endpoint = self
-                    .storage
-                    .sessions(&self.profile)?
-                    .get(name)
+                let endpoint = local_session
+                    .as_ref()
                     .ok_or_else(|| Error::SessionMissing(name.into()))?
                     .endpoint
                     .clone();
-                (endpoint, crate::jupyter::codec::message_id())
+                (endpoint, crate::jupyter::codec::message_id(), false)
             }
         };
         if expected.is_some_and(|expected| endpoint != expected) {
             return Err(Error::KernelProtocol(
-                "会话已被替换；拒绝释放不属于本次 run 的 endpoint",
+                "会话已被替换；拒绝释放不属于本次操作的 endpoint",
             ));
         }
+        journal.check_endpoint(&endpoint)?;
+        let path = journal.path;
+        let mut kernel_session =
+            local_session.filter(|state| state.endpoint == endpoint && state.kernel_id.is_some());
         self.storage.write(
             &path,
             &Operation::Release {
                 name: name.into(),
                 endpoint: endpoint.clone(),
                 event_id: Some(event_id.clone()),
+                attempted: true,
             },
         )?;
-        // After a lost POST response an explicit retry confirms absence before resending.
-        if self
-            .api
-            .assignments()?
-            .iter()
-            .any(|a| a.endpoint == endpoint)
-        {
-            self.api.unassign(&endpoint)?;
+        let api = self.api.under_account_guard(&_guard);
+        // A recovery must confirm remote presence. For a new release, the lookup only
+        // supplies current proxy credentials for best-effort kernel shutdown.
+        let mut should_unassign = true;
+        if attempted || kernel_session.is_some() {
+            match assignments.map_or_else(|| api.assignments(), Ok) {
+                Ok(assignments) => {
+                    let assignment = assignments.into_iter().find(|a| a.endpoint == endpoint);
+                    should_unassign = !attempted || assignment.is_some();
+                    if let Some((state, assignment)) = kernel_session.as_mut().zip(assignment) {
+                        state.url = assignment.runtime_proxy_info.url;
+                        state.token = assignment.runtime_proxy_info.token;
+                        if let Some(id) = state.kernel_id.as_deref() {
+                            let _ = KernelRest::new(state, Duration::from_secs(5))
+                                .and_then(|rest| rest.delete(id));
+                        }
+                    }
+                }
+                // Only the remote inventory is best-effort on a new release.
+                // Do not immediately retry failed credential acquisition at unassign.
+                Err(
+                    Error::ControlStatus(_)
+                    | Error::ControlTransport { .. }
+                    | Error::ControlProtocol(_),
+                ) if !attempted => {}
+                Err(error) => return Err(error),
+            }
         }
+        if should_unassign {
+            api.unassign(&endpoint)?;
+        }
+        drop(api);
         self.update(|sessions| {
             sessions.retain(|_, s| s.endpoint != endpoint);
             Ok(())
@@ -521,7 +767,57 @@ impl SessionService {
             serde_json::json!({"reason":"released"}),
             Some(&event_id),
         )?;
-        self.storage.remove(&path)
+        drop(_guard);
+        crate::drive_credentials::DriveCredentialService::new(
+            self.storage.clone(),
+            crate::auth::TokenClient::new()?,
+        )
+        .release_endpoint_leases(&self.profile, &endpoint)?;
+        let _guard = self.guard()?;
+        match self.storage.read::<Operation>(&path)? {
+            Some(Operation::Release {
+                endpoint: current,
+                event_id: Some(current_event),
+                ..
+            }) if current == endpoint && current_event == event_id => self.storage.remove(&path),
+            None => Ok(()),
+            _ => Err(Error::ControlPending),
+        }
+    }
+    pub fn cleanup_drive_leases(&self, endpoint: &str) -> Result<()> {
+        {
+            let _guard = self.guard()?;
+            if self
+                .api
+                .under_account_guard(&_guard)
+                .assignments()?
+                .iter()
+                .any(|assignment| assignment.endpoint == endpoint)
+            {
+                return Err(Error::OAuth("VM 仍存在；请先卸载 Drive 或释放 VM"));
+            }
+            self.update(|sessions| {
+                sessions.retain(|_, state| state.endpoint != endpoint);
+                Ok(())
+            })?;
+        }
+        crate::drive_credentials::DriveCredentialService::new(
+            self.storage.clone(),
+            crate::auth::TokenClient::new()?,
+        )
+        .release_endpoint_leases(&self.profile, endpoint)
+    }
+    /// Caller must hold the account lifecycle lock (e.g. with_session_checkpoints).
+    pub(crate) fn record_event_locked(
+        &self,
+        name: &str,
+        endpoint: Option<&str>,
+        kind: &str,
+        data: serde_json::Value,
+        event_id: Option<&str>,
+    ) -> Result<()> {
+        crate::history::History::new(self.storage.clone(), self.profile.clone())
+            .append_locked(name, endpoint, kind, data, event_id)
     }
     pub fn record_event(
         &self,
@@ -560,7 +856,7 @@ impl SessionService {
     }
     pub fn usage(&self) -> Result<crate::colab_api::Usage> {
         let _guard = self.guard()?;
-        self.api.usage()
+        self.api.under_account_guard(&_guard).usage()
     }
     fn view(
         &self,
@@ -585,6 +881,24 @@ impl SessionService {
             kernel_restart_pending: s.extra.get("kernel_restart_pending")
                 == Some(&serde_json::json!(true)),
             last_execution: s.last_execution.clone(),
+            automation_pending: s.extra.get("automation_pending").map(|value| {
+                let mut view = serde_json::Map::new();
+                for key in ["operation", "phase", "kernel_id", "msg_id"] {
+                    if let Some(value) = value.get(key) {
+                        view.insert(key.into(), value.clone());
+                    }
+                }
+                serde_json::Value::Object(view)
+            }),
+            drive_probe: s.extra.get("drive_probe").map(|value| {
+                let mut view = serde_json::Map::new();
+                for key in ["phase", "kernel_id"] {
+                    if let Some(value) = value.get(key) {
+                        view.insert(key.into(), value.clone());
+                    }
+                }
+                serde_json::Value::Object(view)
+            }),
         }
     }
     fn orphan(&self, a: &Assignment) -> Result<SessionView> {
@@ -603,6 +917,8 @@ impl SessionService {
             kernel_start_pending: false,
             kernel_restart_pending: false,
             last_execution: None,
+            automation_pending: None,
+            drive_probe: None,
         })
     }
 }
@@ -635,12 +951,12 @@ pub(crate) fn owns_name(storage: &Storage, profile: &ProfileId, name: &str) -> R
     if storage.sessions(profile)?.contains_key(name) {
         return Ok(true);
     }
-    let pending: Option<Operation> =
-        storage.read(&storage.profile_path(profile, "control_operation.json")?)?;
-    Ok(match pending {
-        Some(
-            Operation::Allocate { name: pending, .. } | Operation::Release { name: pending, .. },
-        ) => pending == name,
-        None => false,
-    })
+    for file in ["control_operation.json", PARALLEL_RELEASE_JOURNAL] {
+        let pending: Option<Operation> = storage.read(&storage.profile_path(profile, file)?)?;
+        if matches!(pending, Some(Operation::Allocate { name: pending, .. } | Operation::Release { name: pending, .. }) if pending == name)
+        {
+            return Ok(true);
+        }
+    }
+    Ok(false)
 }

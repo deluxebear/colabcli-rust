@@ -1,0 +1,2607 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "3e7518e53c0931caafc50f26b6b9109eb8915dbe699ce1d30f33b5d40a1ed600",
+  "rust_native_keyring_compiled": false,
+  "scope": "merged global/local account selection before offline account queries and mutations; no real credentials or cloud resources",
+  "normalization": [
+    "temporary HOME",
+    "JSON object field order and whitespace for file hashes",
+    "optional account defaults and nondeterministic timestamps"
+  ],
+  "cases": [
+    {
+      "name": "root-missing-list",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "list",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-current",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-use",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "use",
+          "work"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "env-missing-use",
+      "steps": [
+        [
+          "account",
+          "use",
+          "work"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-overrides-missing-env",
+      "steps": [
+        [
+          "-a",
+          "work",
+          "account",
+          "use",
+          "default"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Active account -> default\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Active account -> default\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-rename",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "rename",
+          "work",
+          "new-work"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-remove",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "remove",
+          "work",
+          "--force"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-default-drive",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "set-drive",
+          "adc",
+          "--default"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "local-ignored-default-drive",
+      "steps": [
+        [
+          "account",
+          "set-drive",
+          "adc",
+          "--default",
+          "-a",
+          "missing"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Default shared Drive account -> adc\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "adc",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Default shared Drive account -> adc\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "adc",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "local-missing-bind",
+      "steps": [
+        [
+          "account",
+          "set-drive",
+          "adc",
+          "-a",
+          "missing"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-and-local-bind",
+      "steps": [
+        [
+          "-a",
+          "default",
+          "account",
+          "set-drive",
+          "adc",
+          "-a",
+          "work"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Drive binding for 'work' -> adc\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "adc",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stdout": "[account] Drive binding for 'work' -> adc\n",
+          "stderr": "",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "adc",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-missing-local-valid",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "set-drive",
+          "adc",
+          "-a",
+          "work"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-valid-local-missing",
+      "steps": [
+        [
+          "-a",
+          "work",
+          "account",
+          "set-drive",
+          "adc",
+          "-a",
+          "missing"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "trimmed-env-current",
+      "steps": [
+        [
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "env",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "env",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "blank-env-current",
+      "steps": [
+        [
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "default",
+            "source": "active",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "self",
+            "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+            "history_dir": "<HOME>/config/accounts/default/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": false,
+              "storage": "none",
+              "detail": "no token file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "default",
+            "source": "active",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "self",
+            "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+            "history_dir": "<HOME>/config/accounts/default/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": false,
+              "storage": "none",
+              "detail": "no token file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "empty-root-falls-back-env",
+      "steps": [
+        [
+          "-a",
+          "",
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "env",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "env",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "empty-root-falls-back-active",
+      "steps": [
+        [
+          "-a",
+          "",
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "default",
+            "source": "active",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "self",
+            "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+            "history_dir": "<HOME>/config/accounts/default/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": false,
+              "storage": "none",
+              "detail": "no token file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "default",
+            "source": "active",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "self",
+            "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+            "history_dir": "<HOME>/config/accounts/default/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": false,
+              "storage": "none",
+              "detail": "no token file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-email-current",
+      "steps": [
+        [
+          "-a",
+          "FIXTURE@example.invalid",
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "flag",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "work",
+            "source": "flag",
+            "email": "fixture@example.invalid",
+            "user_id": "fixture-user",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_source": "bound:work",
+            "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+            "history_dir": "<HOME>/config/accounts/work/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+            "auth": {
+              "provider": "oauth2",
+              "ready": true,
+              "storage": "file",
+              "detail": "<HOME>/config/accounts/work/oauth_token.json"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "repeated-root-last-wins",
+      "steps": [
+        [
+          "-a",
+          "work",
+          "-a",
+          "adc",
+          "account",
+          "current",
+          "--json"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "adc",
+            "source": "flag",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "adc",
+            "drive_account": "work",
+            "drive_source": "default",
+            "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+            "history_dir": "<HOME>/config/accounts/adc/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+            "auth": {
+              "provider": "adc",
+              "ready": false,
+              "storage": "adc",
+              "detail": "missing ADC file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 0,
+          "stderr": "",
+          "json": {
+            "account": "adc",
+            "source": "flag",
+            "email": null,
+            "user_id": null,
+            "auth_provider": "adc",
+            "drive_account": "work",
+            "drive_source": "default",
+            "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+            "history_dir": "<HOME>/config/accounts/adc/history",
+            "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+            "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+            "auth": {
+              "provider": "adc",
+              "ready": false,
+              "storage": "adc",
+              "detail": "missing ADC file"
+            }
+          },
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": null
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "option-looking-literal",
+      "steps": [
+        [
+          "account",
+          "use",
+          "--",
+          "--account"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account '--account' not found (configured: default, work, adc). Run `colab account add --account` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[account] Account '--account' not found (configured: default, work, adc). Run `colab account add --account` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    },
+    {
+      "name": "root-error-before-invalid-rename",
+      "steps": [
+        [
+          "-a",
+          "missing",
+          "account",
+          "rename",
+          "work",
+          "../escape"
+        ]
+      ],
+      "forbidden_operations": [],
+      "official": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "rust": [
+        {
+          "exit_code": 1,
+          "stdout": "",
+          "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n",
+          "state": {
+            "active": "default",
+            "default_drive_account": "work",
+            "accounts": [
+              {
+                "account": "default",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "oauth2",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "work",
+                "email": "fixture@example.invalid",
+                "user_id": "fixture-user",
+                "auth_provider": "oauth2",
+                "drive_account": "default",
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              },
+              {
+                "account": "adc",
+                "email": null,
+                "user_id": null,
+                "auth_provider": "adc",
+                "drive_account": null,
+                "adc_credentials_file": null,
+                "migrated_legacy": false
+              }
+            ],
+            "files_sha256": {
+              "accounts/adc/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/dfs_credentials.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/default/sessions.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+              "accounts/work/oauth_token.json": "9f16c268a005183fe57a8ff4e1bd8c45c314a8df1eded0f7e6d8ddf08209736e",
+              "accounts/work/sessions.json": "6d9f5a7323a5168a9a856f33791bb718d455f64354987b8af8c8d2aa0194d1eb"
+            },
+            "pending_account_transaction": false
+          },
+          "failure_payload_unchanged": true
+        }
+      ],
+      "matched": true
+    }
+  ],
+  "summary": {
+    "cases": 21,
+    "matched": 21
+  }
+}

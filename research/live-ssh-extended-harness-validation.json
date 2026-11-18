@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:01:52.939828+08:00",
+  "scope": "Local safety regressions for extended opt-in SSH validation; synthetic CLI and owned local PTYs/processes, no cloud resources from these tests",
+  "passed": true,
+  "focused": {
+    "included_in_python_tools_run": true,
+    "tests_run": 20,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "python_tools": {
+    "command": "python3 -m unittest discover -s tools/tests",
+    "tests_run": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "platform": "macOS ARM64"
+  },
+  "new_cases": [
+    "PTY attachment on all three local streams",
+    "Echoed input alone cannot satisfy remote execution assertion",
+    "SIGTERM only after exact remote marker, with exit 143",
+    "EOF without marker rejects signal acceptance",
+    "Failed command diagnostics remain private at mode 0600 while VM cleanup still runs",
+    "PTY failure diagnostics are saved at mode 0600"
+  ],
+  "input_sha256": {
+    "tools/validate_live_ssh.py": "77d80788abeccbafdda56f8d2766a87d9ad94dbe1c6ad5580445432978eb7ff9",
+    "tools/tests/test_live_ssh_validation.py": "df8f6fae6003b4b57a3920958f271c1a8efeec522b045906aae6fd6532e7a5c7"
+  },
+  "limitations": [
+    "Synthetic local evidence does not prove Colab SSH acceptance",
+    "One Linux-only test skipped on macOS",
+    "No Rust source changed or Rust suites rerun"
+  ]
+}

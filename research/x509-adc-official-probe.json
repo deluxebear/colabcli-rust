@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "network_calls": 0,
+  "real_credentials_used": false,
+  "google_auth_version": "2.62.2",
+  "cases": [
+    {
+      "name": "leaf_only",
+      "passed": true,
+      "subject_certificate_count": 1,
+      "sts_received_certificate_paths": true
+    },
+    {
+      "name": "chain_with_leaf_first",
+      "passed": true,
+      "subject_certificate_count": 2,
+      "sts_received_certificate_paths": true
+    },
+    {
+      "name": "chain_without_leaf",
+      "passed": true,
+      "subject_certificate_count": 2,
+      "sts_received_certificate_paths": true
+    },
+    {
+      "name": "leaf_later_in_chain_rejected",
+      "passed": true
+    }
+  ],
+  "probe_sha256": "0295109d26102fa626f133627a595237a7e94149646f44605cd620f141f684a5",
+  "source_sha256": {
+    "google.auth.identity_pool": "a992098792ad5f4d0036a827d0e6c7789e4bca1da4a907596e51c58ea7c96292",
+    "google.auth.external_account": "a0dc3c4ff5f3df5f9f0d8b1b8e8c973c3adcc44d61692094756a16f2917ffc87",
+    "google.auth.transport._mtls_helper": "8e84491a9b32a9a2377f9cbce0d3bf6c844744d656b01a92171f2d7f013a91c7"
+  }
+}

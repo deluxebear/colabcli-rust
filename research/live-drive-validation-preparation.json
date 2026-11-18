@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "prepared": true,
+  "live_validation_passed": false,
+  "network_calls": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "compute_and_drive_profiles_differ": false,
+  "binary_sha256": "0d0b9d975f56e4aa36d0170aafe80bc2063dac3adb8cf6c70611cb208afea14c",
+  "payload_sha256": {
+    "create.py": "7a45282764019165b043c3c0a3b1475214763ebe02ca4291a221ff126d8059ff",
+    "readonly.py": "7290fd7798bd72bb2b17edeeef62ca557f8bcd1bdff7cad2a39078ece18f53cb",
+    "cleanup.py": "f22c4d4a56fc80ace250241034898fdd4f7f4c85c900d5afb29ef14fec7f90c2"
+  },
+  "review_steps": 14,
+  "workflow_executable": false,
+  "scope": "One new randomly named MyDrive directory and two known files; no recursive deletion",
+  "phases": [
+    "create_and_binary_readback_on_rw_mount",
+    "write_denied_and_bytes_unchanged_on_ro_mount",
+    "marker_and_content_verified_nonrecursive_cleanup_on_rw_mount"
+  ],
+  "limitations": [
+    "Preparation only; no CLI, keyring, token refresh or Google requests",
+    "No Drive identity, server durability, cross-account or refresh acceptance yet",
+    "Remote execution still requires an owned CPU, mount lifecycle and explicit cloud test scope",
+    "Unexpected entries, missing owner, changed bytes or unknown result require inspection; do not blindly replay"
+  ],
+  "cloud_write_authorization_received": true,
+  "reuses_same_authorized_directory": true
+}

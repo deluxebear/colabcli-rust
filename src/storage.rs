@@ -27,6 +27,18 @@ impl Storage {
             lock_timeout: Duration::from_secs(5),
         })
     }
+    /// Open an existing root without creating directories or changing permissions.
+    /// Callers such as diagnostics use only read/path operations on this handle.
+    pub fn open_existing(root: impl AsRef<Path>) -> Result<Self> {
+        let root = fs::canonicalize(root.as_ref()).map_err(|e| io(root.as_ref(), e))?;
+        if !root.is_dir() {
+            return Err(Error::UnsafePath(root));
+        }
+        Ok(Self {
+            root,
+            lock_timeout: Duration::from_secs(5),
+        })
+    }
     pub fn root(&self) -> &Path {
         &self.root
     }
@@ -143,7 +155,7 @@ impl Storage {
         let deadline = Instant::now() + self.lock_timeout;
         loop {
             match fs2::FileExt::try_lock_exclusive(&file) {
-                Ok(()) => return Ok(FileLock(file)),
+                Ok(()) => return Ok(FileLock(file, path.to_owned())),
                 Err(e) if e.kind() == std::io::ErrorKind::WouldBlock => {
                     if Instant::now() >= deadline {
                         return Err(Error::LockTimeout(path.into()));
@@ -190,7 +202,12 @@ impl Storage {
         self.write(&path, &sessions)
     }
 }
-pub struct FileLock(File);
+pub struct FileLock(File, PathBuf);
+impl FileLock {
+    pub(crate) fn protects_profile(&self, storage: &Storage, id: &ProfileId) -> Result<bool> {
+        Ok(self.1 == storage.path(Path::new("locks").join(format!("{id}.lifecycle.lock")))?)
+    }
+}
 impl Drop for FileLock {
     fn drop(&mut self) {
         let _ = fs2::FileExt::unlock(&self.0);

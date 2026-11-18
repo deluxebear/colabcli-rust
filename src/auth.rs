@@ -1,3 +1,7 @@
+mod adc;
+mod control;
+pub use control::ControlCredentials;
+pub(crate) mod quota;
 use crate::{
     Error, Result,
     credentials::TokenStore,
@@ -5,19 +9,17 @@ use crate::{
     models::{ProfileId, Secret},
     storage::Storage,
 };
+pub use adc::{
+    AdcProvider, AwsEnvironment, CertificateOptions, MetadataMtlsOptions, MetadataOptions,
+    RequestCredentials,
+};
 use base64::{Engine, engine::general_purpose::URL_SAFE_NO_PAD};
 use chrono::{DateTime, Utc};
 use rand::RngCore;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
-use std::{
-    fmt, fs,
-    io::Read,
-    path::{Path, PathBuf},
-    sync::Mutex,
-    time::Duration,
-};
+use std::{fmt, fs, io::Read, path::Path, time::Duration};
 use url::Url;
 
 pub const PUBLIC_SCOPES: [&str; 6] = [
@@ -103,7 +105,7 @@ impl OAuthClient {
         client.validate()?;
         Ok(client)
     }
-    fn validate(&self) -> Result<()> {
+    pub(crate) fn validate(&self) -> Result<()> {
         if self.client_id.trim().is_empty() {
             return Err(Error::OAuth("缺少 client_id"));
         }
@@ -197,7 +199,7 @@ fn constant_time_equal(a: &[u8], b: &[u8]) -> bool {
     use subtle::ConstantTimeEq;
     bool::from(a.ct_eq(b))
 }
-fn random_secret() -> Secret {
+pub(crate) fn random_secret() -> Secret {
     let mut bytes = [0u8; 32];
     rand::rngs::OsRng.fill_bytes(&mut bytes);
     Secret::new(URL_SAFE_NO_PAD.encode(bytes))
@@ -206,6 +208,7 @@ fn random_secret() -> Secret {
 #[derive(Clone)]
 pub struct TokenClient {
     client: reqwest::blocking::Client,
+    extra_roots: Vec<reqwest::Certificate>,
 }
 #[derive(Deserialize)]
 struct TokenResponse {
@@ -227,7 +230,24 @@ impl TokenClient {
             .timeout(Duration::from_secs(20))
             .build()
             .map_err(|_| Error::OAuthTransport)?;
-        Ok(Self { client })
+        Ok(Self {
+            client,
+            extra_roots: Vec::new(),
+        })
+    }
+    fn with_identity(&self, identity: reqwest::Identity) -> Result<Self> {
+        let mut builder = reqwest::blocking::Client::builder()
+            .redirect(reqwest::redirect::Policy::none())
+            .connect_timeout(Duration::from_secs(5))
+            .timeout(Duration::from_secs(20))
+            .identity(identity);
+        for root in &self.extra_roots {
+            builder = builder.add_root_certificate(root.clone());
+        }
+        Ok(Self {
+            client: builder.build().map_err(|_| Error::OAuthTransport)?,
+            extra_roots: self.extra_roots.clone(),
+        })
     }
     fn request(&self, uri: &str, form: &[(String, String)]) -> Result<TokenResponse> {
         let uri = Url::parse(uri).map_err(|_| Error::OAuth("token URI 无效"))?;
@@ -241,7 +261,7 @@ impl TokenClient {
         if !response.status().is_success() {
             return Err(Error::OAuthStatus(response.status().as_u16()));
         }
-        let mut body = Vec::new();
+        let mut body = zeroize::Zeroizing::new(Vec::new());
         response
             .take(65537)
             .read_to_end(&mut body)
@@ -249,10 +269,8 @@ impl TokenClient {
         if body.len() > 65536 {
             return Err(Error::OAuth("token 响应过大"));
         }
-        let parsed = serde_json::from_slice(&body).map_err(|_| Error::OAuth("token 响应无效"));
-        use zeroize::Zeroize;
-        body.zeroize();
-        let response: TokenResponse = parsed?;
+        let response: TokenResponse =
+            serde_json::from_slice(&body).map_err(|_| Error::OAuth("token 响应无效"))?;
         if response.access_token.is_empty()
             || response.expires_in.is_some_and(|n| n <= 0)
             || response
@@ -265,6 +283,14 @@ impl TokenClient {
         Ok(response)
     }
     pub fn refresh(&self, old: &OAuthCredentials, now: DateTime<Utc>) -> Result<OAuthCredentials> {
+        self.refresh_with_scope(old, now)
+            .map(|(credentials, _)| credentials)
+    }
+    pub(crate) fn refresh_with_scope(
+        &self,
+        old: &OAuthCredentials,
+        now: DateTime<Utc>,
+    ) -> Result<(OAuthCredentials, bool)> {
         let refresh = old
             .refresh_token
             .as_ref()
@@ -283,6 +309,7 @@ impl TokenClient {
         }
         // Do not expand the previously granted scope set on refresh.
         let response = self.request(&old.token_uri, &form)?;
+        let confirmed = response.scope.is_some();
         let mut new = old.clone();
         new.token = response.access_token;
         if let Some(refresh) = response.refresh_token {
@@ -292,14 +319,23 @@ impl TokenClient {
             new.scopes = scope.split_whitespace().map(str::to_owned).collect();
         }
         new.expiry = expiry(now, response.expires_in)?;
-        Ok(new)
+        Ok((new, confirmed))
     }
-    fn exchange(
+    pub(crate) fn exchange(
         &self,
         pending: &PendingAuthorization,
         code: &Secret,
         now: DateTime<Utc>,
     ) -> Result<OAuthCredentials> {
+        self.exchange_with_scope(pending, code, now)
+            .map(|(credentials, _)| credentials)
+    }
+    pub(crate) fn exchange_with_scope(
+        &self,
+        pending: &PendingAuthorization,
+        code: &Secret,
+        now: DateTime<Utc>,
+    ) -> Result<(OAuthCredentials, bool)> {
         if code.is_empty() {
             return Err(Error::OAuth("授权码为空"));
         }
@@ -320,19 +356,23 @@ impl TokenClient {
         if response.refresh_token.as_ref().is_none_or(Secret::is_empty) {
             return Err(Error::OAuth("缺少 refresh_token，请重新同意离线访问"));
         }
-        Ok(OAuthCredentials {
-            token: response.access_token,
-            refresh_token: response.refresh_token,
-            token_uri: pending.client_config.token_uri.to_string(),
-            client_id: pending.client_config.client_id.clone(),
-            client_secret: pending.client_config.client_secret.clone(),
-            scopes: response
-                .scope
-                .map(|s| s.split_whitespace().map(str::to_owned).collect())
-                .unwrap_or_else(|| pending.scopes.clone()),
-            expiry: expiry(now, response.expires_in)?,
-            extra: Map::new(),
-        })
+        let confirmed = response.scope.is_some();
+        Ok((
+            OAuthCredentials {
+                token: response.access_token,
+                refresh_token: response.refresh_token,
+                token_uri: pending.client_config.token_uri.to_string(),
+                client_id: pending.client_config.client_id.clone(),
+                client_secret: pending.client_config.client_secret.clone(),
+                scopes: response
+                    .scope
+                    .map(|s| s.split_whitespace().map(str::to_owned).collect())
+                    .unwrap_or_else(|| pending.scopes.clone()),
+                expiry: expiry(now, response.expires_in)?,
+                extra: Map::new(),
+            },
+            confirmed,
+        ))
     }
 }
 fn expiry(now: DateTime<Utc>, seconds: Option<i64>) -> Result<Option<DateTime<Utc>>> {
@@ -355,6 +395,10 @@ pub struct OAuthService {
 impl OAuthService {
     fn guard_account(&self, account: &ProfileId) -> Result<crate::storage::FileLock> {
         let guard = self.storage.profile_lock(account)?;
+        self.validate_account(account)?;
+        Ok(guard)
+    }
+    fn validate_account(&self, account: &ProfileId) -> Result<()> {
         if self.storage.path("account-transaction.json")?.exists() {
             return Err(Error::MigrationPending);
         }
@@ -366,7 +410,7 @@ impl OAuthService {
         if !registry.accounts.contains_key(account) {
             return Err(Error::AccountMissing(account.to_string()));
         }
-        Ok(guard)
+        Ok(())
     }
     pub fn new(storage: Storage, tokens: TokenStore, client: TokenClient) -> Self {
         Self {
@@ -466,7 +510,36 @@ impl OAuthService {
         self.storage.remove(&path)
     }
     pub fn access_token(&self, account: &ProfileId, now: DateTime<Utc>) -> Result<Secret> {
-        let _lifecycle = self.guard_account(account)?;
+        self.access_token_inner(account, now, false)
+    }
+    /// Explicit identity diagnostics require a fresh provider response even if cached.
+    pub fn refresh_access_token(&self, account: &ProfileId, now: DateTime<Utc>) -> Result<Secret> {
+        self.access_token_inner(account, now, true)
+    }
+    fn access_token_inner(
+        &self,
+        account: &ProfileId,
+        now: DateTime<Utc>,
+        force: bool,
+    ) -> Result<Secret> {
+        self.oauth_credentials(account, now, force, None)
+            .map(|credentials| credentials.token)
+    }
+    fn oauth_credentials(
+        &self,
+        account: &ProfileId,
+        now: DateTime<Utc>,
+        force: bool,
+        guard: Option<&crate::storage::FileLock>,
+    ) -> Result<OAuthCredentials> {
+        let _lifecycle = match guard {
+            Some(guard) if guard.protects_profile(&self.storage, account)? => {
+                self.validate_account(account)?;
+                None
+            }
+            Some(_) => return Err(Error::OAuth("凭据刷新账户锁不匹配")),
+            None => Some(self.guard_account(account)?),
+        };
         let _lock = self.storage.lock(
             &self
                 .storage
@@ -495,64 +568,12 @@ impl OAuthService {
             }
         }
         let mut token = token.ok_or(Error::NeedsAuth)?;
-        if !token.valid_at(now) {
+        if force || !token.valid_at(now) {
             token = self.client.refresh(&token, now)?;
             self.storage.write(&staged, &token)?;
             self.tokens.save(account, &token)?;
             self.storage.remove(&staged)?;
         }
-        Ok(token.token.clone())
-    }
-}
-
-/// Initial ADC support is explicitly limited to authorized_user refresh credentials.
-pub struct AdcProvider {
-    path: PathBuf,
-    client: TokenClient,
-    cache: Mutex<Option<OAuthCredentials>>,
-}
-impl AdcProvider {
-    pub fn new(path: PathBuf, client: TokenClient) -> Self {
-        Self {
-            path,
-            client,
-            cache: Mutex::new(None),
-        }
-    }
-    pub fn access_token(&self, now: DateTime<Utc>) -> Result<Secret> {
-        let mut cache = self
-            .cache
-            .lock()
-            .map_err(|_| Error::OAuth("ADC 缓存锁失效"))?;
-        if cache.is_none() {
-            let mut value: Value =
-                serde_json::from_slice(&fs::read(&self.path).map_err(|e| io(&self.path, e))?)
-                    .map_err(|_| Error::InvalidData(self.path.clone()))?;
-            let kind = value
-                .get("type")
-                .and_then(Value::as_str)
-                .unwrap_or("missing");
-            if kind != "authorized_user" {
-                return Err(Error::UnsupportedAdc(kind.into()));
-            }
-            // ADC scope can be a string, whereas Python OAuth JSON uses an array.
-            if let Some(scope) = value.get("scopes").and_then(Value::as_str) {
-                let scopes = Value::Array(
-                    scope
-                        .split_whitespace()
-                        .map(|s| Value::String(s.into()))
-                        .collect(),
-                );
-                value["scopes"] = scopes;
-            }
-            *cache = Some(
-                serde_json::from_value(value).map_err(|_| Error::InvalidData(self.path.clone()))?,
-            );
-        }
-        let token = cache.as_mut().unwrap();
-        if !token.valid_at(now) {
-            *token = self.client.refresh(token, now)?;
-        }
-        Ok(token.token.clone())
+        Ok(token)
     }
 }

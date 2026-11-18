@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "cloud_write_authorization_received": true,
+  "attempt_count": 3,
+  "created_sessions": 3,
+  "directory_scope_count": 1,
+  "files_per_directory": 2,
+  "original_third_harness": {
+    "schema_version": 1,
+    "passed": false,
+    "cleanup_only": false,
+    "binary_sha256": "0d0b9d975f56e4aa36d0170aafe80bc2063dac3adb8cf6c70611cb208afea14c",
+    "independent_drive_api_identity_verified": false,
+    "error_class": "operation_failed:mount_4",
+    "cleanup": "pending_recovery",
+    "created_sessions": 1,
+    "credential_userinfo_verified": true,
+    "same_token_drive_ownership_verified": true,
+    "server_bytes_verified": true,
+    "server_cleanup_verified": false,
+    "server_cleanup_counts": null,
+    "readonly_verified": false,
+    "cloud_cleanup_confirmed": false,
+    "other_new_assignment_count": null
+  },
+  "explicit_readonly_continuation": {
+    "schema_version": 1,
+    "passed": false,
+    "explicit_native_continuation": true,
+    "created_sessions": 1,
+    "prior_harness_passed": false,
+    "credential_userinfo_verified": true,
+    "same_token_drive_ownership_verified": true,
+    "server_bytes_verified": true,
+    "readonly_verified": true,
+    "cloud_cleanup_confirmed": true,
+    "server_cleanup_verified": false,
+    "backend_absence_confirmed": false,
+    "recovery_binary_sha256": "3e681189523e895d5ae0a403e42f311520e09182c57f0d0679e5b97885f3795d",
+    "steps": [
+      "recover_failed_readonly_mount",
+      "server_bytes_reconfirmed",
+      "mount_readonly",
+      "probe_readonly",
+      "unmount_readonly",
+      "mount_cleanup_rw",
+      "probe_cleanup",
+      "final_unmount"
+    ],
+    "error_class": "drive_api_probe_object_still_live_or_changed"
+  },
+  "explicit_flush_cleanup_continuation": {
+    "schema_version": 1,
+    "passed": false,
+    "explicit_native_continuation": true,
+    "prior_harness_passed": false,
+    "cloud_write_authorization_received": true,
+    "binary_sha256": "d78448292573932c48a560d6595aa40275bead463a6ee3a1be8cde9e8eec4b02",
+    "steps": [
+      "server_original_bytes_verified",
+      "mount_cleanup_rw",
+      "probe_cleanup",
+      "final_flush_unmount",
+      "server_cleanup_verified"
+    ],
+    "server_bytes_verified": true,
+    "cloud_cleanup_confirmed": true,
+    "owned_leases_cleared": true,
+    "server_cleanup_verified": true,
+    "server_cleanup_counts": {
+      "trashed_objects": 3,
+      "missing_objects": 0
+    },
+    "error_class": "native_command_failed:guarded_stop"
+  },
+  "release_only": {
+    "schema_version": 1,
+    "passed": true,
+    "release_only": true,
+    "controlling_terminal": true,
+    "binary_sha256": "b98fbd9e9987f91287228c3e3ffa5551a9321d53e39f42a72e89b2f7fa73670b",
+    "cloud_steps_repeated": false,
+    "current_step": null,
+    "stop_exit_code": 0,
+    "inventory_binary_sha256": "b98fbd9e9987f91287228c3e3ffa5551a9321d53e39f42a72e89b2f7fa73670b",
+    "inventory_exit_code": 0,
+    "backend_absence_confirmed": true,
+    "other_new_assignment_count": 0
+  },
+  "prior_two_sessions_backend_absence_confirmed": true,
+  "all_owned_sessions_backend_absence_confirmed": true,
+  "owned_ipc_recovery": {
+    "owned_ipc_process_stopped": true,
+    "used_sigkill": false,
+    "removed_same_inode_stale_socket": true,
+    "remaining_ipc_listeners": 0
+  },
+  "runtime": {
+    "drive_binary_sha256": "b914269a05963035cf4b65e5d6d19313a8a3ebbd7d62541874eddb4a025e127b",
+    "drive_binary_size": 87446256,
+    "python_version": "3.13.18",
+    "machine": "x86_64",
+    "google_colab_package_version": "1.0.0"
+  },
+  "independent_drive_api_identity_verified": false,
+  "cross_account_live_verified": false,
+  "long_lived_refresh_verified": false,
+  "rt_mode_live_verified": false,
+  "limitations": [
+    "Original harness failed; readonly, cleanup and release continuations recorded separately",
+    "Directory scope reused only after prior bounded cleanup was confirmed",
+    "Initial missing session recovery fields remain unexplained",
+    "Three objects observed trashed, not permanently deleted",
+    "Pipe-based keychain calls timed out while terminal-attached retry succeeded; cause not yet established"
+  ],
+  "earlier_release_only": {
+    "schema_version": 1,
+    "passed": false,
+    "release_only": true,
+    "binary_sha256": "d78448292573932c48a560d6595aa40275bead463a6ee3a1be8cde9e8eec4b02",
+    "cloud_steps_repeated": false,
+    "stop_exit_code": 1
+  },
+  "full_original_harness_passed": false,
+  "live_phases_completed_with_explicit_recovery": true,
+  "frozen_probe_sha256": {
+    "create.py": "7a45282764019165b043c3c0a3b1475214763ebe02ca4291a221ff126d8059ff",
+    "readonly.py": "7290fd7798bd72bb2b17edeeef62ca557f8bcd1bdff7cad2a39078ece18f53cb",
+    "cleanup.py": "f22c4d4a56fc80ace250241034898fdd4f7f4c85c900d5afb29ef14fec7f90c2"
+  },
+  "final_cloud_recheck": {
+    "server_cleanup_reconfirmed": true,
+    "same_named_live_probe_folder_count": 0,
+    "trashed_objects": 3,
+    "missing_objects": 0
+  }
+}

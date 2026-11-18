@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "date": "2026-11-18",
+  "environment": "macOS arm64",
+  "binary_sha256": "b1d0f1cb858f8cef11bf41bf176879e958dc5b90613cffb44e4538cd83dae51a",
+  "authentication": "existing system keychain, OAuth",
+  "requested_runtime": {
+    "accelerator": "NONE",
+    "variant": "DEFAULT",
+    "machine_shape": "STANDARD"
+  },
+  "checks": [
+    "empty_backend_baseline",
+    "cpu_assignment_captured",
+    "backend_inventory_and_named_status_agree",
+    "real_kernel_execution_verified",
+    "kernel_identity_persisted_before_stop",
+    "backend_release_and_local_cleanup_confirmed"
+  ],
+  "created_sessions": 1,
+  "cleanup": {
+    "stop_exit_code": 0,
+    "expected_endpoint_guarded": true,
+    "post_stop_backend_query_confirmed_absence": true,
+    "local_session_and_release_journals_absent": true,
+    "other_new_assignment_count": 0
+  },
+  "limits": [
+    "single named CPU session",
+    "kernel DELETE response not separately observed",
+    "no live recovery fault injection",
+    "no Drive access"
+  ],
+  "passed": true
+}

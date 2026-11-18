@@ -1,0 +1,5929 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "94a6283836d02878a4bb8a6de0d3abbf6dc65a2fffde79979b68d1085bf7cc78",
+  "isolation": {
+    "official_no_site_hooks": true,
+    "official_network": "loopback_only",
+    "credentials": "synthetic file credentials; real keyring forbidden",
+    "rust_network": "fixture URLs only; no real account data"
+  },
+  "normalization": [
+    "temporary paths, ports and terminal UUIDs",
+    "validated six-hex automatic names",
+    "notebook cell IDs and Jupyter session IDs; raw observations retained"
+  ],
+  "dependency_versions": {
+    "shellingham": "1.5.4",
+    "markdown-it-py": "4.3.0",
+    "platformdirs": "4.14.5",
+    "jupyter_kernel_client": "0.9.0",
+    "jaraco.classes": "3.4.0",
+    "google-auth-oauthlib": "1.5.0",
+    "packaging": "26.3",
+    "google-colab-cli": "0.8.0",
+    "jaraco.context": "6.1.2",
+    "nbformat": "5.11.1",
+    "Pygments": "2.21.0",
+    "prompt_toolkit": "3.0.53",
+    "jsonschema-specifications": "2025.9.1",
+    "pyzmq": "27.3.0",
+    "requests": "2.34.2",
+    "rich": "15.0.0",
+    "certifi": "2026.10.23",
+    "jsonschema": "4.26.0",
+    "oauthlib": "4.0.1",
+    "wcwidth": "0.9.4",
+    "pydantic": "2.14.3",
+    "traitlets": "5.16.1",
+    "click": "8.5.1",
+    "pyarrow": "26.0.1",
+    "jaraco.functools": "4.6.0",
+    "cryptography": "50.0.2",
+    "pycparser": "3.12",
+    "annotated-doc": "0.0.6",
+    "pydantic_core": "2.50.4",
+    "typing-inspection": "0.4.5",
+    "jupyter-mimetypes": "0.2.0",
+    "urllib3": "2.8.0",
+    "mdurl": "0.1.2",
+    "fastjsonschema": "2.22.3",
+    "html2text": "2025.4.15",
+    "jupyter_client": "8.10.0",
+    "cffi": "2.1.1",
+    "jupyter_core": "5.9.1",
+    "annotated-types": "0.8.0",
+    "referencing": "0.37.0",
+    "tzdata": "2026.6",
+    "google-auth": "2.62.2",
+    "rpds-py": "2026.9.1",
+    "typer": "0.29.1",
+    "attrs": "26.1.0",
+    "tornado": "6.6.1",
+    "websocket-client": "1.9.2",
+    "more-itertools": "11.2.1",
+    "typing_extensions": "4.16.0",
+    "pyasn1": "0.6.5",
+    "pyasn1_modules": "0.4.2",
+    "filelock": "4.2.10",
+    "python-dateutil": "4.0.0",
+    "charset-normalizer": "3.5.2",
+    "keyring": "25.7.0",
+    "requests-oauthlib": "2.0.0",
+    "idna": "3.20"
+  },
+  "summary": {
+    "different": 60,
+    "rust_extension": 219,
+    "matched": 91
+  },
+  "behavior_summary": {
+    "rust_extension": 184,
+    "matched": 91,
+    "different": 31
+  },
+  "command_coverage": {
+    "discovered": [
+      "account",
+      "auth",
+      "automation-cleanup",
+      "download",
+      "drive",
+      "drivemount",
+      "edit",
+      "exec",
+      "ext",
+      "help",
+      "install",
+      "kernels",
+      "log",
+      "ls",
+      "new",
+      "pay",
+      "readme",
+      "repl",
+      "restart-kernel",
+      "rm",
+      "run",
+      "run-cleanup",
+      "runs",
+      "sessions",
+      "skill",
+      "ssh",
+      "status",
+      "stop",
+      "update",
+      "upload",
+      "url",
+      "usage",
+      "version"
+    ],
+    "expected": [
+      "account",
+      "auth",
+      "automation-cleanup",
+      "download",
+      "drive",
+      "drivemount",
+      "edit",
+      "exec",
+      "ext",
+      "help",
+      "install",
+      "kernels",
+      "log",
+      "ls",
+      "new",
+      "pay",
+      "readme",
+      "repl",
+      "restart-kernel",
+      "rm",
+      "run",
+      "run-cleanup",
+      "runs",
+      "sessions",
+      "skill",
+      "ssh",
+      "status",
+      "stop",
+      "update",
+      "upload",
+      "url",
+      "usage",
+      "version"
+    ],
+    "account_subcommands": [
+      "status",
+      "list",
+      "current",
+      "add",
+      "use",
+      "set-drive",
+      "rename",
+      "remove",
+      "login",
+      "repair"
+    ],
+    "account_discovered": [
+      "add",
+      "current",
+      "list",
+      "login",
+      "remove",
+      "rename",
+      "repair",
+      "set-drive",
+      "status",
+      "use"
+    ],
+    "drive_subcommands": [
+      "consent",
+      "import",
+      "show",
+      "token",
+      "clear",
+      "status",
+      "probe-cleanup",
+      "mount",
+      "umount",
+      "leases",
+      "lease-cleanup"
+    ],
+    "drive_discovered": [
+      "clear",
+      "consent",
+      "import",
+      "lease-cleanup",
+      "leases",
+      "mount",
+      "probe-cleanup",
+      "show",
+      "status",
+      "token",
+      "umount"
+    ],
+    "ext_subcommands": [
+      "doctor",
+      "install",
+      "version"
+    ],
+    "ext_discovered": [
+      "doctor",
+      "install",
+      "version"
+    ],
+    "unmapped": []
+  },
+  "scope": "full fixed official CLI comparison, loopback only",
+  "previous_full_comparison": "research/live-drive-cli-comparison.json",
+  "raw_report_sha256": "f674cceee18555bea1ac21f30dfe5cfba68c57564612dd82edfef2c339c61ff2",
+  "cases": [
+    {
+      "name": "help-new",
+      "command": [
+        "new",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-sessions",
+      "command": [
+        "sessions",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-status",
+      "command": [
+        "status",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-stop",
+      "command": [
+        "stop",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-ls",
+      "command": [
+        "ls",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-upload",
+      "command": [
+        "upload",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-download",
+      "command": [
+        "download",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-rm",
+      "command": [
+        "rm",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-edit",
+      "command": [
+        "edit",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-exec",
+      "command": [
+        "exec",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-repl",
+      "command": [
+        "repl",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-auth",
+      "command": [
+        "auth",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-drivemount",
+      "command": [
+        "drivemount",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-install",
+      "command": [
+        "install",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-ssh",
+      "command": [
+        "ssh",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-restart-kernel",
+      "command": [
+        "restart-kernel",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-run",
+      "command": [
+        "run",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-log",
+      "command": [
+        "log",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-usage",
+      "command": [
+        "usage",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-url",
+      "command": [
+        "url",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-pay",
+      "command": [
+        "pay",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-readme",
+      "command": [
+        "readme",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-skill",
+      "command": [
+        "skill",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-version",
+      "command": [
+        "version",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-update",
+      "command": [
+        "update",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-help",
+      "command": [
+        "help",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "help-kernels",
+      "command": [
+        "kernels",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-runs",
+      "command": [
+        "runs",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-run-cleanup",
+      "command": [
+        "run-cleanup",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-automation-cleanup",
+      "command": [
+        "automation-cleanup",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive",
+      "command": [
+        "drive",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-ext",
+      "command": [
+        "ext",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account",
+      "command": [
+        "account",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-status",
+      "command": [
+        "account",
+        "status",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-list",
+      "command": [
+        "account",
+        "list",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-current",
+      "command": [
+        "account",
+        "current",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-add",
+      "command": [
+        "account",
+        "add",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-use",
+      "command": [
+        "account",
+        "use",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-set-drive",
+      "command": [
+        "account",
+        "set-drive",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-rename",
+      "command": [
+        "account",
+        "rename",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-remove",
+      "command": [
+        "account",
+        "remove",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-login",
+      "command": [
+        "account",
+        "login",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-account-repair",
+      "command": [
+        "account",
+        "repair",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-consent",
+      "command": [
+        "drive",
+        "consent",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-import",
+      "command": [
+        "drive",
+        "import",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-show",
+      "command": [
+        "drive",
+        "show",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-token",
+      "command": [
+        "drive",
+        "token",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-clear",
+      "command": [
+        "drive",
+        "clear",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-status",
+      "command": [
+        "drive",
+        "status",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-probe-cleanup",
+      "command": [
+        "drive",
+        "probe-cleanup",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-mount",
+      "command": [
+        "drive",
+        "mount",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-umount",
+      "command": [
+        "drive",
+        "umount",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-leases",
+      "command": [
+        "drive",
+        "leases",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-lease-cleanup",
+      "command": [
+        "drive",
+        "lease-cleanup",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-ext-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-legacy-doctor",
+      "command": [
+        "drive",
+        "doctor",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-ext-install",
+      "command": [
+        "ext",
+        "install",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-legacy-install",
+      "command": [
+        "drive",
+        "install",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-ext-version",
+      "command": [
+        "ext",
+        "version",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-drive-legacy-version",
+      "command": [
+        "drive",
+        "version",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-ext-status",
+      "command": [
+        "ext",
+        "status",
+        "--help"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-version",
+      "command": [
+        "ext",
+        "version"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-legacy-version",
+      "command": [
+        "drive",
+        "version"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-install",
+      "command": [
+        "ext",
+        "install",
+        "--site-dir",
+        "python-must-not-create",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-install-quiet",
+      "command": [
+        "ext",
+        "install",
+        "--quiet"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-legacy-install",
+      "command": [
+        "drive",
+        "install",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json",
+        "--strict"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-status-alias",
+      "command": [
+        "ext",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "dfs-legacy-doctor",
+      "command": [
+        "dfs",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-doctor-pending",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ext-doctor-strict-missing",
+      "command": [
+        "ext",
+        "doctor",
+        "--json",
+        "--strict"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "ext-doctor-keyring",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "help-whoami",
+      "command": [
+        "whoami",
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-named",
+      "command": [
+        "url",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-unique",
+      "command": [
+        "url"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-pruned-unique",
+      "command": [
+        "url"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-host",
+      "command": [
+        "url",
+        "-s",
+        "compare",
+        "--host",
+        "https://sandbox.example.invalid/"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-open",
+      "command": [
+        "url",
+        "-s",
+        "compare",
+        "--open"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "url-missing",
+      "command": [
+        "url",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "url-ambiguous",
+      "command": [
+        "url"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout",
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "url-account-email",
+      "command": [
+        "url",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "url-invalid-origin",
+      "command": [
+        "url",
+        "-s",
+        "compare",
+        "--host",
+        "https://sandbox.invalid/path"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "pay",
+      "command": [
+        "pay"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "pay-url-only",
+      "command": [
+        "pay",
+        "--url-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "readme",
+      "command": [
+        "readme"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "readme-alias",
+      "command": [
+        "README"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "skill",
+      "command": [
+        "skill"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "skill-alias",
+      "command": [
+        "SKILL"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "whoami",
+      "command": [
+        "whoami"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "whoami-json",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "whoami-rejected",
+      "command": [
+        "whoami"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "help-root",
+      "command": [
+        "--help"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "version",
+      "command": [
+        "version"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "drive-show-empty",
+      "command": [
+        "drive",
+        "show"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-show",
+      "command": [
+        "drive",
+        "show"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-alias",
+      "command": [
+        "dfs",
+        "show"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-clear",
+      "command": [
+        "drive",
+        "clear"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-clear-empty",
+      "command": [
+        "drive",
+        "clear"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-token",
+      "command": [
+        "drive",
+        "token",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-token-whoami",
+      "command": [
+        "drive",
+        "token",
+        "--whoami"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-token-failed",
+      "command": [
+        "drive",
+        "token"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-token-missing",
+      "command": [
+        "drive",
+        "token"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-import-invalid",
+      "command": [
+        "drive",
+        "import"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-consent-url",
+      "command": [
+        "drive",
+        "consent",
+        "--url-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-consent-empty-code",
+      "command": [
+        "drive",
+        "consent",
+        "--code",
+        "synthetic-code"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-leases-empty",
+      "command": [
+        "drive",
+        "leases"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-mount-dry-run",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-mount-env-preview",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--from-env",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-mount-env-implicit-preview",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-mount-env-incomplete",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--from-env",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-mount-cli-token-scope",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--cli-token",
+        "--user-id",
+        "fixture-gaia",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-mount-source-conflict",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--cli-token",
+        "--from-env",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "drive-mount-native-extra-preview",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--via-cli",
+        "--drive-extra=--curl_logging",
+        "--user-id",
+        "override-gaia",
+        "--email",
+        "override@example.invalid",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-mount-extra-protected",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--drive-extra=--preferences=mount_point_path:/other"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-mount-missing-credentials",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-mount-invalid-path",
+      "command": [
+        "drive",
+        "mount",
+        "-s",
+        "compare",
+        "--path",
+        "/content/../drive"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-umount-invalid-path",
+      "command": [
+        "drive",
+        "umount",
+        "-s",
+        "compare",
+        "--path",
+        "/content"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-lease-cleanup-invalid-endpoint",
+      "command": [
+        "drive",
+        "lease-cleanup",
+        "--endpoint",
+        ""
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-status",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-account-override",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare",
+        "--drive-account",
+        "secondary"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-account-alias",
+      "command": [
+        "dfs",
+        "status",
+        "-s",
+        "compare",
+        "--drive-account",
+        "secondary"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-account-env",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-account-precedence",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare",
+        "--drive-account",
+        "default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-account-invalid",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare",
+        "--drive-account",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-status-during-mutation",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-status-invalid-path",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare",
+        "--path",
+        "/content/../drive"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-probe-cleanup-empty",
+      "command": [
+        "drive",
+        "probe-cleanup",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-probe-cleanup-owned",
+      "command": [
+        "drive",
+        "probe-cleanup",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drive-probe-cleanup-unknown",
+      "command": [
+        "drive",
+        "probe-cleanup",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-probe-cleanup-conflict",
+      "command": [
+        "drive",
+        "probe-cleanup",
+        "-s",
+        "compare",
+        "--kernel-id",
+        "kernel-compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-status-probe-create-unknown",
+      "command": [
+        "drive",
+        "status",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drive-probe-session-status",
+      "command": [
+        "status",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "automation-cleanup-empty",
+      "command": [
+        "automation-cleanup",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "automation-cleanup-owned",
+      "command": [
+        "automation-cleanup",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "automation-cleanup-conflict",
+      "command": [
+        "automation-cleanup",
+        "-s",
+        "compare",
+        "--kernel-id",
+        "unrelated"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "automation-status-json",
+      "command": [
+        "status",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "automation-status-text",
+      "command": [
+        "status",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "install-packages",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "demo==1.2",
+        "extra>=1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "install-requirements",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "-r",
+        "requirements.txt",
+        "extra>=1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "install-unicode-requirements",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "-r",
+        "requirements #中.txt"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "install-empty",
+      "command": [
+        "install",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "install-missing-requirement",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "-r",
+        "missing.txt"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "install-json",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "demo",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "install-quoted-arguments",
+      "command": [
+        "install",
+        "-s",
+        "compare",
+        "quote'package"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout",
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "auth-authorized",
+      "command": [
+        "auth",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "auth-existing-kernel",
+      "command": [
+        "auth",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "drivemount-authorized",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "drivemount-existing-kernel",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "drivemount-default-missing",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drivemount-no-fallback",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare",
+        "--no-fallback"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drivemount-preview",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drivemount-upstream-conflict",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare",
+        "--upstream",
+        "--readonly"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "drivemount-upstream-stored",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare",
+        "--upstream"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drivemount-env-official",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drivemount-legacy-official",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "drivemount-env-conflict",
+      "command": [
+        "drivemount",
+        "-s",
+        "compare",
+        "--dry-run"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "help-command",
+      "command": [
+        "help",
+        "new"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-cpu",
+      "command": [
+        "new",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-gpu",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--gpu",
+        "t4"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-tpu",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--tpu",
+        "v5e1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-high-ram",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--high-mem"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-l4-high-ram",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--gpu",
+        "L4",
+        "--high-mem"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-default-name",
+      "command": [
+        "new"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-412",
+      "command": [
+        "new",
+        "-s",
+        "compare"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "new-gpu-400",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--gpu",
+        "A100"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "new-tpu-400",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--tpu",
+        "v5e1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "new-invalid-hardware",
+      "command": [
+        "new",
+        "--gpu",
+        "invalid"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "new-gpu-tpu-conflict",
+      "command": [
+        "new",
+        "--gpu",
+        "T4",
+        "--tpu",
+        "v5e1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "new-bare-gpu-option",
+      "command": [
+        "new",
+        "-s",
+        "compare",
+        "--gpu"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "sessions-empty",
+      "command": [
+        "sessions"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "sessions-named",
+      "command": [
+        "sessions"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "sessions-orphan",
+      "command": [
+        "sessions"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "sessions-stale",
+      "command": [
+        "sessions"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "sessions-http-error",
+      "command": [
+        "sessions"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "sessions-json",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "sessions-all",
+      "command": [
+        "sessions",
+        "--all",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "status-empty",
+      "command": [
+        "status"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "status-named",
+      "command": [
+        "status"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "status-orphan",
+      "command": [
+        "status"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "status-stale",
+      "command": [
+        "status"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "status-http-error",
+      "command": [
+        "status"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "status-json",
+      "command": [
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "status-all",
+      "command": [
+        "status",
+        "--all",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "status-missing",
+      "command": [
+        "status",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "stop-named",
+      "command": [
+        "stop",
+        "-s",
+        "compare"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "stop-missing",
+      "command": [
+        "stop",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "stop-without-selector",
+      "command": [
+        "stop"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "stop-empty",
+      "command": [
+        "stop"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "stop-multiple",
+      "command": [
+        "stop"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "usage",
+      "command": [
+        "usage"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "usage-json",
+      "command": [
+        "usage",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "usage-all",
+      "command": [
+        "usage",
+        "--all",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "ls-unique",
+      "command": [
+        "ls",
+        "content"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ls-directory",
+      "command": [
+        "ls",
+        "-s",
+        "compare",
+        "content"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ls-file",
+      "command": [
+        "ls",
+        "-s",
+        "compare",
+        "content/data.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ls-missing",
+      "command": [
+        "ls",
+        "-s",
+        "compare",
+        "content/missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ls-json",
+      "command": [
+        "ls",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "upload-binary",
+      "command": [
+        "upload",
+        "-s",
+        "compare",
+        "input.bin",
+        "content/upload.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "upload-unicode-path",
+      "command": [
+        "upload",
+        "-s",
+        "compare",
+        "input.bin",
+        "content/中 #?%.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "upload-missing",
+      "command": [
+        "upload",
+        "-s",
+        "compare",
+        "missing.bin",
+        "content/upload.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "download-binary",
+      "command": [
+        "download",
+        "-s",
+        "compare",
+        "content/data.bin",
+        "download.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "download-missing",
+      "command": [
+        "download",
+        "-s",
+        "compare",
+        "content/missing",
+        "download.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "rm-file",
+      "command": [
+        "rm",
+        "-s",
+        "compare",
+        "content/data.bin"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "rm-missing",
+      "command": [
+        "rm",
+        "-s",
+        "compare",
+        "content/missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "edit-file",
+      "command": [
+        "edit",
+        "-s",
+        "compare",
+        "content/edit.txt"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-stale-endpoint",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "--colab-expected-endpoint",
+        "old-ep"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "ssh-child-missing",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "--colab-internal-mode",
+        "interactive",
+        "--colab-expected-endpoint",
+        "original-ep",
+        "-s",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "ssh-proxy",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-proxy-unique",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout",
+        "stderr",
+        "stdout_base64"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-proxy-created",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-proxy-rm",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "--rm",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-proxy-created-rm",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "--rm",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "ssh-proxy-empty",
+      "command": [
+        "ssh",
+        "--proxy-mode"
+      ],
+      "status": "different",
+      "differences": [
+        "stdout",
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-proxy-internal-cmd-missing",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "--colab-internal-mode",
+        "cmd",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "ssh-proxy-command-conflict",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "--",
+        "printf",
+        "hi"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "ssh-upgrade-400",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-401",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-403",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-404",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-429",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-502",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-upgrade-rm",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "--rm",
+        "-i",
+        "identity.pub"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr",
+        "wire",
+        "session_state_after",
+        "active_after"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "ssh-new-key-failure-rm",
+      "command": [
+        "ssh",
+        "--proxy-mode",
+        "-s",
+        "compare",
+        "--rm",
+        "-i",
+        "missing-key"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr",
+        "wire",
+        "session_state_after",
+        "active_after"
+      ],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "ssh-command-argv",
+      "command": [
+        "ssh",
+        "-s",
+        "compare",
+        "--rm",
+        "--gpu",
+        "invalid-ignored",
+        "--",
+        "printf",
+        "a b",
+        "--flag"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 23,
+        "official": 23
+      }
+    },
+    {
+      "name": "ssh-command-shell",
+      "command": [
+        "ssh",
+        "-s",
+        "compare",
+        "--",
+        "printf hello; true"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 23,
+        "official": 23
+      }
+    },
+    {
+      "name": "ssh-interactive-existing",
+      "command": [
+        "ssh",
+        "-s",
+        "compare",
+        "--rm"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 23,
+        "official": 23
+      }
+    },
+    {
+      "name": "ssh-interactive-created",
+      "command": [
+        "ssh",
+        "--rm"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 23,
+        "official": 23
+      }
+    },
+    {
+      "name": "repl-stdin",
+      "command": [
+        "repl",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "repl-unique",
+      "command": [
+        "repl"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "repl-empty",
+      "command": [
+        "repl",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "repl-error",
+      "command": [
+        "repl",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "repl-image",
+      "command": [
+        "repl",
+        "-s",
+        "compare",
+        "--output-image",
+        "output.png"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "repl-missing",
+      "command": [
+        "repl",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "exec-unique",
+      "command": [
+        "exec"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-missing",
+      "command": [
+        "exec",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "exec-stdin",
+      "command": [
+        "exec",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-file",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "-f",
+        "script.py"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-notebook",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "-f",
+        "notebook.ipynb"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-env",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--env",
+        "TEST=value"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-invalid-env",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--env",
+        "INVALID"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "exec-error",
+      "command": [
+        "exec",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-idle-timeout",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0.2"
+      ],
+      "status": "different",
+      "differences": [
+        "stderr"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "exec-idle-timeout-zero",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-idle-timeout-progress",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--timeout",
+        "0.4"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-image",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--output-image",
+        "output.png"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-error-json",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "exec-empty",
+      "command": [
+        "exec",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "exec-json",
+      "command": [
+        "exec",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "kernels-list",
+      "command": [
+        "kernels",
+        "-s",
+        "compare",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "restart-kernel",
+      "command": [
+        "restart-kernel",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "restart-fresh",
+      "command": [
+        "restart-kernel",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "run-release",
+      "command": [
+        "run",
+        "-s",
+        "compare",
+        "script.py",
+        "--fixture-arg"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "run-default-name",
+      "command": [
+        "run",
+        "script.py"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "run-error",
+      "command": [
+        "run",
+        "-s",
+        "compare",
+        "script.py"
+      ],
+      "status": "different",
+      "differences": [
+        "wire"
+      ],
+      "exit_codes": {
+        "rust": 1,
+        "official": 1
+      }
+    },
+    {
+      "name": "run-keep",
+      "command": [
+        "run",
+        "-s",
+        "compare",
+        "--keep",
+        "script.py"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "run-missing-script",
+      "command": [
+        "run",
+        "missing.py"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "run-no-script",
+      "command": [
+        "run"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2,
+        "official": 2
+      }
+    },
+    {
+      "name": "runs-empty",
+      "command": [
+        "runs"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "runs-pending",
+      "command": [
+        "runs"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "run-cleanup-owned",
+      "command": [
+        "run-cleanup",
+        "11111111-1111-4111-8111-111111111111"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "run-cleanup-invalid",
+      "command": [
+        "run-cleanup",
+        "invalid"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "log-empty",
+      "command": [
+        "log"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-list",
+      "command": [
+        "log"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-session",
+      "command": [
+        "log",
+        "-s",
+        "compare"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-filter",
+      "command": [
+        "log",
+        "-s",
+        "compare",
+        "-t",
+        "execution",
+        "-n",
+        "1"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-missing",
+      "command": [
+        "log",
+        "-s",
+        "missing"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-export-jsonl",
+      "command": [
+        "log",
+        "-s",
+        "compare",
+        "-o",
+        "export.jsonl"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-export-txt",
+      "command": [
+        "log",
+        "-s",
+        "compare",
+        "-o",
+        "export.txt"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-export-md",
+      "command": [
+        "log",
+        "-s",
+        "compare",
+        "-o",
+        "export.md"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "log-export-ipynb",
+      "command": [
+        "log",
+        "-s",
+        "compare",
+        "-o",
+        "export.ipynb"
+      ],
+      "status": "matched",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0,
+        "official": 0
+      }
+    },
+    {
+      "name": "account-list",
+      "command": [
+        "account",
+        "list",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-current",
+      "command": [
+        "account",
+        "current",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-add",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--configure-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-use",
+      "command": [
+        "account",
+        "use",
+        "default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-set-drive",
+      "command": [
+        "account",
+        "set-drive",
+        "default",
+        "--default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-clear-drive",
+      "command": [
+        "account",
+        "set-drive",
+        "--default",
+        "--clear"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-repair",
+      "command": [
+        "account",
+        "repair"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-login-url",
+      "command": [
+        "account",
+        "login",
+        "--url-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-rename-missing",
+      "command": [
+        "account",
+        "rename",
+        "missing",
+        "new"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "account-remove-missing",
+      "command": [
+        "account",
+        "remove",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "account-status",
+      "command": [
+        "account",
+        "status"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-status-json",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-status-orphan",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-status-empty",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-status-list-failure",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "alias-acct-status",
+      "command": [
+        "acct",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-service-invalid-key",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "adc-service-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-service-status-error",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-unsupported",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-iam-failure",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-impersonation-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-iam-failure",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-external-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-refresh-failure",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-workforce-user-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-disabled",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-explicit-missing",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-spoofed",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-metadata-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-disabled",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-executable-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-login",
+      "command": [
+        "account",
+        "login"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-sessions",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-whoami",
+      "command": [
+        "whoami",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-status",
+      "command": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-imds",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-v2-failure",
+      "command": [
+        "sessions",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "adc-aws-doctor",
+      "command": [
+        "ext",
+        "doctor",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "native-update-check",
+      "command": [
+        "update",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "native-update-env-check",
+      "command": [
+        "update",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "native-update-up-to-date",
+      "command": [
+        "update",
+        "--install",
+        "--json",
+        "--install-path",
+        "bin/native-colab"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "native-update-status",
+      "command": [
+        "update",
+        "--status",
+        "--install-path",
+        "bin/native-colab"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "native-update-no-source",
+      "command": [
+        "update",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "native-update-bad-manifest",
+      "command": [
+        "update",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "native-update-http-failure",
+      "command": [
+        "update",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "native-update-install-conflict",
+      "command": [
+        "update",
+        "--install",
+        "--rollback"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "native-update-install-native-required",
+      "command": [
+        "update",
+        "--install",
+        "--json",
+        "--install-path",
+        "bin/native-colab"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "native-update-timeout-invalid",
+      "command": [
+        "update",
+        "--timeout",
+        "0"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "merged-alias-account-ls",
+      "command": [
+        "account",
+        "ls",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-account-switch",
+      "command": [
+        "account",
+        "switch",
+        "default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-account-rm",
+      "command": [
+        "account",
+        "rm",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "merged-alias-acct-ls",
+      "command": [
+        "acct",
+        "ls",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-acct-switch",
+      "command": [
+        "acct",
+        "switch",
+        "default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-acct-rm",
+      "command": [
+        "acct",
+        "rm",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "merged-alias-sessions-short",
+      "command": [
+        "sessions",
+        "-A",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-sessions-long",
+      "command": [
+        "sessions",
+        "--all-accounts",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-usage-short",
+      "command": [
+        "usage",
+        "-A",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "merged-alias-usage-long",
+      "command": [
+        "usage",
+        "--all-accounts",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-url",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--url-only",
+        "--email",
+        "hint@example.invalid"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-no-use",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--url-only",
+        "--no-use"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-bound",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--url-only",
+        "--drive-account",
+        "default"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-configure",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--configure-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-login-new",
+      "command": [
+        "account",
+        "login",
+        "work",
+        "--url-only"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-login-email",
+      "command": [
+        "account",
+        "login",
+        "--url-only",
+        "--email",
+        "hint@example.invalid"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-flow-finish-drive-failure",
+      "command": [
+        "account",
+        "login",
+        "--code",
+        "compare-code-fixture",
+        "--with-drive"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "account-flow-unknown-code",
+      "command": [
+        "account",
+        "login",
+        "missing",
+        "--code",
+        "compare-code-fixture"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "account-flow-invalid-binding",
+      "command": [
+        "account",
+        "add",
+        "work",
+        "--url-only",
+        "--drive-account",
+        "missing"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 1
+      }
+    },
+    {
+      "name": "account-flow-conflict",
+      "command": [
+        "account",
+        "login",
+        "--with-dfs",
+        "--no-dfs"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "completion-show-bash",
+      "command": [
+        "--show-completion",
+        "bash"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-show-zsh",
+      "command": [
+        "--show-completion",
+        "zsh"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-show-fish",
+      "command": [
+        "--show-completion",
+        "fish"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-show-powershell",
+      "command": [
+        "--show-completion",
+        "powershell"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-show-pwsh",
+      "command": [
+        "--show-completion",
+        "pwsh"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-auto",
+      "command": [
+        "--show-completion"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-install-bash",
+      "command": [
+        "--install-completion=bash"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "completion-invalid-shell",
+      "command": [
+        "--show-completion=unsupported"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "completion-conflict",
+      "command": [
+        "--show-completion=bash",
+        "--install-completion=bash"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 2
+      }
+    },
+    {
+      "name": "alias-acct-list",
+      "command": [
+        "acct",
+        "list",
+        "--json"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    },
+    {
+      "name": "account-login-code",
+      "command": [
+        "account",
+        "login",
+        "--code",
+        "compare-code-fixture"
+      ],
+      "status": "rust_extension",
+      "differences": [],
+      "exit_codes": {
+        "rust": 0
+      }
+    }
+  ],
+  "changed_cases": [
+    {
+      "name": "url-unique",
+      "previous": {
+        "status": "different",
+        "differences": [
+          "stdout",
+          "wire"
+        ]
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "stdout"
+        ]
+      }
+    },
+    {
+      "name": "url-pruned-unique",
+      "previous": null,
+      "current": {
+        "status": "different",
+        "differences": [
+          "stdout"
+        ]
+      }
+    },
+    {
+      "name": "url-missing",
+      "previous": {
+        "status": "different",
+        "differences": [
+          "stderr"
+        ]
+      },
+      "current": {
+        "status": "matched",
+        "differences": []
+      }
+    },
+    {
+      "name": "url-ambiguous",
+      "previous": {
+        "status": "different",
+        "differences": [
+          "stdout",
+          "stderr",
+          "wire"
+        ]
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "stdout",
+          "stderr"
+        ]
+      }
+    },
+    {
+      "name": "new-gpu-400",
+      "previous": null,
+      "current": {
+        "status": "matched",
+        "differences": []
+      }
+    },
+    {
+      "name": "new-tpu-400",
+      "previous": null,
+      "current": {
+        "status": "matched",
+        "differences": []
+      }
+    },
+    {
+      "name": "stop-named",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "stop-without-selector",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "ssh-proxy-rm",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/colab/ssh"
+          ],
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/colab/ssh"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "exec-idle-timeout-zero",
+      "previous": null,
+      "current": {
+        "status": "matched",
+        "differences": []
+      }
+    },
+    {
+      "name": "exec-idle-timeout-progress",
+      "previous": null,
+      "current": {
+        "status": "matched",
+        "differences": []
+      }
+    },
+    {
+      "name": "run-release",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "run-default-name",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    },
+    {
+      "name": "run-error",
+      "previous": {
+        "status": "matched",
+        "differences": []
+      },
+      "current": {
+        "status": "different",
+        "differences": [
+          "wire"
+        ]
+      },
+      "request_sequences": {
+        "rust": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/assignments"
+          ],
+          [
+            "DELETE",
+            "/runtime/api/kernels/kernel-compare"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ],
+        "official": [
+          [
+            "GET",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/tun/m/assign"
+          ],
+          [
+            "POST",
+            "/runtime/api/kernels"
+          ],
+          [
+            "GET",
+            "/runtime/api/kernels/kernel-compare/channels"
+          ],
+          [
+            "GET",
+            "/tun/m/unassign/ep-compare"
+          ],
+          [
+            "POST",
+            "/tun/m/unassign/ep-compare"
+          ]
+        ]
+      }
+    }
+  ],
+  "assertion_failures": 0,
+  "relinked_build_before_fix": {
+    "rust_binary_sha256": "0952c4e13aa7de4b4e89eaabe03734654e6d56cc39e5cc99fe62974aba7926ba",
+    "canonical_filename": "colab",
+    "canonical_raw_report_sha256": "74324fd5c95e87b1a0199a822cabf0f7c28713991ab51570691c67bb23f927e0",
+    "canonical_changed_cases": [],
+    "renamed_filename": "colab-default-test",
+    "renamed_raw_report_sha256": "1d4a4c6d1f994d31c0aa51989c2799d9b1381fe6ab159cde7f4d90e241cc5126",
+    "renamed_changed_cases": [
+      {
+        "name": "run-no-script",
+        "before": "matched",
+        "after": "different",
+        "differences": [
+          "stderr"
+        ]
+      }
+    ]
+  },
+  "full_regressions_before_fix": {
+    "cargo_test_locked": {
+      "passed": 519,
+      "failed": 0,
+      "ignored": 0,
+      "log_sha256": "06a3a8c9173463794a1da3fcc931f607ebf8cce7a3862ae3227ef44cd4687fed"
+    },
+    "cargo_test_locked_no_default_features": {
+      "passed": 517,
+      "failed": 0,
+      "ignored": 0,
+      "log_sha256": "650edaecef11b593847d68eee13c451d4db86c0141e3409b73cad1b2273f4e0c"
+    },
+    "python_tools": {
+      "passed": 201,
+      "failed": 0,
+      "skipped": 1
+    }
+  },
+  "missing_script_fix_verification": {
+    "rust_binary_sha256": "9a15d201f9169cf24d6e5fc8293a62335d2065eb5c543741c9d46c8998c2e0ee",
+    "full_raw_report_sha256": "56f27800051bda687c847c21b2f242edc3984f5f1544c7c3967a1ac190190b9a",
+    "full_summary": {
+      "different": 60,
+      "rust_extension": 219,
+      "matched": 91
+    },
+    "changed_case_classifications_differences_or_exit_codes": [],
+    "versioned_filename": "colab-v0.1.0-aarch64-apple-darwin",
+    "versioned_filename_raw_report_sha256": "665ddc809d76ea592a4ef5cf5e31efd40228ac74abc82906cf21b1f45b0cd491",
+    "versioned_filename_case": {
+      "name": "run-no-script",
+      "status": "matched",
+      "exit_code": 2
+    },
+    "cargo_build_binary_sha256": "deb5c07c126b250b9cce72331f79815aefd8a848775ef9a370df3fe79c80ca6a",
+    "cargo_build_versioned_filename_raw_report_sha256": "7be7cb55800d682819a80c57070ae8d9175b17289747145ed072fcf2b21ac2a5",
+    "cargo_test_locked_test_runs_passed": 7,
+    "cargo_test_locked_no_default_features_test_runs_passed": 7,
+    "cargo_clippy_locked_all_targets_deny_warnings_passed": true
+  }
+}

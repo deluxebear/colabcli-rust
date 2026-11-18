@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "scope": "macOS local synthetic validation of Linux report architecture checks; no Linux result inferred",
+  "architecture_tests": 3,
+  "full_python_tests": 151,
+  "passed_tests": 150,
+  "skipped_tests": 1,
+  "failed_tests": 0,
+  "input_sha256": {
+    "tools/linux-validation/validate.py": "9111ee26ca4e7272e4d94a515cd05aea2dca944ef392dc33f0e76e5881f79f81",
+    "tools/tests/test_linux_validation.py": "5d30bd75b0bfa908638890dc8fa657ed7243431c87a02a899a65d075940db396"
+  },
+  "log_sha256": "cab36ae6773f6ed30f9736f5df804a7ac7edce9ccb20589f19092c0608b6e254",
+  "real_network_calls": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0
+}

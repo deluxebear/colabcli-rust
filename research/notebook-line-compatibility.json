@@ -1,0 +1,46 @@
+{
+  "nbformat_version": "5.11.1",
+  "cases": [
+    {
+      "case": "unicode-breaks-and-mime",
+      "cells": 2,
+      "normalized_notebook_matches": true
+    },
+    {
+      "case": "interaction-and-automation",
+      "cells": 8,
+      "normalized_notebook_matches": true
+    },
+    {
+      "case": "empty-and-piped",
+      "cells": 3,
+      "normalized_notebook_matches": true
+    }
+  ],
+  "normalization": "compared parsed JSON after replacing random cell IDs",
+  "scope": "fixed official CLI plus extension and synthetic history, isolated HOME and no network",
+  "binary_sha256": "7604feafc9721c345810a357e5f3fb5eff90861cc1b8c23df29e9410c7e451c5",
+  "upstream_converter_sha256": "3125d067affeae1c0314b41a135ccdbe8bd209abcf5775c8997ae2c1c9219f35",
+  "reference_commits": {
+    "cli": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+    "ext": "980a39748badc3168a5af8734b2467351bdafcbc",
+    "kernel": "f18e982c3265df5e923aa9def101ab3fd737e139"
+  },
+  "inputs_sha256": {
+    "src/cli_compat.rs": "638c073557761f1a6cab8347746df3f61b7779640f5eb81bfc503f14241845fc",
+    "tests/cli_compat.rs": "1b1f7af59aa0722dadeee6cf77fe4746eb0ccf6bead0b8c10f2a32d5013915ed",
+    "tests/jupyter.rs": "4fab72ae9779fd1a73cf3151418bb01fe1bfa1b24491c544d42d21059ed76cef"
+  },
+  "regression": {
+    "cli_compat": 3,
+    "history": 10,
+    "jupyter": 80,
+    "updated_exec_entrypoint_passed": true,
+    "clippy_exit_code": 0
+  },
+  "log_sha256": {
+    "notebook-lines-tests.log": "13a1b9701aab8f77604534d237cf72ec61990c1486c15def2859eecee00e5d11",
+    "notebook-lines-entrypoint.log": "db11981b8304fa9debd428578f1f465322278719c4c077f925afea177e3e726e",
+    "notebook-lines-clippy.log": "1d792c74d84406aa3a76a9ba0554da70bafe3e83175faa636c456aa9d370c047"
+  }
+}

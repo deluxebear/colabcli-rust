@@ -1,0 +1,241 @@
+{
+  "source_commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+  "source_path": "src/colab_cli/utils.py",
+  "source_sha256": "f3fcd94519410e1112b4053fb62dc5bcd3d52d9d2047bfe43bd44e068f46ab73",
+  "console_width": 80,
+  "dependencies": {
+    "rich": "15.0.0",
+    "html2text": "2025.4.15"
+  },
+  "scope": "fixed pure render_display_data + actual Rich Console; synthetic MIME only; network forbidden",
+  "cases": [
+    {
+      "name": "plain",
+      "data": {
+        "text/plain": "plain output"
+      },
+      "comparison": "whitespace",
+      "official_text": "plain output\n",
+      "required_fragments": [
+        "plain output"
+      ],
+      "forbidden_fragments": []
+    },
+    {
+      "name": "unicode",
+      "data": {
+        "text/plain": "中文 café 😀"
+      },
+      "comparison": "whitespace",
+      "official_text": "中文 café 😀\n",
+      "required_fragments": [
+        "中文 café 😀"
+      ],
+      "forbidden_fragments": []
+    },
+    {
+      "name": "markdown",
+      "data": {
+        "text/markdown": "Hello **world**"
+      },
+      "comparison": "whitespace",
+      "official_text": "Hello world                                                                     \n",
+      "required_fragments": [
+        "Hello world"
+      ],
+      "forbidden_fragments": [
+        "**"
+      ]
+    },
+    {
+      "name": "html",
+      "data": {
+        "text/html": "<p>Hello <b>world</b></p>"
+      },
+      "comparison": "whitespace",
+      "official_text": "Hello world                                                                     \n",
+      "required_fragments": [
+        "Hello world"
+      ],
+      "forbidden_fragments": [
+        "<p>"
+      ]
+    },
+    {
+      "name": "markdown-priority",
+      "data": {
+        "text/markdown": "chosen **markdown**",
+        "text/html": "<p>wrong html</p>",
+        "text/plain": "wrong plain"
+      },
+      "comparison": "whitespace",
+      "official_text": "chosen markdown                                                                 \n",
+      "required_fragments": [
+        "chosen markdown"
+      ],
+      "forbidden_fragments": [
+        "wrong"
+      ]
+    },
+    {
+      "name": "html-priority",
+      "data": {
+        "text/html": "<p>chosen <b>html</b></p>",
+        "text/plain": "wrong plain"
+      },
+      "comparison": "whitespace",
+      "official_text": "chosen html                                                                     \n",
+      "required_fragments": [
+        "chosen html"
+      ],
+      "forbidden_fragments": [
+        "wrong"
+      ]
+    },
+    {
+      "name": "markdown-link",
+      "data": {
+        "text/markdown": "[local label](https://example.invalid/no-fetch)"
+      },
+      "comparison": "whitespace",
+      "official_text": "local label                                                                     \n",
+      "required_fragments": [
+        "local label"
+      ],
+      "forbidden_fragments": [
+        "no-fetch"
+      ]
+    },
+    {
+      "name": "html-entities",
+      "data": {
+        "text/html": "<p>中文 &amp; 2 &lt; 3</p>"
+      },
+      "comparison": "whitespace",
+      "official_text": "中文 & 2 < 3                                                                    \n",
+      "required_fragments": [
+        "中文 & 2 < 3"
+      ],
+      "forbidden_fragments": [
+        "&amp;"
+      ]
+    },
+    {
+      "name": "code",
+      "data": {
+        "text/markdown": "```python\nanswer = 42\n```"
+      },
+      "comparison": "whitespace",
+      "official_text": "                                                                                \n answer = 42                                                                    \n                                                                                \n",
+      "required_fragments": [
+        "answer = 42"
+      ],
+      "forbidden_fragments": [
+        "```"
+      ]
+    },
+    {
+      "name": "heading",
+      "data": {
+        "text/markdown": "# Heading\n\nParagraph"
+      },
+      "comparison": "layout_difference",
+      "official_text": "                                    Heading                                     \n\nParagraph                                                                       \n",
+      "required_fragments": [
+        "Heading",
+        "Paragraph"
+      ],
+      "forbidden_fragments": [
+        "<h1>"
+      ]
+    },
+    {
+      "name": "list",
+      "data": {
+        "text/markdown": "- first\n- second"
+      },
+      "comparison": "layout_difference",
+      "official_text": "\n • first                                                                        \n • second                                                                       \n",
+      "required_fragments": [
+        "first",
+        "second"
+      ],
+      "forbidden_fragments": [
+        "<li>"
+      ]
+    },
+    {
+      "name": "table",
+      "data": {
+        "text/markdown": "| Name | Value |\n|---|---|\n| alpha | 7 |"
+      },
+      "comparison": "layout_difference",
+      "official_text": "\n              \n Name   Value \n ──────────── \n alpha  7     \n              \n",
+      "required_fragments": [
+        "Name",
+        "Value",
+        "alpha",
+        "7"
+      ],
+      "forbidden_fragments": [
+        "<table>"
+      ]
+    },
+    {
+      "name": "inert-html",
+      "data": {
+        "text/html": "<style>hidden-style</style><script>hidden-script</script><p>visible only</p>"
+      },
+      "comparison": "whitespace",
+      "official_text": "visible only                                                                    \n",
+      "required_fragments": [
+        "visible only"
+      ],
+      "forbidden_fragments": [
+        "hidden-style",
+        "hidden-script"
+      ]
+    },
+    {
+      "name": "html-line-breaks",
+      "data": {
+        "text/html": "<p>first<br>second</p><p>third</p>"
+      },
+      "comparison": "whitespace",
+      "official_text": "first                                                                           \nsecond                                                                          \n\nthird                                                                           \n",
+      "required_fragments": [
+        "first",
+        "second",
+        "third"
+      ],
+      "forbidden_fragments": [
+        "<br>"
+      ]
+    },
+    {
+      "name": "image-only",
+      "data": {
+        "image/png": "synthetic-not-an-image"
+      },
+      "comparison": "whitespace",
+      "official_text": "",
+      "required_fragments": [],
+      "forbidden_fragments": [
+        "synthetic-not-an-image"
+      ]
+    },
+    {
+      "name": "empty-markdown",
+      "data": {
+        "text/markdown": "",
+        "text/plain": "wrong fallback"
+      },
+      "comparison": "whitespace",
+      "official_text": "",
+      "required_fragments": [],
+      "forbidden_fragments": [
+        "wrong fallback"
+      ]
+    }
+  ]
+}

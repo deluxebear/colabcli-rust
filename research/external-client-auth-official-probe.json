@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "google_auth_version": "2.62.2",
+  "network_calls": 0,
+  "real_credentials_used": false,
+  "cases": [
+    {
+      "fixture_client_id": null,
+      "fixture_client_secret": "unused-secret",
+      "authorization": null,
+      "options_present": true,
+      "body_client_id_present": false,
+      "body_client_secret_present": false
+    },
+    {
+      "fixture_client_id": "",
+      "fixture_client_secret": "unused-secret",
+      "authorization": null,
+      "options_present": true,
+      "body_client_id_present": false,
+      "body_client_secret_present": false
+    },
+    {
+      "fixture_client_id": "client",
+      "fixture_client_secret": null,
+      "authorization": "Basic Y2xpZW50Og==",
+      "options_present": false,
+      "body_client_id_present": false,
+      "body_client_secret_present": false
+    },
+    {
+      "fixture_client_id": "client",
+      "fixture_client_secret": "",
+      "authorization": "Basic Y2xpZW50Og==",
+      "options_present": false,
+      "body_client_id_present": false,
+      "body_client_secret_present": false
+    },
+    {
+      "fixture_client_id": "client-é",
+      "fixture_client_secret": "secret:+& 字",
+      "authorization": "Basic Y2xpZW50LcOpOnNlY3JldDorJiDlrZc=",
+      "options_present": false,
+      "body_client_id_present": false,
+      "body_client_secret_present": false
+    }
+  ],
+  "probe_sha256": "8261e508aef157e9308ca4e94d4f0f6efa833785b026194e245a5db0ff58cbb4",
+  "source_sha256": {
+    "google.auth.identity_pool": "a992098792ad5f4d0036a827d0e6c7789e4bca1da4a907596e51c58ea7c96292",
+    "google.auth.external_account": "a0dc3c4ff5f3df5f9f0d8b1b8e8c973c3adcc44d61692094756a16f2917ffc87",
+    "google.oauth2.sts": "935e1ccea97af6d2fa5c05334dae4b6271f92c9609a2a2bd21fc20e85e15d865",
+    "google.oauth2.utils": "e1cac076929b0eda1ba507d725cdee17a666e85dc8cdf7ef452a3ef61ff9d79c"
+  }
+}

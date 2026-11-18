@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:53:04.381077+08:00",
+  "passed": true,
+  "stages": [
+    {
+      "name": "fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clippy_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e41a5d7908364f0aa59101f30c00155bee37b47905b12f8f8db69bc318aaac95"
+    },
+    {
+      "name": "clippy_no_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--no-default-features",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "0fa0c3d0a42323ff4a9674a83f4758eab1c39fc047c8ebc67cc5c93413d41e68"
+    },
+    {
+      "name": "test_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "log_sha256": "99d072c3a2b8fa6bc447188da0a621bd6c8a041cf9a140d465101402eef1c24f",
+      "passed_tests": 471,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "test_no_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "log_sha256": "c75a6ac90d697950611c8c288a78dd784bdcdcdb15f69d3f860a31bc9eb797eb",
+      "passed_tests": 469,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "restore_default_test_binary",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "f6ee0c434bf6d9e1be34acbd8347fd18481601ea1eb75f2276e5cc60ef64d440"
+    }
+  ],
+  "scope": "macOS local endpoint-bound runtime access and pre-authentication guard regression; no cloud resources from Rust tests",
+  "input_sha256": {
+    "src/sessions.rs": "a7dee2e2ea96c1be2533f01520f225f4098e5a4ba805f2bb50bf18a9986adcfa",
+    "src/main.rs": "bd1b20346e2dc362ca70e6a2ee94e277078d7ba0f3fe96fe9a8d9498781a6e8f",
+    "src/drive_runtime_cli.rs": "294816d25f6910843b58bbd77740627f0eb467526a93bea69b67f1098ddc5d36",
+    "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e",
+    "tests/guarded_stop.rs": "d9437544d7e28e0aa66455de0c398ca531775ba47f03e00b6ae021b5521a57fa",
+    "Cargo.toml": "6342d853b7d12b51647591090fb0297a153dbbf5762a220f9326d11c612ac683",
+    "Cargo.lock": "0bd79534138d59e36963dbb90b6fc870ddc34a8683ae8cb9ef89218a0210af9b"
+  },
+  "debug_binary_sha256": "bad923b22a307feeb80f87c7d4a4c766f7102aa5aa21069435fb6410311ed2ed",
+  "debug_binary_bytes": 44728392
+}

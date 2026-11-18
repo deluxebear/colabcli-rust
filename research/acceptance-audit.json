@@ -1,0 +1,1000 @@
+{
+  "schema_version": 1,
+  "objective": "实现整个设计文档中的功能",
+  "audited_at_utc": "2026-11-18T07:19:12.133355+00:00",
+  "audit_method": "Human evidence review and requirement mapping; path/hash/ID checks are structural only and do not prove semantic coverage",
+  "requirements": [
+    {
+      "id": "V01.1",
+      "evidence_summary": "[83 路径合并帮助](../research/merged-help.json)、[CLI 对照](../research/cli-comparison.json)",
+      "evidence_file_sha256": {
+        "research/merged-help.json": "0c40e5dbeebbe1fc3cfc71716d606bf69738eca183c4c8e33cf01ae4186a050e",
+        "research/cli-comparison.json": "947843407287073c7b104af7a576fc6fb0baeaaa0ce8e3bb23a6a681af903eb9"
+      },
+      "remaining_or_limit": "帮助/采样参数不是所有业务输入等价；合并专项使用不同阶段构建",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V01.2",
+      "evidence_summary": "[argv/环境](../tests/cli_compat.rs)、[run/SSH](../tests/ssh.rs)",
+      "evidence_file_sha256": {
+        "tests/cli_compat.rs": "3e027119a43855f6014c783e7211c625561e977ee12f9be87428e9d7aabb77e8",
+        "tests/ssh.rs": "58763c563df1db29d56f13553c8615499a49ee660a3f32314c0753d6dd964d72"
+      },
+      "remaining_or_limit": "未采样的参数组合仍不能概括为 Click 完全等价",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V01.3",
+      "evidence_summary": "[URL 对照](../research/merged-url-comparison.json)、[SSH 字节流](../tests/ssh.rs)、[真实 SSH](../research/live-ssh-validation.json)、[汇总](../tests/merged_inventory.rs)",
+      "evidence_file_sha256": {
+        "research/merged-url-comparison.json": "6ba4460e5080cee5ce5ec1934ce1b1ad73966180a32f1601cd0689100540449c",
+        "tests/ssh.rs": "58763c563df1db29d56f13553c8615499a49ee660a3f32314c0753d6dd964d72",
+        "research/live-ssh-validation.json": "1deb015ac4fd7909485dab674f7d78525badf205d1c8b6703012814f9eb6e8bb",
+        "tests/merged_inventory.rs": "33bfbef97f1315ea249fdc37a598b784dfe6464f9c160e3fe9eb3e5218586a76"
+      },
+      "remaining_or_limit": "单次 macOS ARM64 真实 SSH 二进制 stdio 通过；其他平台、故障和所有输入未覆盖",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V01.4",
+      "evidence_summary": "[PTY/图片](../tests/jupyter.rs)、[SSH TTY](../tests/ssh.rs)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "tests/ssh.rs": "58763c563df1db29d56f13553c8615499a49ee660a3f32314c0753d6dd964d72"
+      },
+      "remaining_or_limit": "实际图形终端像素显示、其他系统终端未覆盖",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V01.5",
+      "evidence_summary": "[非交互登录](../tests/cli.rs)、[部分账户失败](../tests/inventory.rs)",
+      "evidence_file_sha256": {
+        "tests/cli.rs": "8b7d98e227ca54bc99514e6323dd8416e861aaadcaebf1fbfbf10793f42bf39b",
+        "tests/inventory.rs": "39e2877db4ebd98f15c77fe6609a45e040966e8d41914375cfe9505714b3111f"
+      },
+      "remaining_or_limit": "原生桌面凭据提示仍需宿主验证",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V01.6",
+      "evidence_summary": "[更新与回滚](../tests/update.rs)、[每日检查](../tests/update_daily.rs)",
+      "evidence_file_sha256": {
+        "tests/update.rs": "4964e2d16d475535c47fcec6f2e708e8d1848895ad8ac6680e92ec49bc310c2b",
+        "tests/update_daily.rs": "b753816e515f959f02099b09c8763bf3e77bda8912d9a33e64262ea7f339576f"
+      },
+      "remaining_or_limit": "尚无真实 GitHub Release 下载/安装证据",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.1",
+      "evidence_summary": "[选择与同名优先](../tests/accounts.rs)、[合并选择](../research/merged-account-selection.json)",
+      "evidence_file_sha256": {
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3",
+        "research/merged-account-selection.json": "94298f8eea6bac610d910a9f2f5198a5f271ebc00b4190849d2312a3fd11ff9c"
+      },
+      "remaining_or_limit": "实际账户/组织政策不能由本地选择测试证明",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.2",
+      "evidence_summary": "[分配路由](../tests/control_plane.rs)、[run 碰撞](../tests/runs.rs)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e",
+        "tests/runs.rs": "3fc852ee49087f31e093a6140d4e49c98eeee0c12f134eacba2a534b177e1dfd"
+      },
+      "remaining_or_limit": "多真实账户 new/run 的服务器结果未验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.3",
+      "evidence_summary": "[Drive 优先级](../tests/accounts.rs)、[consent 路由](../research/merged-drive-consent.json)",
+      "evidence_file_sha256": {
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3",
+        "research/merged-drive-consent.json": "610aee29482c613461adca9a0087758ba45c465e3bdd1d9282c6dd7aa42171ad"
+      },
+      "remaining_or_limit": "跨真实账户的 Drive 授权与挂载仍缺证据",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.4",
+      "evidence_summary": "[账户](../tests/accounts.rs)、[历史](../tests/history.rs)、[Drive](../tests/drive_credentials.rs)",
+      "evidence_file_sha256": {
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3",
+        "tests/history.rs": "19a754a62e99c7572f86991cf90fc21b466afb50304c9eacbffa661d9562bbf4",
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b"
+      },
+      "remaining_or_limit": "合成隔离不代表所有真实账户认证来源均通过",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.5",
+      "evidence_summary": "[ADC 双来源并发](../tests/auth.rs)、[quota/请求身份](../tests/adc_quota.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/adc_quota.rs": "0fd831f1db86d29f6e0f9bc18e8a36f04743eaa1e79c5f28ee7fcadd450f9283"
+      },
+      "remaining_or_limit": "两个真实 ADC 身份的 Colab 接受性未知",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.6",
+      "evidence_summary": "[存储与失败保护](../tests/storage.rs)、[CLI 多进程](../tests/cli.rs)、[检查点丢更新修复](../research/checkpoint-merge-regression-validation.json)",
+      "evidence_file_sha256": {
+        "tests/storage.rs": "87e58033821fd8dd92581fa2d927efc097a13c87d173ef439072b91f43082047",
+        "tests/cli.rs": "8b7d98e227ca54bc99514e6323dd8416e861aaadcaebf1fbfbf10793f42bf39b",
+        "research/checkpoint-merge-regression-validation.json": "489ba278a1c2d5397aacbedb8105ecc5689c6d2ae27f7baffafc6df1a5382c18"
+      },
+      "remaining_or_limit": "任意断电时刻/文件系统故障未穷举；Python/Rust 并发混用禁止",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.7",
+      "evidence_summary": "[旧文件迁移](../tests/storage.rs)、[原生条目迁移](../research/secret-service-validation.json)",
+      "evidence_file_sha256": {
+        "tests/storage.rs": "87e58033821fd8dd92581fa2d927efc097a13c87d173ef439072b91f43082047",
+        "research/secret-service-validation.json": "d80de1eaa12b1aff66d9509fcd04e990c2e1b9f8933549cd201e2e522a64edb6"
+      },
+      "remaining_or_limit": "macOS 桌面钥匙串 ACL/完整原版迁移仍待验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.8",
+      "evidence_summary": "[重命名恢复](../tests/accounts.rs)、[后端策略](../tests/account_mutations.rs)",
+      "evidence_file_sha256": {
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3",
+        "tests/account_mutations.rs": "d15f7b2aadf435ab6842ff65d200d2d5d3b82b2c1b1798d0e25ee61a12bf0d93"
+      },
+      "remaining_or_limit": "真实桌面后端的各失败阶段不由内存替身覆盖",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.9",
+      "evidence_summary": "[删除保护](../tests/accounts.rs)、[合并变更](../research/merged-account-mutations.json)",
+      "evidence_file_sha256": {
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3",
+        "research/merged-account-mutations.json": "4af5cedd7654be6d515514ac67e32424f699585b2124ba45d3c828ccd16edd14"
+      },
+      "remaining_or_limit": "已按仅删资料语义验证，不承诺停止远端 VM",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V02.10",
+      "evidence_summary": "[路径/符号链接/权限](../tests/storage.rs)、[大小写冲突](../tests/accounts.rs)",
+      "evidence_file_sha256": {
+        "tests/storage.rs": "87e58033821fd8dd92581fa2d927efc097a13c87d173ef439072b91f43082047",
+        "tests/accounts.rs": "078d965a70300f36c9eb4dea61e46872f334a87eb80e185bd10c0c7e3b3bc0d3"
+      },
+      "remaining_or_limit": "未取得所有文件系统和 Windows 路径原生证据",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.1",
+      "evidence_summary": "[OAuth 流程](../tests/auth.rs)、[CLI 两步](../tests/account_login.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/account_login.rs": "7edcc82dc87618b0f8f22df43076b5ca553903911f861defc5ba2712a387cd5d"
+      },
+      "remaining_or_limit": "各目标 OAuth client/redirect/scopes 的新真实授权尚未完成",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.2",
+      "evidence_summary": "[state/callback](../tests/auth.rs)、[Drive state](../tests/drive_credentials.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b"
+      },
+      "remaining_or_limit": "Google 实际 callback 路径仍需真实授权验证",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.3",
+      "evidence_summary": "[URL 与交换 verifier](../tests/auth.rs)、[两端 custom URL S256](../research/merged-drive-consent.json)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "research/merged-drive-consent.json": "610aee29482c613461adca9a0087758ba45c465e3bdd1d9282c6dd7aa42171ad"
+      },
+      "remaining_or_limit": "不能外推所有 flavor、Google 授权码交换接受性",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.4",
+      "evidence_summary": "[持久 pending/期限/错误保护](../tests/auth.rs)、[Drive 完成边界](../tests/drive_credentials.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b"
+      },
+      "remaining_or_limit": "尚缺新真实 OAuth 两步流程证据",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.5",
+      "evidence_summary": "[实际 scope 保存](../tests/auth.rs)、[Drive scope 来源](../tests/drive_credentials.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b"
+      },
+      "remaining_or_limit": "服务器实际授予及缺权限挂载诊断仍待线上验证",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.6",
+      "evidence_summary": "[真实私有 Secret Service](../research/secret-service-validation.json)、[超时/文件策略](../tests/credentials.rs)、[macOS 代码身份与查询对照](../research/macos-keychain-identity-validation.json)",
+      "evidence_file_sha256": {
+        "research/secret-service-validation.json": "d80de1eaa12b1aff66d9509fcd04e990c2e1b9f8933549cd201e2e522a64edb6",
+        "tests/credentials.rs": "15640121959913ca944cea3f263ff05ef983aff19fe8a18e639565c06d9b9463",
+        "research/macos-keychain-identity-validation.json": "8afbd3a86b105a0fda2fd4977bc7ae3725d098c4adc7f186f8e0acfc42198d18"
+      },
+      "remaining_or_limit": "Linux 为私有隔离后端；macOS 当前两种终端模式查询成功、构建身份变化已复现，但真实 ACL/原版完整互通和既往超时根因未闭环",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.7",
+      "evidence_summary": "[轮换/并发/提交失败](../tests/auth.rs)、[控制面续期](../tests/control_refresh.rs)",
+      "evidence_file_sha256": {
+        "tests/auth.rs": "36bcd47d9859f06a190ab5bfc15dfccdd327f37b83a55cfee6f2d64c37a8b87e",
+        "tests/control_refresh.rs": "26db5611f91e606bb0e1fb01caf34ba2694d5bc809c59b8e52d6beab393809a2"
+      },
+      "remaining_or_limit": "实际 Google 撤销、长时间刷新仍缺证据",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V03.8",
+      "evidence_summary": "[ADC 分类型实现](02-accounts-auth-storage.md)、[各 ADC 测试](../tests/adc_external.rs)、[STS 客户端认证回归](../research/external-client-auth-regression-validation.json)、[原版五组对照](../research/external-client-auth-official-probe.json)、[X.509 本地 mTLS 回归](../research/x509-adc-regression-validation.json)、[原版证书探针](../research/x509-adc-official-probe.json)、[Metadata mTLS 回归](../research/metadata-mtls-regression-validation.json)、[模式/adapter/端口对照](../research/metadata-mtls-official-probe.json)",
+      "evidence_file_sha256": {
+        "docs/02-accounts-auth-storage.md": "1c1b6f949395ef422e5df2b2e452463d18ba1467183e3f2abb30218d87443f18",
+        "tests/adc_external.rs": "f3792b89c40efb8319178dc17766144c428bf6b2576af84c4dfbef65fe6cb197",
+        "research/external-client-auth-regression-validation.json": "b15e9ab517bfe207eca3573442388f217a21f53aae8b29aea984c6879c49df28",
+        "research/external-client-auth-official-probe.json": "2a24a35f50248ecfc2e4874ed82669aa0ed99cb890609dad81ad22df0c7298f4",
+        "src/auth/adc/certificate/tests.rs": "ef08e7d819ca0f4252ace93698705f39d99f28ffbfcd3e4ab8af55eb60ce37aa",
+        "research/x509-adc-regression-validation.json": "dd5daf6472f5c4b4e6298d49ca8d44b47e471cddd80eed2c32e48545acb5cc45",
+        "research/x509-adc-official-probe.json": "b796522231f5550f1330019563626f7c8d20f03d0ee8c608266c22ff723cf66d",
+        "src/auth/adc/metadata/tests.rs": "6d7c5b31f348ff741b8283667ecde9ae53743d204e5c750f7e82933a859ca183",
+        "tests/adc_metadata.rs": "692d7b6250ad44d490616728c0a08849f1e50bece81d601e60018f118046d25b",
+        "research/metadata-mtls-regression-validation.json": "cef0186f8077195eed9fbf52a174b7c89e6f3d346f80f98678e3e83f3b1026be",
+        "research/metadata-mtls-official-probe.json": "04adaf925d4db557b36d337ea06483f0178bf79bacef9ecb537caa3e3b7df288"
+      },
+      "remaining_or_limit": "X.509 workload 与 metadata mTLS 已有本地 TLS/模式/轮换和原版离线对照；真实 token/scopes/Colab 四列未完整建立，JWT/SAML/运行时证书绑定仍未实现；其他平台尚未原生验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.1",
+      "evidence_summary": "[真实 loopback 请求](../tests/control_plane.rs)、[历史 CPU 控制面](../research/live-cpu-validation.json)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e",
+        "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc"
+      },
+      "remaining_or_limit": "历史 CPU 是单账户/旧构建，不能证明当前全部认证组合",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.2",
+      "evidence_summary": "[identity/hardware 编码](../tests/control_plane.rs)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e"
+      },
+      "remaining_or_limit": "客户端固定算法已有局部证据，不能外推未来服务端兼容",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.3",
+      "evidence_summary": "[丢失回复同 identity 调和](../tests/control_plane.rs)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e"
+      },
+      "remaining_or_limit": "真实服务器丢失响应的故障注入未做",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.4",
+      "evidence_summary": "[HTTP/损坏响应/读取超时](../tests/control_plane.rs)、[401 续期边界](../tests/control_refresh.rs)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e",
+        "tests/control_refresh.rs": "26db5611f91e606bb0e1fb01caf34ba2694d5bc809c59b8e52d6beab393809a2"
+      },
+      "remaining_or_limit": "真实 Google 各状态码/组织拒绝尚未逐项触发",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.5",
+      "evidence_summary": "[proxy token 刷新](../tests/contents.rs)、[裁剪](../tests/control_plane.rs)",
+      "evidence_file_sha256": {
+        "tests/contents.rs": "fe291037a50b54a5e08b387bdc3b0ffd4cf5866d0116a9961fd157e2c410dd4e",
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e"
+      },
+      "remaining_or_limit": "当前真实长时间 token 生命周期未验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.6",
+      "evidence_summary": "文件边界、历史真实往返、十八组合并版数值精度/下载字节对照；范围见 docs/76",
+      "evidence_file_sha256": {
+        "tests/contents.rs": "d226e4d2e6d388ee3b306fe0532944eb2c77e0afe0cada3b7c677166a6731937",
+        "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc",
+        "src/contents.rs": "d16cf1e8c2201269edca42e792c6cb9525415b827bae2a2b952d81ed7b5a24ce",
+        "src/contents/json_document.rs": "79ecd0722cf69980d6819074edd7ae2d6e2c04e3b053995048769d3937c7cc79",
+        "src/contents/json_document/tests.rs": "d448d4a2b77fd42c38df87401cdaa651cb7d4e7c0699e89c4d51f6cd1f4b2e84",
+        "research/merged-json-numbers-comparison.json": "8e8314da9c16226cbf83c5fc0d0ec81a43aa602255df4e8bf56efc2ef1ab791f",
+        "research/json-numbers-regression-validation.json": "12e121b8ace42a340df2340b4542fbf12d1717367fc8ca5781011a45eda08342"
+      },
+      "remaining_or_limit": "32 MiB 本地限额及有限浮点/大整数本地对照已有；真实上限尺寸/所有路径、全部 JSON 数值组合未采样",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.7",
+      "evidence_summary": "[仅 404 新建/编辑失败保护](../tests/contents.rs)",
+      "evidence_file_sha256": {
+        "tests/contents.rs": "fe291037a50b54a5e08b387bdc3b0ffd4cf5866d0116a9961fd157e2c410dd4e"
+      },
+      "remaining_or_limit": "历史 CPU 有 edit 成功；真实认证故障覆盖仍缺",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V04.8",
+      "evidence_summary": "[释放失败/后端确认](../tests/control_plane.rs)、[endpoint 保护](../tests/guarded_stop.rs)、[历史清理](../research/live-cpu-validation.json)",
+      "evidence_file_sha256": {
+        "tests/control_plane.rs": "94bc11a6ad7e85ab440e1d8f6bc945569de103a6c41e9ff9600ee7487254450e",
+        "tests/guarded_stop.rs": "d9437544d7e28e0aa66455de0c398ca531775ba47f03e00b6ae021b5521a57fa",
+        "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc"
+      },
+      "remaining_or_limit": "当前构建真实释放失败后的恢复未验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.1",
+      "evidence_summary": "[codec fixtures/坏偏移](../tests/jupyter.rs)、[固定探针](../research/kernel-codec-probe.json)、[真实 DEFAULT 采集](../research/live-codec-validation.json)、[样本重放回归](../research/live-codec-regression-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/kernel-codec-probe.json": "fd87269cac833ffcdf3f0931fec10b2243a816410a44989f757ec15a38ba6fea",
+        "research/live-codec-validation.json": "c20949252666f917a14a1aacc3d9f8e24f538bf86697ced43c11d53a8202cadb",
+        "research/live-codec-regression-validation.json": "31454f5299eb3d5ec092ac4cdb38ae6ab0098e4aac27fae791af34651aea3b36",
+        "research/live-codec-samples.json": "a16ce77b99b23183f3902614ab10a78f304cd65d822ef883e8a61388286e04e8"
+      },
+      "remaining_or_limit": "本条要求和 U06 的当前 DEFAULT 两帧采集/对照已完成；其他消息时序、故障与平台按其他 V/U 条目验收",
+      "full_acceptance_proven": true
+    },
+    {
+      "id": "V05.2",
+      "evidence_summary": "[channel/parent/stdin](../tests/jupyter.rs)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871"
+      },
+      "remaining_or_limit": "历史 CPU 为常规执行，未覆盖真实交互 stdin 全路径",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.3",
+      "evidence_summary": "[idle/reply 时序与迟到输出](../tests/jupyter.rs)、[真实断线部分输出](../research/live-disconnect-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/live-disconnect-validation.json": "9ae8b7b5a8d9388558ff74c1c0df65295acfdda3dbbeba2c28a9bf96f94f4396"
+      },
+      "remaining_or_limit": "单种客户端受控断线已有证据；服务端各消息/迟到时序没有完整线上采样",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.4",
+      "evidence_summary": "[相关输出/静默/期限](../tests/jupyter.rs)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871"
+      },
+      "remaining_or_limit": "没有真实长时运行证据，协议心跳不等于防止回收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.5",
+      "evidence_summary": "[握手/断线测试](../tests/jupyter.rs)、[历史构建真实断线](../research/live-disconnect-validation.json)、[广播 Unknown 修复回归](../research/kernel-broadcast-regression-validation.json)、[新构建真实广播预检查](../research/live-kernel-broadcast-preflight.json)、[真实 kernel 崩溃与恢复](../research/live-kernel-death-validation.json)、[工具回归](../research/live-kernel-death-regression-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/live-disconnect-validation.json": "9ae8b7b5a8d9388558ff74c1c0df65295acfdda3dbbeba2c28a9bf96f94f4396",
+        "research/kernel-broadcast-regression-validation.json": "bb6a2cbbff4dcb124d3ffb0fcd49c401d1bf4502d32c5d904e3d682aee220eba",
+        "research/live-kernel-broadcast-preflight.json": "bdd01d9d5cad6b5417619297f3ccea8571f40499873ad1dadf1cf0584a615358",
+        "research/live-kernel-death-validation.json": "0e65514e7544f3e77d166280214bc4e2a7675ed66f333c6011b100ad05f24c4a",
+        "research/live-kernel-death-first-attempt.json": "92e88d205d8fefbc30494e3df0471ec2b0f66abfba2885b77cb51ac01ee5f2a8",
+        "research/live-kernel-death-regression-validation.json": "bcec78c04faafe8971b2eb4d53cffa9c1b0fd21a83eccd63b865513ef23088b8"
+      },
+      "remaining_or_limit": "真实生命周期 Unknown、部分输出、同 msg_id 禁止重放、单次副作用及显式重启恢复通过；首次缺输出失败保留，两台 VM 已确认释放；其他时序/故障与平台仍有缺口",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.6",
+      "evidence_summary": "[富文本](../tests/display.rs)、[图片](../tests/images.rs)、[实际 CLI/WS](../tests/jupyter.rs)",
+      "evidence_file_sha256": {
+        "tests/display.rs": "d92c5ed8a444fe6e956d03787f4366c2181034fd3b390f2ba84903b69d715a1f",
+        "tests/images.rs": "c23b865844501b7b5c149465e761fbac30c1b547f785ab28c0ff421a15ed7122",
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871"
+      },
+      "remaining_or_limit": "历史真实 PNG 文件成功；图形终端视觉、特殊 JPEG 未验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.7",
+      "evidence_summary": "[持久化/query/header](../tests/jupyter.rs)、[构造探针](../research/kernel-session-probe.json)、[历史跨命令变量](../research/live-cpu-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/kernel-session-probe.json": "4577ea37b7891ea27e6ec6a926323f85fb7ef448445083c8e9daa8c813678d1c",
+        "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc"
+      },
+      "remaining_or_limit": "固定依赖行为已澄清，未证明服务端要求特定 session 或所有重连情况",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.8",
+      "evidence_summary": "[notebook metadata/部分输出](../tests/jupyter.rs)、[历史 Notebook](../research/live-cpu-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc"
+      },
+      "remaining_or_limit": "未将有限 samples 泛化为任意 Notebook 完全兼容",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.9",
+      "evidence_summary": "[脚本结果](../tests/runs.rs)、[run 生命周期](../tests/jupyter.rs)、[真实 run/退出 23/自动释放](../research/live-run-validation.json)、[真实 keep/后续 exec](../research/live-run-keep-validation.json)、[真实 SIGTERM/143](../research/live-run-signal-validation.json)",
+      "evidence_file_sha256": {
+        "tests/runs.rs": "3fc852ee49087f31e093a6140d4e49c98eeee0c12f134eacba2a534b177e1dfd",
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/live-run-validation.json": "a3be86eb4e2d785fae1a77b8782252b714e3d1768bc417d0610825609d27e50b",
+        "research/live-run-keep-validation.json": "5267d3d984eca114a1011658b57bcc7ed00fb60da25b7ef2e9919600f3efc9aa",
+        "research/live-run-signal-validation.json": "816ad2b26c93a4eea943b63578873b1a1f4d3f897401cbb78970b9c70d04e701"
+      },
+      "remaining_or_limit": "单账户 macOS ARM64 真实非零退出、keep 与 SIGTERM 通过；其他信号、未知结果、释放失败及长任务仍待线上验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V05.10",
+      "evidence_summary": "[PTY REPL/取消/EOF](../tests/jupyter.rs)、[终端输入](../src/terminal_input.rs)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "src/terminal_input.rs": "e224e0d477e6f3085d7d35a53b41a66cf355abdd413d3542ca4ffcbd2e846037"
+      },
+      "remaining_or_limit": "真实远端交互、其他终端/Windows 仍有缺口",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V06",
+      "evidence_summary": "[21 项 SSH](../tests/ssh.rs)、[真实五项 SSH 与释放](../research/live-ssh-validation.json)、[真实 PTY/命令 SIGTERM](../research/live-ssh-extended-validation.json)、[首次失败](../research/live-ssh-extended-first-attempt.json)、[第二次失败](../research/live-ssh-extended-second-attempt.json)、[真实验证脚本](../tools/validate_live_ssh.py)",
+      "evidence_file_sha256": {
+        "tests/ssh.rs": "58763c563df1db29d56f13553c8615499a49ee660a3f32314c0753d6dd964d72",
+        "research/live-ssh-validation.json": "1deb015ac4fd7909485dab674f7d78525badf205d1c8b6703012814f9eb6e8bb",
+        "research/live-ssh-extended-validation.json": "d0c37645b7312c8f066d2684043ed80646082f2f009b2a8294ae897faba85592",
+        "research/live-ssh-extended-first-attempt.json": "b4aca4dfe4b95377db616ebefe5a608cfba7adb04a32715ad6d4e4e06a58cc6c",
+        "research/live-ssh-extended-second-attempt.json": "e41b7ec58696d9d3bb93fc738146e1aeb6a5d59864096e433af224cf578ced15",
+        "tools/validate_live_ssh.py": "77d80788abeccbafdda56f8d2766a87d9ad94dbe1c6ad5580445432978eb7ff9"
+      },
+      "remaining_or_limit": "单次 macOS ARM64 登录 shell PTY 与命令 SIGTERM 通过；两次先前失败原因未定位，其他交互/信号、故障恢复、长连接及其他平台未覆盖，Windows 未实现原生桥接",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.1",
+      "evidence_summary": "[Drive 授权](../tests/drive_credentials.rs)、[consent URL](../research/merged-drive-consent.json)",
+      "evidence_file_sha256": {
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b",
+        "research/merged-drive-consent.json": "610aee29482c613461adca9a0087758ba45c465e3bdd1d9282c6dd7aa42171ad"
+      },
+      "remaining_or_limit": "dfs/sdk/custom 各一次真实授权尚未完成",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.2",
+      "evidence_summary": "[精确 scope/rt client](../tests/drive_credentials.rs)",
+      "evidence_file_sha256": {
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b"
+      },
+      "remaining_or_limit": "匹配 client 的真实 rt 挂载/轮换未知",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.3",
+      "evidence_summary": "[metadata shim](../tools/tests/test_drivefs_shim.py)、[远端控制器](../tools/tests/test_drivefs_controller.py)、[真实 Drive 分段验收](../research/live-drive-validation.json)",
+      "evidence_file_sha256": {
+        "tools/tests/test_drivefs_shim.py": "fe6c78942e5b5194fbe76ee0d254cb6dee931b2a1e62f2b49235a0e04c344a03",
+        "tools/tests/test_drivefs_controller.py": "d1b0904a6a1e1eed4100c767282efcfbdffea931eb385d0f3eee26eabcbb0851",
+        "research/live-drive-validation.json": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a"
+      },
+      "remaining_or_limit": "真实 shim metadata 挂载已接受；超过初始 access token 有效期的刷新仍未验证",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.4",
+      "evidence_summary": "[本地编排](../src/drive_runtime_cli.rs)、[受限目录准备](../research/live-drive-validation-preparation.json)、[执行器及只读 API 回归](../research/live-drive-api-validation.json)、[服务端清理观察回归](../research/live-drive-api-cleanup-validation.json)、[真实 Drive 分段验收](../research/live-drive-validation.json)",
+      "evidence_file_sha256": {
+        "src/drive_runtime_cli.rs": "294816d25f6910843b58bbd77740627f0eb467526a93bea69b67f1098ddc5d36",
+        "research/live-drive-validation-preparation.json": "1a2a2f59c0750443540fd31e069f3c217d2cafe3f10d34373b425734b98e1852",
+        "research/live-drive-api-validation.json": "3ac01bfb1827b03671951468754c651dcb1871a4b2c05c124ba91ab61894a5db",
+        "research/live-drive-api-cleanup-validation.json": "915788477fc8ac9fe28334c34488f3f6e8e079994e4994c6862fc5e86e609836",
+        "research/live-drive-validation.json": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a"
+      },
+      "remaining_or_limit": "真实 MyDrive 读写及服务端字节已确认；仅同 token 所有权核对，未建立独立 OAuth subject 映射",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.5",
+      "evidence_summary": "[跨账户租约/隔离](../tests/drive_credentials.rs)、[生命周期](../tests/jupyter.rs)",
+      "evidence_file_sha256": {
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b",
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871"
+      },
+      "remaining_or_limit": "无 A 的真实 VM 挂 B 的真实 Drive，明确未完成",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.6",
+      "evidence_summary": "[轮换保存与失败恢复](../research/merged-drive-tokens.json)、[shim](../tools/tests/test_drivefs_shim.py)",
+      "evidence_file_sha256": {
+        "research/merged-drive-tokens.json": "4c2c46c7b910d8e622b8476fdac76a219fb93078510d315dbbb189b945d39fd8",
+        "tools/tests/test_drivefs_shim.py": "fe6c78942e5b5194fbe76ee0d254cb6dee931b2a1e62f2b49235a0e04c344a03"
+      },
+      "remaining_or_limit": "无超过初始 access token 有效期后的实际读文件/撤销诊断，明确未完成",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.7",
+      "evidence_summary": "[只读参数与远端控制器](../tools/tests/test_drivefs_controller.py)、[只读探针本地安全验证](../research/live-drive-preparation-validation.json)、[真实 Drive 分段验收](../research/live-drive-validation.json)",
+      "evidence_file_sha256": {
+        "tools/tests/test_drivefs_controller.py": "d1b0904a6a1e1eed4100c767282efcfbdffea931eb385d0f3eee26eabcbb0851",
+        "research/live-drive-preparation-validation.json": "226f3e82b2ba693b9dad01d46ac234f84f57f5de3cc6ab2c64d3f6f712c9cd95",
+        "research/live-drive-validation.json": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a"
+      },
+      "remaining_or_limit": "本次真实只读挂载写入被拒绝且原字节不变；仍限本次运行环境",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.8",
+      "evidence_summary": "[拥有关系/卸载失败保护](../tools/tests/test_drivefs_controller.py)、[编排](../tests/jupyter.rs)、[真实 Drive 分段验收](../research/live-drive-validation.json)",
+      "evidence_file_sha256": {
+        "tools/tests/test_drivefs_controller.py": "d1b0904a6a1e1eed4100c767282efcfbdffea931eb385d0f3eee26eabcbb0851",
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "research/live-drive-validation.json": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a"
+      },
+      "remaining_or_limit": "无真实 FUSE 卸载失败和双挂载隔离故障注入",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.9",
+      "evidence_summary": "[凭据输入/参数/日志](../tests/drive_credentials.rs)、[私有远端输入](../tests/jupyter.rs)",
+      "evidence_file_sha256": {
+        "tests/drive_credentials.rs": "2ce73854d9162758a548b2f111e99f87b2d3df3fa4f05dbd97775802b43ff87b",
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871"
+      },
+      "remaining_or_limit": "真实 DriveFS 私有 flags 接受性未验收",
+      "full_acceptance_proven": false
+    },
+    {
+      "id": "V07.10",
+      "evidence_summary": "[未知操作先核查/不重放](../tests/jupyter.rs)、[控制器](../tools/tests/test_drivefs_controller.py)、[真实 Drive 分段验收](../research/live-drive-validation.json)",
+      "evidence_file_sha256": {
+        "tests/jupyter.rs": "512da2ce074ab42498ee9ccfd0fcc4f9a807fb66a584fbcd1c0b4508f6946871",
+        "tools/tests/test_drivefs_controller.py": "d1b0904a6a1e1eed4100c767282efcfbdffea931eb385d0f3eee26eabcbb0851",
+        "research/live-drive-validation.json": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a"
+      },
+      "remaining_or_limit": "无真实挂载成功但回复丢失后的恢复证据",
+      "full_acceptance_proven": false
+    }
+  ],
+  "open_question_register": [
+    {
+      "id": "U01",
+      "archived": false,
+      "topic": "三个仓库组合后的实际 CLI 解析",
+      "close_condition_or_evidence": "已固定合并版 83 路径的命令/参数/help，见 [33](33-merged-help-and-aliases-implementation.md)；另有 [41](41-account-inventory-implementation.md) 的账户 list/current 离线业务对照及 [42](42-account-mutations-implementation.md) 的变更命令及 [43](43-account-selection-implementation.md) 的选择优先级及 [44](44-merged-inventory-implementation.md) 的会话/用量 loopback 对照，Drive show/clear、缺凭据 token 及七组实际刷新/whoami 协议对照见 [57](57-merged-drive-credentials-implementation.md)，九组 consent 起始路由/URL 见 [58](58-drive-consent-profile-implementation.md)；其余合并版错误/JSON 与业务 fixtures 仍待补齐"
+    },
+    {
+      "id": "U02",
+      "archived": false,
+      "topic": "OAuth client/redirect/scopes 当前接受情况",
+      "close_condition_or_evidence": "每个目标 flavor 完成一次真实授权，保存脱敏参数与结果"
+    },
+    {
+      "id": "U03",
+      "archived": false,
+      "topic": "ADC 身份支持范围",
+      "close_condition_or_evidence": "对承诺支持的身份逐项完成获取 token 与实际 Colab 请求"
+    },
+    {
+      "id": "U04",
+      "archived": false,
+      "topic": "Python/Rust keyring 与锁互操作",
+      "close_condition_or_evidence": "两种客户端真实进程读写/竞争相同条目通过"
+    },
+    {
+      "id": "U05",
+      "archived": false,
+      "topic": "session_id 在锁定依赖中的传递效果",
+      "close_condition_or_evidence": "固定构造探针已确认传入值未被消费；Rust 实际 loopback 核对持久化/query/消息头一致，历史真实 CPU 跨命令变量通过，见 [传递证据](03-runtime-and-wire-protocols.md)。固定基线传递问题已澄清；没有推定服务端要求特定身份，也不代表全部重连/断线恢复通过"
+    },
+    {
+      "id": "U06",
+      "archived": false,
+      "topic": "DEFAULT JSON/二进制消息实际覆盖",
+      "close_condition_or_evidence": "真实 CPU DEFAULT TEXT/BINARY、非 UTF-8/空 buffer、原始双 decoder 对照和脱敏重放通过；其他 V05 要求独立验收",
+      "closed": true,
+      "evidence": "docs/67-live-codec-capture-and-replay.md"
+    },
+    {
+      "id": "U07",
+      "archived": false,
+      "topic": "当前 DriveFS 私有 flags 和 shim",
+      "close_condition_or_evidence": "记录 VM 版本、二进制版本/哈希，完成挂载和持续刷新"
+    },
+    {
+      "id": "U08",
+      "archived": false,
+      "topic": "rt 模式真实可用账户",
+      "close_condition_or_evidence": "配对 client 的 refresh token 完成真实挂载与续期"
+    },
+    {
+      "id": "U09",
+      "archived": false,
+      "topic": "账户/组织政策与共享 Drive 限制",
+      "close_condition_or_evidence": "承诺环境分别测试；未测试环境不标支持"
+    },
+    {
+      "id": "U10",
+      "archived": false,
+      "topic": "Linux/macOS 全链路",
+      "close_condition_or_evidence": "各平台执行凭据、文件、终端、SSH、锁、发行测试"
+    },
+    {
+      "id": "U11",
+      "archived": false,
+      "topic": "Windows 是否纳入",
+      "close_condition_or_evidence": "明确范围并完成原生矩阵；仅 SSH 通过不能关闭"
+    },
+    {
+      "id": "U12",
+      "archived": false,
+      "topic": "源码复用授权",
+      "close_condition_or_evidence": "扩展许可得到可核验说明，决定独立行为实现或授权复用范围"
+    },
+    {
+      "id": "U13",
+      "archived": false,
+      "topic": "自更新与分发",
+      "close_condition_or_evidence": "已选择 GitHub Releases，并实现清单校验、权限限制、一代回滚与候选构建；公开仓库已创建，发布和四平台运行待验收，见 [32](32-native-update-and-release-implementation.md)"
+    },
+    {
+      "id": "U14",
+      "archived": false,
+      "topic": "兼容强度",
+      "close_condition_or_evidence": "对 JSON/schema/退出码/文案分别选等级并冻结差异清单"
+    },
+    {
+      "id": "U15",
+      "archived": true,
+      "topic": "服务允许的保活/续约机制是否存在且有效",
+      "close_condition_or_evidence": "外部调度研究项，不作为 CLI 门槛；协议心跳仍需验证"
+    },
+    {
+      "id": "U16",
+      "archived": true,
+      "topic": "supervisor 重建判定与用户停止意图",
+      "close_condition_or_evidence": "外部调度职责，不作为 CLI 门槛"
+    },
+    {
+      "id": "U17",
+      "archived": true,
+      "topic": "自动任务恢复的持久化与副作用",
+      "close_condition_or_evidence": "具体任务与外部调度职责，不作为 CLI 门槛"
+    }
+  ],
+  "basis_sha256": {
+    "docs/60-acceptance-audit.md": "ab1e0b5b0a165dc80ef6ba8165fdde7ba95d19efc388642e3fc8344a205c3cee",
+    "docs/06-validation-and-open-questions.md": "e8f0fcb699c501ec5ed2832dcf0e827c6f9b76dd94753c08cc9eb13fd5349629",
+    "research/cli-comparison.json": "947843407287073c7b104af7a576fc6fb0baeaaa0ce8e3bb23a6a681af903eb9",
+    "research/live-cpu-validation.json": "958f7a7d21aee54a9b74d106fb0cb4e50cce6b79c9cefda2c3fb64d336c594bc",
+    "research/linux-regression-validation.json": "ba3f20f97766bdba0a086bf644f35a465aedac35705191ee3480d8434ff4c36a",
+    "research/macos-rosetta-validation.json": "34f36cf10434ca046a7e175ef8d8a34e35a62c9e16fc22dc152c7fcdde6c3fe6",
+    "research/secret-service-validation.json": "d80de1eaa12b1aff66d9509fcd04e990c2e1b9f8933549cd201e2e522a64edb6",
+    "docs/09-foundations-implementation.md": "cdc8e1c73ebebf2ff10f7bc6de1d9377fea44f70db614326233c1f6c9a608581",
+    "docs/76-json-number-download-compatibility.md": "2abe4710ce5094983104f1d8c68f3e150d7c33f40cef623976c9a088ae02b4b6",
+    "docs/32-native-update-and-release-implementation.md": "14ae843c7130bf761af5108374f02b58c162ccb0d24d7912bb4f867bdfa6f47c",
+    "docs/54-linux-container-validation.md": "354720c174e74c461deef9a9cff41f04b919faba770c2abf51698089f1ae6662",
+    "docs/59-macos-x86-rosetta-validation.md": "119680bb96e07543bd1bbdd42f0068b900858e7e7b851098d7c6c1fb6b52933c",
+    "docs/64-linux-x86-container-validation.md": "6b728c3f05e3a9cb91e5ab36c99fd8503fbeb6d90555fb2ea9fdbe1284cbe4c4",
+    "docs/12-jupyter-and-execution-implementation.md": "b8091eefe185df3e51e3afb333ead3f520197814c84a92547818a45dbdf0ea0a"
+  },
+  "requirement_count": 53,
+  "missing_requirement_ids": [],
+  "overall_complete": false,
+  "current_file_auth_preflight": {
+    "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+    "passed": false,
+    "created_sessions": 0,
+    "checks": [],
+    "error_class": "inventory_credentials_or_account_error",
+    "cleanup": "not_allocated"
+  },
+  "explicit_external_gaps": [
+    "real OAuth/ADC acceptance",
+    "remaining real Colab SSH interactive/fault/platform matrix",
+    "remaining real Drive cross-account/long refresh/rt mode",
+    "remaining native platforms",
+    "source reuse authorization",
+    "publication and actual release download"
+  ],
+  "new_test_run_claimed": false,
+  "created_cloud_sessions": 0,
+  "latest_real_ssh": {
+    "passed": true,
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "checks": [
+      {
+        "name": "raw_proxy_banner_and_eof",
+        "passed": true
+      },
+      {
+        "name": "identity_and_workdir",
+        "exit_code": 0,
+        "passed": true
+      },
+      {
+        "name": "quoted_argv",
+        "exit_code": 0,
+        "passed": true
+      },
+      {
+        "name": "binary_stdio",
+        "exit_code": 0,
+        "passed": true
+      },
+      {
+        "name": "remote_exit_code",
+        "exit_code": 23,
+        "passed": true
+      }
+    ],
+    "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3"
+  },
+  "latest_real_ssh_note": "Existing system keyring explicitly selected by user; file-backend failure remains historical and separate",
+  "latest_real_run": {
+    "passed": true,
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "script_exit_code": 23,
+    "process_exit_code": 23,
+    "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3"
+  },
+  "latest_real_run_keep": {
+    "report": "research/live-run-keep-validation.json",
+    "sha256": "5267d3d984eca114a1011658b57bcc7ed00fb60da25b7ef2e9919600f3efc9aa",
+    "passed": true,
+    "cleanup": "confirmed_released",
+    "created_sessions": 1,
+    "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3"
+  },
+  "latest_real_run_signal": {
+    "report": "research/live-run-signal-validation.json",
+    "sha256": "816ad2b26c93a4eea943b63578873b1a1f4d3f897401cbb78970b9c70d04e701",
+    "passed": true,
+    "cleanup": "confirmed_released",
+    "created_sessions": 1,
+    "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3"
+  },
+  "latest_real_ssh_extended": {
+    "report": "research/live-ssh-extended-validation.json",
+    "report_sha256": "d0c37645b7312c8f066d2684043ed80646082f2f009b2a8294ae897faba85592",
+    "passed": true,
+    "checks": 7,
+    "created_sessions_across_three_attempts": 3,
+    "all_three_cleanup": "confirmed_released",
+    "prior_failed_reports": [
+      "research/live-ssh-extended-first-attempt.json",
+      "research/live-ssh-extended-second-attempt.json"
+    ],
+    "prior_failure_causes": "unresolved",
+    "complete_v06": false
+  },
+  "latest_real_disconnect": {
+    "report": "research/live-disconnect-validation.json",
+    "report_sha256": "9ae8b7b5a8d9388558ff74c1c0df65295acfdda3dbbeba2c28a9bf96f94f4396",
+    "passed": true,
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "other_new_assignment_count": 0,
+    "complete_v05_5": false,
+    "remaining_validation_gap": "Broadcast Unknown fixed locally; current build live broadcast preflight keyring timeout"
+  },
+  "latest_kernel_broadcast_fix": {
+    "report": "research/kernel-broadcast-regression-validation.json",
+    "report_sha256": "bb6a2cbbff4dcb124d3ffb0fcd49c401d1bf4502d32c5d904e3d682aee220eba",
+    "passed": true,
+    "default_tests": 467,
+    "no_default_tests": 465,
+    "debug_binary_sha256": "88398841d3fa53f5e7e1367e2ecef3d4f2f3f8296b542e5aa248cfd9a3e25cf0",
+    "live_broadcast_accepted": false,
+    "live_preflight_report": "research/live-kernel-broadcast-preflight.json",
+    "live_preflight_sha256": "bdd01d9d5cad6b5417619297f3ccea8571f40499873ad1dadf1cf0584a615358"
+  },
+  "latest_drive_offline_preflight": {
+    "report": "research/live-drive-offline-preflight.json",
+    "report_sha256": "7007b726f9b991c2a50d4216f6027eefadcf6e30126c610ef051a68f76ed41c8",
+    "local_candidate_count": 1,
+    "network_calls": 0,
+    "cloud_data_accessed": false,
+    "credential_acceptance_verified": false
+  },
+  "latest_drive_validation_preparation": {
+    "report": "research/live-drive-validation-preparation.json",
+    "report_sha256": "7fd8d21705255de3d088171794a6900ff5a06f58e550ae4ea2099bd8d22b7a4d",
+    "tests_report": "research/live-drive-preparation-validation.json",
+    "tests_report_sha256": "226f3e82b2ba693b9dad01d46ac234f84f57f5de3cc6ab2c64d3f6f712c9cd95",
+    "prepared": true,
+    "workflow_executable": false,
+    "network_calls": 0,
+    "created_sessions": 0,
+    "cloud_writes": 0,
+    "live_validation_passed": false
+  },
+  "latest_drive_executor": {
+    "report": "research/live-drive-executor-validation.json",
+    "report_sha256": "4b98f14e97fcb33e82ab37b79430ef61a1090831382d082ccd21b893011bc8e7",
+    "preflight_report": "research/live-drive-executor-preflight.json",
+    "preflight_sha256": "be15cf72efc7242ed860f3bd901141f8727b019d5591494b522d1038b31d4fd1",
+    "runtime_guard_report": "research/runtime-endpoint-regression-validation.json",
+    "runtime_guard_sha256": "5642c007929833a7c6c9f2a75aed7da66be556a418e39a92fc67bcf29d6d88cb",
+    "live_validation_passed": false,
+    "cloud_write_authorization_received": true,
+    "default_tests": 471,
+    "no_default_tests": 469
+  },
+  "latest_drive_api_observer": {
+    "report": "research/live-drive-api-validation.json",
+    "report_sha256": "3ac01bfb1827b03671951468754c651dcb1871a4b2c05c124ba91ab61894a5db",
+    "local_regression_passed": true,
+    "live_validation_passed": false,
+    "cloud_write_authorization_received": true
+  },
+  "latest_drive_api_cleanup_observer": {
+    "report": "research/live-drive-api-cleanup-validation.json",
+    "report_sha256": "915788477fc8ac9fe28334c34488f3f6e8e079994e4994c6862fc5e86e609836",
+    "local_regression_passed": true,
+    "live_validation_passed": false,
+    "cloud_write_authorization_received": true
+  },
+  "latest_eintr_and_linux_x86": {
+    "macos_report": "research/eintr-verified-regression-validation.json",
+    "macos_report_sha256": "671630a6aa6a3c7b0bb7ec5d3c5cceb30b6cdf25b5a7056db86230ec79518b93",
+    "linux_report": "research/linux-x86-container-validation.json",
+    "linux_report_sha256": "6d8d788698af9a973cd9cd9f2d9c6b2d182fbde38513e82f1623a5d410874134",
+    "linux_default_tests": 474,
+    "linux_default_ignored": 5,
+    "linux_no_default_tests": 472,
+    "linux_python_tests": 153,
+    "linux_python_skipped": 0,
+    "native_x86_hardware_verified": false,
+    "linux_owned_resources_removed": true,
+    "real_google_accepted": false,
+    "cloud_write_authorization_received": true
+  },
+  "latest_live_drive": {
+    "report": "research/live-drive-validation.json",
+    "report_sha256": "e7673f63542db7124c707853338c00f0e2f48168a708431d8e54ffa503b1c28a",
+    "passed_with_explicit_recovery": true,
+    "full_original_harness_passed": false,
+    "cloud_write_authorization_received": true,
+    "readonly_verified": true,
+    "server_bytes_verified": true,
+    "server_cleanup_verified": true,
+    "trashed_objects": 3,
+    "missing_objects": 0,
+    "created_sessions": 3,
+    "all_owned_sessions_backend_absence_confirmed": true,
+    "other_new_assignment_count": 0,
+    "cross_account_live_verified": false,
+    "long_lived_refresh_verified": false,
+    "rt_mode_live_verified": false,
+    "independent_drive_api_identity_verified": false,
+    "final_same_named_live_folder_count": 0,
+    "regression_report": "research/live-drive-regression-validation.json",
+    "regression_report_sha256": "01aab7db5ff9f53ef6f5267107d4cbbd2bbb3998f3cb7ca1f3a1ae6bd407bb29"
+  },
+  "latest_checkpoint_merge": {
+    "report": "research/checkpoint-merge-regression-validation.json",
+    "sha256": "489ba278a1c2d5397aacbedb8105ecc5689c6d2ae27f7baffafc6df1a5382c18",
+    "passed": true,
+    "default_tests": 478,
+    "no_default_tests": 476,
+    "original_live_drive_root_cause_proven": false,
+    "cloud_resources_created": 0
+  },
+  "latest_release_remote_preflight": {
+    "report": "research/release-remote-preflight.json",
+    "sha256": "04c03b69b0422828388efbd64bf5fb4a4d03426767dbbb8e81098a6d0f85cda7",
+    "branches": 0,
+    "releases": 0,
+    "remote_mutations": 0
+  },
+  "latest_live_codec": {
+    "report": "research/live-codec-validation.json",
+    "sha256": "c20949252666f917a14a1aacc3d9f8e24f538bf86697ced43c11d53a8202cadb",
+    "regression_report": "research/live-codec-regression-validation.json",
+    "regression_sha256": "31454f5299eb3d5ec092ac4cdb38ae6ab0098e4aac27fae791af34651aea3b36",
+    "passed": true,
+    "u06_closed": true,
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "other_new_assignment_count": 0
+  },
+  "latest_live_kernel_death": {
+    "report": "research/live-kernel-death-validation.json",
+    "sha256": "0e65514e7544f3e77d166280214bc4e2a7675ed66f333c6011b100ad05f24c4a",
+    "regression_report": "research/live-kernel-death-regression-validation.json",
+    "regression_sha256": "bcec78c04faafe8971b2eb4d53cffa9c1b0fd21a83eccd63b865513ef23088b8",
+    "passed": true,
+    "attempts": 2,
+    "all_owned_sessions_backend_absence_confirmed": true,
+    "other_new_assignment_count": 0,
+    "keychain_root_cause_proven": false
+  },
+  "latest_keychain_identity": {
+    "report": "research/macos-keychain-identity-validation.json",
+    "sha256": "8afbd3a86b105a0fda2fd4977bc7ae3725d098c4adc7f186f8e0acfc42198d18",
+    "same_path_rebuild_identity_changed": true,
+    "inventory_queries_succeeded": 2,
+    "actual_acl_inspected": false,
+    "previous_timeout_reproduced": false,
+    "created_sessions": 0
+  },
+  "latest_external_client_auth": {
+    "report": "research/external-client-auth-regression-validation.json",
+    "sha256": "b15e9ab517bfe207eca3573442388f217a21f53aae8b29aea984c6879c49df28",
+    "passed": true,
+    "default_tests": 482,
+    "no_default_tests": 480,
+    "official_synthetic_cases": 5,
+    "real_external_identity_acceptance": false,
+    "created_sessions": 0
+  },
+  "latest_x509_adc": {
+    "report": "research/x509-adc-regression-validation.json",
+    "sha256": "dd5daf6472f5c4b4e6298d49ca8d44b47e471cddd80eed2c32e48545acb5cc45",
+    "passed": true,
+    "default_tests": 489,
+    "no_default_tests": 487,
+    "local_certificate_tests": 7,
+    "official_synthetic_cases": 4,
+    "real_x509_identity_acceptance": false,
+    "created_sessions": 0
+  },
+  "latest_metadata_mtls": {
+    "report": "research/metadata-mtls-regression-validation.json",
+    "sha256": "cef0186f8077195eed9fbf52a174b7c89e6f3d346f80f98678e3e83f3b1026be",
+    "passed": true,
+    "default_tests": 497,
+    "no_default_tests": 495,
+    "metadata_unit_tests": 7,
+    "cli_scenarios": 4,
+    "real_gce_mtls_verified": false,
+    "created_sessions": 0
+  },
+  "latest_json_document_numbers": "research/json-numbers-regression-validation.json",
+  "latest_arm64_release_revalidation": {
+    "macos": "research/native-release-macos-current.json",
+    "linux": "research/native-release-linux-arm64-current.json",
+    "linux_first_attempt": "research/linux-arm64-current-first-attempt.json",
+    "local_combined_candidate_checksum_count": 8,
+    "published": false
+  },
+  "latest_four_target_local_candidate": {
+    "report": "research/current-four-target-release-candidate.json",
+    "sha256": "ab321f64981d9bd8133041e79ac8b658c0f302183764c34f930143e9e97ea5d3",
+    "published": false,
+    "native_x86_hardware_verified": false
+  },
+  "latest_native_update_rehearsal": {
+    "report": "research/native-update-rehearsal.json",
+    "sha256": "10a784f2673eb6e86dd1241bb4a747cfe6dc6e6989a523d6d1bccb71a69150ff",
+    "remote_release_verified": false
+  },
+  "latest_notebook_cell_identity_validation": {
+    "report": "research/notebook-cell-identity-validation.json",
+    "sha256": "09c470ee820d85b236a86074eaa400e55faf3e62085eafef6609fbdb69af5b5e"
+  },
+  "latest_notebook_title_compatibility": {
+    "report": "research/notebook-title-compatibility.json",
+    "sha256": "a3d5072c8b10655a9b3b434b037ee2d635189246579239ff9e567091b2c07e20"
+  }
+}

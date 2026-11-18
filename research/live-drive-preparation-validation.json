@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:42:56.300711+08:00",
+  "passed": true,
+  "scope": "Offline DriveFS probe preparation and local owned-filesystem safety regressions; no real FUSE, credentials refresh or cloud writes",
+  "focused_suite": {
+    "included_in_full_tools_run": true,
+    "tests_run": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "python_tools": {
+    "command": "python3 -m unittest discover -s tools/tests",
+    "tests_run": 108,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "platform": "macOS ARM64"
+  },
+  "input_sha256": {
+    "tools/drive_validation_payload.py": "2b94fac2301d37e7fe3e92a0bb1f17db2e6af6cc7ae546a9db5fc3aa9427f49c",
+    "tools/prepare_live_drive_validation.py": "1bb77f2e65d7f0da6e8a21509a92d11bb90db14bf87ae5ce6004379f92d2254c",
+    "tools/tests/test_live_drive_preparation.py": "3de58a22e8461b0d429f63cbb4a9d17f3d3c94c0e40974eb53100ed5e843f039"
+  },
+  "verified": [
+    "Binary roundtrip and nonrecursive exact cleanup",
+    "Existing directory cannot be adopted by create replay",
+    "Missing FUSE guard fails before mkdir",
+    "Mount verifier ties FUSE type and path to opened device (synthetic mount table)",
+    "Read-only denial leaves original bytes unchanged",
+    "Writable mount must fail read-only acceptance without corrupting sample",
+    "Unexpected I/O error cannot prove read-only",
+    "Owner mismatch, changed bytes and extra files prevent deletion",
+    "Symlink file/folder/MyDrive root cannot escape probe scope",
+    "FIFO rejected without blocking",
+    "Partial cleanup requires matching owner",
+    "Invalid namespace rejected before I/O",
+    "Preparation preserves input configuration and process environment",
+    "Prepared files exclude credential and identity values",
+    "Private 0700 directory and 0600 plan/commands/payloads",
+    "Existing state and symlinked credentials refused",
+    "Review steps retain endpoint placeholder and sensitive token-output annotation",
+    "Exact owner bytes reject boolean/numeric JSON ambiguity"
+  ],
+  "limitations": [
+    "FUSE guard is simulated for local file tests; production verifier is separately checked against synthetic mountinfo",
+    "Only preparation and payload safety; no executable lifecycle orchestration yet",
+    "No live identity, cloud persistence, read-only mount or token-lifetime acceptance",
+    "One Linux-only tool test skipped on macOS",
+    "No product Rust changes or repeated Rust/release testing"
+  ]
+}

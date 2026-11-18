@@ -1,6 +1,6 @@
 # DriveFS 机制、OAuth 与 Rust 移植规格
 
-研究日期：2026-11-16。本文区分官方 CLI 的 Drive 流程与 colab-ext 的替代流程。
+研究日期：2026-11-16。本文区分官方 CLI 的 Drive 流程与 colab-ext 的替代流程。官方 drivemount 与凭据传播已接入，当前实现、kernel 差异与验收边界见 [16](16-colab-automation-implementation.md)；扩展 DriveFS 的本地凭据/授权已见 [20](20-drive-credentials-implementation.md)，远端 metadata 组件和挂载控制器已独立实现但尚未部署，见 [21](21-drivefs-metadata-implementation.md)、[22](22-drivefs-controller-implementation.md)，核心挂载 CLI 与恢复入口已接入，见 [24](24-drivefs-lifecycle-implementation.md)。
 
 ## 1. 范围和证据等级
 

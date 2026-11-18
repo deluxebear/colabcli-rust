@@ -1,0 +1,397 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "7772f00327ade20ef937679dad4b4db73c7978088cb447d957e077fbfab41720",
+  "rust_native_keyring_compiled": false,
+  "scope": "Actual merged explicit-session URL commands; synthetic local profiles; no browser/network/keyring allowed",
+  "normalization": [
+    "temporary HOME",
+    "ANSI SGR display sequences"
+  ],
+  "official_runtime": {
+    "dependency_versions": {
+      "typer": "0.29.1",
+      "click": "8.5.1",
+      "rich": "15.0.0"
+    },
+    "python_version": "3.14.0"
+  },
+  "cases": [
+    {
+      "name": "active-owner",
+      "arguments": [
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "default",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=primary%40example.invalid&dbu=%2Ftun%2Fm%2Fep-default-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-default-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=primary%40example.invalid&dbu=%2Ftun%2Fm%2Fep-default-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-default-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "unique-owner",
+      "arguments": [
+        "url",
+        "-s",
+        "unique"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-unique\n",
+        "stderr": "[colab] Routing session 'unique' -> account 'work'.\n"
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-unique\n",
+        "stderr": "[colab] Routing session 'unique' -> account 'work'.\n"
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "account-root",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "account-local",
+      "arguments": [
+        "url",
+        "-s",
+        "shared",
+        "-a",
+        "work"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 2,
+        "stdout": "",
+        "stderr": "Usage: colab url [OPTIONS]\nTry 'colab url -h' for help.\n╭─ Error ──────────────────────────────────────────────────────────────────────╮\n│ No such option: -a                                                           │\n╰──────────────────────────────────────────────────────────────────────────────╯\n"
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "global_option_extension"
+    },
+    {
+      "name": "account-env",
+      "arguments": [
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "flag-over-env",
+      "arguments": [
+        "-a",
+        "default",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "default",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=primary%40example.invalid&dbu=%2Ftun%2Fm%2Fep-default-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-default-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=primary%40example.invalid&dbu=%2Ftun%2Fm%2Fep-default-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-default-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "email-selector",
+      "arguments": [
+        "-a",
+        "COMPUTE+雪@example.invalid",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "drive-env-ignored",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "no-compute-email",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "empty-compute-email",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?dbu=%2Ftun%2Fm%2Fep-work-shared#datalabBackendUrl=https://colab.research.google.com/tun/m/ep-work-shared\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "sandbox-origin",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "unique",
+        "--host",
+        "https://sandbox.example.invalid/"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://sandbox.example.invalid/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://sandbox.example.invalid/tun/m/ep-work-unique\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://sandbox.example.invalid/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://sandbox.example.invalid/tun/m/ep-work-unique\n",
+        "stderr": ""
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "normalized-origin",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "unique",
+        "--host",
+        "https://EXAMPLE.invalid:443/"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://EXAMPLE.invalid:443/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://EXAMPLE.invalid:443/tun/m/ep-work-unique\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://example.invalid/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep-work-unique#datalabBackendUrl=https://example.invalid/tun/m/ep-work-unique\n",
+        "stderr": ""
+      },
+      "comparison": "origin_normalization"
+    },
+    {
+      "name": "opaque-endpoint",
+      "arguments": [
+        "-a",
+        "work",
+        "url",
+        "-s",
+        "unique"
+      ],
+      "expected_owner": "work",
+      "official": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep%2F%E9%9B%AA%20%23%3F%25#datalabBackendUrl=https://colab.research.google.com/tun/m/ep/雪 #?%\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "https://colab.research.google.com/notebooks/empty.ipynb?authuser=compute%2B%E9%9B%AA%40example.invalid&dbu=%2Ftun%2Fm%2Fep%252F%25E9%259B%25AA%2520%2523%253F%2525#datalabBackendUrl=https://colab.research.google.com/tun/m/ep%2F%E9%9B%AA%20%23%3F%25\n",
+        "stderr": ""
+      },
+      "comparison": "opaque_endpoint_encoding"
+    },
+    {
+      "name": "explicit-owner-missing-session",
+      "arguments": [
+        "-a",
+        "default",
+        "url",
+        "-s",
+        "unique"
+      ],
+      "expected_owner": null,
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'unique' not found.\n"
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'unique' not found.\n"
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "ambiguous-owner",
+      "arguments": [
+        "url",
+        "-s",
+        "duplicate"
+      ],
+      "expected_owner": null,
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'duplicate' exists in multiple accounts (work, adc); specify one with `colab -a <account> ...`.\n"
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'duplicate' exists in multiple accounts (work, adc); specify one with `colab -a <account> ...`.\n"
+      },
+      "comparison": "matched"
+    },
+    {
+      "name": "missing-account",
+      "arguments": [
+        "-a",
+        "missing",
+        "url",
+        "-s",
+        "shared"
+      ],
+      "expected_owner": null,
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work, adc). Run `colab account add missing` first.\n"
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "找不到账户: missing\n"
+      },
+      "comparison": "error_diagnostic"
+    }
+  ],
+  "summary": {
+    "cases": 16,
+    "matched": 12,
+    "global_option_extension": 1,
+    "origin_normalization": 1,
+    "opaque_endpoint_encoding": 1,
+    "error_diagnostic": 1
+  },
+  "not_checked": [
+    "implicit session sync",
+    "browser launch",
+    "live VM/frontend connection"
+  ]
+}

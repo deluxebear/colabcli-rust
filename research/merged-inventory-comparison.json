@@ -1,0 +1,2739 @@
+{
+  "dependency_versions": {
+    "google-auth": "2.62.2",
+    "requests": "2.34.2",
+    "typer": "0.29.1",
+    "pydantic": "2.14.3"
+  },
+  "python_version": "3.14.0",
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "3e7518e53c0931caafc50f26b6b9109eb8915dbe699ce1d30f33b5d40a1ed600",
+  "rust_native_keyring_compiled": false,
+  "scope": "actual merged account/session/usage probes, real cached synthetic OAuth loading; exact loopback origin only; no real credentials or resources",
+  "normalization": [
+    "temporary HOME and exact loopback origin",
+    "cross-account request interleaving only; per-account request order retained",
+    "runtime cache compared by names and validated token/url refresh; time and hardware cache extras not equated"
+  ],
+  "cases": [
+    {
+      "name": "status-json",
+      "arguments": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "status-text",
+      "arguments": [
+        "acct",
+        "status"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | CCU: 12.50 (1.25/hr) | sessions: cpu:CPU, ?:L4 | drive:default(ok)\n[ work] (work@example.invalid) | CCU: 3.25 (0.50/hr) | sessions: train:T4 | drive:default(ok)\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | CCU: 12.50 (1.25/hr) | sessions: cpu:CPU, ?:L4 | drive:default(ok)\n[ work] (work@example.invalid) | CCU: 3.25 (0.50/hr) | sessions: train:T4 | drive:default(ok)\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-all-json",
+      "arguments": [
+        "sessions",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-all-text",
+      "arguments": [
+        "sessions",
+        "--all"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[default/cpu] ep-default | Hardware: CPU | Shape: Standard | Variant: DEFAULT\n[default/?] orphan-default | Hardware: L4 | Shape: Standard | Variant: GPU\n[work/train] ep-work | Hardware: T4 | Shape: High-RAM | Variant: GPU\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[default/cpu] ep-default | Hardware: CPU | Shape: Standard | Variant: DEFAULT\n[default/?] orphan-default | Hardware: L4 | Shape: Standard | Variant: GPU\n[work/train] ep-work | Hardware: T4 | Shape: High-RAM | Variant: GPU\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "usage-all-json",
+      "arguments": [
+        "usage",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "usage-all-text",
+      "arguments": [
+        "usage",
+        "--all"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | Balance: 12.50 CCU | Rate: 1.25/hr | Active: 2\n[ work] (work@example.invalid) | Balance: 3.25 CCU | Rate: 0.50/hr | Active: 1\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | Balance: 12.50 CCU | Rate: 1.25/hr | Active: 2\n[ work] (work@example.invalid) | Balance: 3.25 CCU | Rate: 0.50/hr | Active: 1\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-all-selected-context",
+      "arguments": [
+        "-a",
+        "work",
+        "sessions",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "train",
+                "endpoint": "ep-work",
+                "hardware": "T4",
+                "accelerator": "T4",
+                "shape": "High-RAM",
+                "machine_shape": "HIGH_RAM",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "usage-all-selected-context",
+      "arguments": [
+        "-a",
+        "work",
+        "usage",
+        "--all"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | Balance: 12.50 CCU | Rate: 1.25/hr | Active: 2\n[ work] (work@example.invalid) | Balance: 3.25 CCU | Rate: 0.50/hr | Active: 1\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[*default] (default@example.invalid) | Balance: 12.50 CCU | Rate: 1.25/hr | Active: 2\n[ work] (work@example.invalid) | Balance: 3.25 CCU | Rate: 0.50/hr | Active: 1\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-single-json",
+      "arguments": [
+        "-a",
+        "work",
+        "sessions",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [
+            {
+              "name": "train",
+              "endpoint": "ep-work",
+              "hardware": "T4",
+              "accelerator": "T4",
+              "shape": "High-RAM",
+              "machine_shape": "HIGH_RAM",
+              "variant": "GPU"
+            }
+          ],
+          "error": null
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [
+            {
+              "name": "train",
+              "endpoint": "ep-work",
+              "hardware": "T4",
+              "accelerator": "T4",
+              "shape": "High-RAM",
+              "machine_shape": "HIGH_RAM",
+              "variant": "GPU"
+            }
+          ],
+          "error": null
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "train"
+            ],
+            "refreshed": {
+              "train": true
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "usage-single-json",
+      "arguments": [
+        "-a",
+        "work",
+        "usage",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": {
+            "balance": 3.25,
+            "rate_hourly": 0.5,
+            "assignments_count": 1
+          },
+          "assignments": [],
+          "error": null
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": {
+            "balance": 3.25,
+            "rate_hourly": 0.5,
+            "assignments_count": 1
+          },
+          "assignments": [],
+          "error": null
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-single-error",
+      "arguments": [
+        "-a",
+        "work",
+        "sessions",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [],
+          "error": "Failed to issue request GET <LOOPBACK>/tun/m/assignments: Service Unavailable"
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [],
+          "error": "控制面请求失败 (HTTP 503)"
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        0
+      ]
+    },
+    {
+      "name": "usage-single-error",
+      "arguments": [
+        "-a",
+        "work",
+        "usage",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [],
+          "error": "Failed to issue request GET <LOOPBACK>/tun/m/ccu-info: Service Unavailable"
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "active": false,
+          "email": "work@example.invalid",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_ready": true,
+          "usage": null,
+          "assignments": [],
+          "error": "控制面请求失败 (HTTP 503)"
+        },
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        0
+      ]
+    },
+    {
+      "name": "status-assignment-error",
+      "arguments": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [],
+            "error": "Failed to issue request GET <LOOPBACK>/tun/m/assignments: Service Unavailable"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 3.25,
+              "rate_hourly": 0.5,
+              "assignments_count": 1
+            },
+            "assignments": [],
+            "error": "控制面请求失败 (HTTP 503)"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        1
+      ]
+    },
+    {
+      "name": "status-usage-error",
+      "arguments": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "Failed to issue request GET <LOOPBACK>/tun/m/ccu-info: Service Unavailable"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "控制面请求失败 (HTTP 503)"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        1
+      ]
+    },
+    {
+      "name": "sessions-assignment-error",
+      "arguments": [
+        "sessions",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "Failed to issue request GET <LOOPBACK>/tun/m/assignments: Service Unavailable"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "控制面请求失败 (HTTP 503)"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        1
+      ]
+    },
+    {
+      "name": "usage-error",
+      "arguments": [
+        "usage",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "Failed to issue request GET <LOOPBACK>/tun/m/ccu-info: Service Unavailable"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "控制面请求失败 (HTTP 503)"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info"
+          ],
+          "work": [
+            "/tun/m/ccu-info"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        1
+      ]
+    },
+    {
+      "name": "sessions-empty",
+      "arguments": [
+        "sessions",
+        "--all"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] No active sessions found across any account.\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [],
+            "refreshed": {}
+          },
+          "work": {
+            "names": [],
+            "refreshed": {}
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] No active sessions found across any account.\n",
+        "stderr": "",
+        "state": {
+          "default": {
+            "names": [],
+            "refreshed": {}
+          },
+          "work": {
+            "names": [],
+            "refreshed": {}
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/assignments"
+          ],
+          "work": [
+            "/tun/m/assignments"
+          ]
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "status-missing-auth",
+      "arguments": [
+        "account",
+        "status",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "Account 'work' is not authenticated; run `colab account login work`"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": [
+          {
+            "account": "default",
+            "active": true,
+            "email": "default@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": {
+              "balance": 12.5,
+              "rate_hourly": 1.25,
+              "assignments_count": 2
+            },
+            "assignments": [
+              {
+                "name": "cpu",
+                "endpoint": "ep-default",
+                "hardware": "CPU",
+                "accelerator": "NONE",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "DEFAULT"
+              },
+              {
+                "name": "?",
+                "endpoint": "orphan-default",
+                "hardware": "L4",
+                "accelerator": "L4",
+                "shape": "Standard",
+                "machine_shape": "STANDARD",
+                "variant": "GPU"
+              }
+            ],
+            "error": null
+          },
+          {
+            "account": "work",
+            "active": false,
+            "email": "work@example.invalid",
+            "auth_provider": "oauth2",
+            "drive_account": "default",
+            "drive_ready": true,
+            "usage": null,
+            "assignments": [],
+            "error": "需要登录或重新授权"
+          }
+        ],
+        "state": {
+          "default": {
+            "names": [
+              "cpu"
+            ],
+            "refreshed": {
+              "cpu": true
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [
+            "/tun/m/ccu-info",
+            "/tun/m/assignments"
+          ],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": false,
+      "status": "preserved_error_text_difference",
+      "error_row_indices": [
+        1
+      ]
+    },
+    {
+      "name": "sessions-global-missing-text",
+      "arguments": [
+        "-a",
+        "missing",
+        "sessions"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "usage-global-missing-text",
+      "arguments": [
+        "-a",
+        "missing",
+        "usage"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "status-global-missing",
+      "arguments": [
+        "-a",
+        "missing",
+        "account",
+        "status",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    },
+    {
+      "name": "sessions-global-missing",
+      "arguments": [
+        "-a",
+        "missing",
+        "sessions",
+        "--all",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Account 'missing' not found (configured: default, work). Run `colab account add missing` first.\n",
+        "state": {
+          "default": {
+            "names": [
+              "cpu",
+              "stale"
+            ],
+            "refreshed": {
+              "cpu": false,
+              "stale": false
+            }
+          },
+          "work": {
+            "names": [
+              "stale",
+              "train"
+            ],
+            "refreshed": {
+              "train": false,
+              "stale": false
+            }
+          }
+        },
+        "trace": {
+          "default": [],
+          "work": []
+        },
+        "credentials_unchanged": true,
+        "registry_unchanged": true
+      },
+      "matched": true,
+      "status": "matched"
+    }
+  ],
+  "summary": {
+    "cases": 22,
+    "matched": 15,
+    "preserved_error_text_difference": 7
+  }
+}

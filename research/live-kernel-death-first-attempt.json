@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "checks": [],
+  "created_sessions": 1,
+  "binary_sha256": "b2315bfd39ce5ddf850043569551275939a2eeb6a58089283fe6ce7231f21dc1",
+  "cleanup": "confirmed_released",
+  "terminal_keyring": true,
+  "validator_source_sha256": "259e3bcb37dd4a735b8ca7cb5f73ea27f25925a0140c9adca726d39fbc433715",
+  "fault": "kernel-death",
+  "execute_requested": true,
+  "cleanup_only": false,
+  "credentials_ready": true,
+  "baseline_assignment_count": 0,
+  "error_class": "kernel_death_partial_output_missing",
+  "other_new_assignment_count": 0,
+  "observed": {
+    "status_unknown": true,
+    "actual_lifecycle_error": true,
+    "retained_output_count": 0
+  }
+}

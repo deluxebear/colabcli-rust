@@ -23,3 +23,19 @@ pub mod execution;
 pub mod history;
 
 pub mod runs;
+
+pub mod cli_compat;
+
+pub mod automation;
+
+pub mod installation;
+
+pub mod ssh;
+
+pub mod drive_credentials;
+pub mod drivefs;
+
+pub mod update;
+pub mod utility;
+
+pub mod websocket_transport;

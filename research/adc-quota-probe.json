@@ -1,0 +1,76 @@
+{
+  "google_auth_version": "2.62.2",
+  "isolation": "synthetic in-memory credentials; empty environment; network/subprocess denied; no ADC discovery or refresh",
+  "dependency_sources": {
+    "google.auth._default": "0e7132227fb97696137d9317ed749e22ea41e60b13e76441e8f56eb76f621fb4",
+    "google.auth.credentials": "f9c380eebb9ef24df24f4a61e67a676097fc318a0869de70f8593b23d92a6c4c",
+    "google.auth.impersonated_credentials": "03896b052271898d99eb5010891795cfb57c3b850e0183d87cbc36c057f677ff",
+    "google.auth.external_account": "a0dc3c4ff5f3df5f9f0d8b1b8e8c973c3adcc44d61692094756a16f2917ffc87"
+  },
+  "cases": [
+    {
+      "kind": "user",
+      "file": null,
+      "environment": null,
+      "effective": null
+    },
+    {
+      "kind": "user",
+      "file": "file-project",
+      "environment": null,
+      "effective": "file-project"
+    },
+    {
+      "kind": "user",
+      "file": "file-project",
+      "environment": "",
+      "effective": "file-project"
+    },
+    {
+      "kind": "user",
+      "file": "file-project",
+      "environment": "env-project",
+      "effective": "env-project"
+    },
+    {
+      "kind": "user",
+      "file": "",
+      "environment": null,
+      "effective": null
+    },
+    {
+      "kind": "user",
+      "file": null,
+      "environment": "env-project",
+      "effective": "env-project"
+    },
+    {
+      "kind": "impersonation",
+      "environment": null,
+      "iam_source": "source-project",
+      "target": "target-project"
+    },
+    {
+      "kind": "impersonation",
+      "environment": "env-project",
+      "iam_source": "source-project",
+      "target": "env-project"
+    },
+    {
+      "kind": "external_iam",
+      "environment": null,
+      "iam_source": "file-project",
+      "target": "file-project"
+    },
+    {
+      "kind": "external_iam",
+      "environment": "env-project",
+      "iam_source": "env-project",
+      "target": "env-project"
+    }
+  ],
+  "limitations": [
+    "installed library observation only",
+    "no live billing, Google permissions or Colab acceptance"
+  ]
+}

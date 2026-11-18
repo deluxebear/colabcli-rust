@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:19:57.619939+08:00",
+  "scope": "Read existing local Drive credential metadata only; no values exported, no credentials refreshed",
+  "metadata": [
+    {
+      "json_object": true,
+      "has_client_id": true,
+      "has_client_secret": true,
+      "has_refresh_token": true,
+      "has_user_id": true,
+      "scope_count": 3,
+      "declares_drive_full_scope": true
+    }
+  ],
+  "network_calls": 0,
+  "created_sessions": 0,
+  "cloud_data_accessed": false,
+  "credential_acceptance_verified": false,
+  "live_drive_validation_complete": false,
+  "remaining": [
+    "Choose the existing Drive profile and exact random test-directory scope before cloud writes",
+    "Verify Google refresh/client pairing and actual storage identity during authorized live validation"
+  ]
+}

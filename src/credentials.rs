@@ -4,10 +4,19 @@ use crate::{
     models::{ProfileId, Secret},
     storage::Storage,
 };
+use serde::{Deserialize, Serialize};
 use std::{
     sync::{Arc, atomic::AtomicBool},
     time::Duration,
 };
+
+#[derive(Debug, Clone, Copy, Default, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub(crate) enum LifecycleCredentials {
+    File,
+    #[default]
+    Both,
+}
 #[cfg(all(
     feature = "native-keyring",
     any(target_os = "macos", target_os = "linux", target_os = "windows")
@@ -31,7 +40,7 @@ pub struct SystemKeyring {
 impl Default for SystemKeyring {
     fn default() -> Self {
         Self {
-            timeout: Duration::from_secs(2),
+            timeout: Duration::from_secs(30),
             busy: Arc::new(AtomicBool::new(false)),
         }
     }
@@ -164,6 +173,52 @@ pub struct TokenStore {
     mode: TokenStorageMode,
 }
 impl TokenStore {
+    pub(crate) fn lifecycle_policy(&self) -> LifecycleCredentials {
+        if self.mode == TokenStorageMode::File {
+            LifecycleCredentials::File
+        } else {
+            LifecycleCredentials::Both
+        }
+    }
+    pub(crate) fn load_for_lifecycle(
+        &self,
+        id: &ProfileId,
+        policy: LifecycleCredentials,
+    ) -> Result<Option<OAuthCredentials>> {
+        match policy {
+            LifecycleCredentials::File => self
+                .storage
+                .read(&self.storage.profile_path(id, "oauth_token.json")?),
+            LifecycleCredentials::Both => self.load_for_migration(id),
+        }
+    }
+    pub(crate) fn save_for_lifecycle(
+        &self,
+        id: &ProfileId,
+        token: &OAuthCredentials,
+        policy: LifecycleCredentials,
+    ) -> Result<()> {
+        match policy {
+            LifecycleCredentials::File => {
+                let mut file_store = self.clone();
+                file_store.mode = TokenStorageMode::File;
+                file_store.save(id, token)
+            }
+            LifecycleCredentials::Both => self.save(id, token),
+        }
+    }
+    pub(crate) fn delete_for_lifecycle(
+        &self,
+        id: &ProfileId,
+        policy: LifecycleCredentials,
+    ) -> Result<()> {
+        match policy {
+            LifecycleCredentials::File => self
+                .storage
+                .remove(&self.storage.profile_path(id, "oauth_token.json")?),
+            LifecycleCredentials::Both => self.delete(id),
+        }
+    }
     pub fn new(
         storage: Storage,
         backend: Arc<dyn CredentialBackend>,

@@ -1,0 +1,61 @@
+{
+  "source_commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+  "source_sha256": {
+    "jupyter_kernel_client/__init__.py": "a71b7e1df006f82a60ae01ba6df7e01a7c68a207431d4ae4121e330d540eff07",
+    "jupyter_kernel_client/_version.py": "6b1048152c78e17007c94997929182c2127e17806dd0c9bc46bd0b866650df72",
+    "jupyter_kernel_client/client.py": "d666344ceffd80d6d18a072e5a738069066e32471d97c238344edc108b8fda98",
+    "jupyter_kernel_client/constants.py": "63f874790a6c4cb8de5a4c4c08393e8ea91ddb4fbac2b1247993fe9dda19cb5e",
+    "jupyter_kernel_client/konsoleapp.py": "5b4e00b805931b0f0a2d4d31b462fe48a6862d6113e26cb973e6a8918f5c8204",
+    "jupyter_kernel_client/log.py": "015cc01af761d04de75bb41ecd196a671c3d9e0ffa23a4073508f1c25ec58692",
+    "jupyter_kernel_client/manager.py": "1006dd646953741cec569185075df88bb306efeb50e418a2de1ff44d972feecb",
+    "jupyter_kernel_client/models.py": "0ca21a2b00d1d2b657f52bd7113eee1cc1474094fb8b121eabb72b4b84b498fb",
+    "jupyter_kernel_client/shell.py": "7acdc05a5670ec3d48860636e96c740dfcdc4cfd58c90210e59d416a170d5676",
+    "jupyter_kernel_client/snippets.py": "4b2354c51258e7e929d94a2ee1d85ca796d3f022d462f0afa7761c837fb6eae5",
+    "jupyter_kernel_client/tests/__init__.py": "544fd80acc45ac135bc762034905d71eac2bbd8a708d5ddd59eac7b1ec7af69d",
+    "jupyter_kernel_client/tests/conftest.py": "8a036c270b8d4bb5297ec1ad80f751e67454b9184ecdac9c8df4631ba8c76f95",
+    "jupyter_kernel_client/tests/test_client.py": "9c1f8b4b4b9eeb99f57c4da13ce25c0b993b7eb362e1e86e1cf813988884f9fa",
+    "jupyter_kernel_client/tests/test_manager.py": "c39541b09ada54368c3e9439361bfe2dcc8deccc0643d3df60f436debe64dacf",
+    "jupyter_kernel_client/tests/test_utils.py": "4646dad7176aaa584ea4664366c54c26b6a98b34d576256a6819d89883fc74c5",
+    "jupyter_kernel_client/utils.py": "98ffaef260265d0ced4cd7b849f5d9374515027acbe7a8db7b6feb614d7c49d4",
+    "jupyter_kernel_client/wsclient.py": "1a4456403b972990216012e079c5da0ff8a7c69fd3fcb72b19c20d74bd460bb1"
+  },
+  "dependencies": {
+    "jupyter-client": "8.10.0",
+    "traitlets": "5.16.1",
+    "requests": "2.34.2",
+    "websocket-client": "1.9.2"
+  },
+  "scope": "Actual fixed KernelClient/manager/WS constructors and URL builder; synthetic REST response and inert WebSocket/thread boundaries",
+  "network": "forbidden after dependency imports",
+  "real_colab": false,
+  "cases": [
+    {
+      "supplied_session": null,
+      "message_session_matches_supplied": false,
+      "query_session_matches_message": true,
+      "extra_params_forwarded_to_query": false,
+      "token_query_and_runtime_header_preserved": true,
+      "default_subprotocol": true
+    },
+    {
+      "supplied_session": "persisted-session-a",
+      "message_session_matches_supplied": false,
+      "query_session_matches_message": true,
+      "extra_params_forwarded_to_query": false,
+      "token_query_and_runtime_header_preserved": true,
+      "default_subprotocol": true
+    },
+    {
+      "supplied_session": "persisted-session-b",
+      "message_session_matches_supplied": false,
+      "query_session_matches_message": true,
+      "extra_params_forwarded_to_query": false,
+      "token_query_and_runtime_header_preserved": true,
+      "default_subprotocol": true
+    }
+  ],
+  "limitations": [
+    "No WebSocket connection or remote kernel execution",
+    "Does not prove whether Google requires a particular session identity"
+  ]
+}

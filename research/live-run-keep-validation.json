@@ -1,0 +1,38 @@
+{
+  "passed": true,
+  "checks": [
+    {
+      "name": "successful_run_keep",
+      "passed": true
+    },
+    {
+      "name": "backend_endpoint_retained",
+      "passed": true
+    },
+    {
+      "name": "followup_cli_reads_own_sentinel",
+      "passed": true
+    },
+    {
+      "name": "keep_plan_removed_without_teardown",
+      "passed": true
+    }
+  ],
+  "created_sessions": 1,
+  "cleanup": "confirmed_released",
+  "run_reported_cleanup": "kept",
+  "followup_execution_exit_code": 0,
+  "other_new_assignment_count": 0,
+  "schema_version": 1,
+  "validated_at": "2026-11-18T02:53:33.836803+08:00",
+  "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+  "authentication_source": "user-authorized existing system keyring",
+  "requested_hardware": "CPU",
+  "scope": "One real run --keep, subsequent exec reads its synthetic sentinel, then guarded explicit stop; no Drive",
+  "limitations": [
+    "One macOS ARM64 OAuth profile",
+    "CPU requested with default runtime options; no separate hardware query",
+    "No long task, lost response or release failure injected",
+    "No new OAuth, Drive or ADC identity acceptance"
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "validated_at": "2026-11-18T03:12:48.728301+08:00",
+  "passed": true,
+  "stages": [
+    {
+      "name": "fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clippy_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "098726cf963147987ddbb1a282e4db18fac17a67e7916dcc2aad0f0697ff32e4"
+    },
+    {
+      "name": "clippy_no_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--no-default-features",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "eae3645889bbdc02399a527d6ceadeb5ff67fc3d183aad12cdfab1c54b28338e"
+    },
+    {
+      "name": "test_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "log_sha256": "7690adfbe479c6679416f355ad9e8e63ca3a9518dcf79de5ceec1c81ce86760f",
+      "passed_tests": 467,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "test_no_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "log_sha256": "8dfa0bd8e7341a95148f114dd994c2a7282776dfdd5d34ba965d33a84cdc6f7f",
+      "passed_tests": 465,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "restore_default_test_binary",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "d74b634fbb6a371a6dc937e01aac0abe36c5b6ac58f5652cc4a1b420333b3d49"
+    }
+  ],
+  "scope": "macOS local kernel dead/restarting Unknown and durable replay guard regression; no cloud resources from Rust tests",
+  "input_sha256": {
+    "src/jupyter/runtime.rs": "1e077681fa5aa4287fcf8086bda1edd8065c33e2c957078cf7950e6796024efd",
+    "tests/jupyter.rs": "a076e7bfbe49c53f41b212b4863325ee2b46325fe0480595c8b70664ec4b2b89",
+    "Cargo.toml": "6342d853b7d12b51647591090fb0297a153dbbf5762a220f9326d11c612ac683",
+    "Cargo.lock": "0bd79534138d59e36963dbb90b6fc870ddc34a8683ae8cb9ef89218a0210af9b"
+  },
+  "debug_binary_sha256": "88398841d3fa53f5e7e1367e2ecef3d4f2f3f8296b542e5aa248cfd9a3e25cf0",
+  "debug_binary_bytes": 44693592
+}

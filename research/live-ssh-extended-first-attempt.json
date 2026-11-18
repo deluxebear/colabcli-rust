@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+  "passed": false,
+  "checks": [
+    {
+      "name": "raw_proxy_banner_and_eof",
+      "passed": true
+    },
+    {
+      "name": "identity_and_workdir",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "quoted_argv",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "name": "binary_stdio",
+      "exit_code": 255,
+      "passed": false
+    }
+  ],
+  "execute_requested": true,
+  "cleanup_only": false,
+  "cleanup": "confirmed_released",
+  "created_sessions": 1,
+  "baseline_assignment_count": 0,
+  "credentials_ready": true,
+  "error_class": "ssh_check_failed:binary_stdio",
+  "other_new_assignment_count": 0,
+  "validated_at": "2026-11-18T02:58:15.491883+08:00",
+  "scope": "First extended-validation attempt stopped during existing binary stdio check, before new PTY/signal checks",
+  "limitations": [
+    "SSH 255 cause unknown; this attempt did not retain per-check stderr",
+    "No interactive or signal acceptance claimed",
+    "Owned endpoint independently confirmed released"
+  ]
+}

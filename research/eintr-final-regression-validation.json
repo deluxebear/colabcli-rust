@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "scope": "macOS full regression for bounded Interrupted reads including handshake; no cloud resources",
+  "input_sha256": {
+    "src/jupyter/runtime.rs": "6d41cd421d56a09b00d416c52540cd2042c45914da00c478ac76254d6619b53c",
+    "src/websocket_transport/stream.rs": "253fbaf400bcb5bd423a27c316a90e6887dbfdb62d7bbfd2595810e5f8efc03b",
+    "tests/jupyter.rs": "a2c4efaccdae32ee16f0e1a7f0c83e45942b573de8b0b6975061e06dce8721cc",
+    "tests/https_proxy.rs": "6a0efd5515c4490861307450395344feb85c970f54ed0c94d53fc435b77063d2",
+    "tools/linux-validation/validate.py": "e360fd3f27ac08aa2f95f8254f38f5271b10965905854574deb840652a421c45",
+    "tools/tests/test_linux_validation.py": "9422fe5a837d1336450d077773bf46d90ea2bc191c981791295228d2bd29910f",
+    "Cargo.toml": "6342d853b7d12b51647591090fb0297a153dbbf5762a220f9326d11c612ac683",
+    "Cargo.lock": "0bd79534138d59e36963dbb90b6fc870ddc34a8683ae8cb9ef89218a0210af9b"
+  },
+  "stages": [
+    {
+      "name": "fmt",
+      "command": [
+        "cargo",
+        "fmt",
+        "--check"
+      ],
+      "exit_code": 0,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "clippy_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "cc3a7e10d73afaa3e21500b2dbcd372458023e1faac7fba77b413fd89d78d43f"
+    },
+    {
+      "name": "clippy_no_default",
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--no-default-features",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "exit_code": 0,
+      "log_sha256": "027774f13ba1e270f8215a4ea11763bd822bfd3c2029f2aa0edf36939b90a961"
+    },
+    {
+      "name": "test_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked"
+      ],
+      "exit_code": 0,
+      "log_sha256": "3e45bf3f70d1b0f01261833bee2559689ad230f611f8d9f52620bdf9706cfc2b",
+      "passed_tests": 474,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "test_no_default",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-default-features"
+      ],
+      "exit_code": 0,
+      "log_sha256": "4732441284a5321de8f597003d7eefb68241a4aa17ee483a97e4b98734adcc26",
+      "passed_tests": 472,
+      "failed_tests": 0,
+      "ignored_tests": 0
+    },
+    {
+      "name": "restore_default_test_binary",
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--no-run"
+      ],
+      "exit_code": 0,
+      "log_sha256": "4a393c51770d92860fdaf0be87ecd60d88297ebeac209fd85b252bbcfa9dbe84"
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "source_fingerprints": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "dae8805f4a1a5d419a804f8cb47e09c96a470061ed145dc7ca3632159a96d4ad",
+  "scope": "offline paired CLI subprocesses with synthetic session records and history; original network, keyring, browser and subprocess use forbidden; existing fixture payloads unchanged",
+  "cases": [
+    {
+      "name": "active-live-wins",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "live-owner-before-active-history",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-work...\n",
+        "stderr": "[colab] Routing session 'shared' -> account 'work'.\n"
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-work...\n",
+        "stderr": "[colab] Routing session 'shared' -> account 'work'.\n"
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "live-owner-without-history",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] No history found for session 'shared'.\n",
+        "stderr": "[colab] Routing session 'shared' -> account 'work'.\n"
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] No history found for session 'shared'.\n",
+        "stderr": "[colab] Routing session 'shared' -> account 'work'.\n"
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "explicit-over-env-and-session",
+      "arguments": [
+        "-a",
+        "default",
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "env-over-session",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "empty-explicit-falls-through-to-env",
+      "arguments": [
+        "-a",
+        "",
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "multiple-live-owners-require-selection",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'shared' exists in multiple accounts (work, third); specify one with `colab -a <account> ...`.\n"
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "[colab] Session 'shared' exists in multiple accounts (work, third); specify one with `colab -a <account> ...`.\n"
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "active-history-only",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-default...\n",
+        "stderr": ""
+      },
+      "classification": "matched"
+    },
+    {
+      "name": "stopped-history-on-nonactive-account",
+      "arguments": [
+        "log",
+        "-s",
+        "shared"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] No history found for session 'shared'.\n",
+        "stderr": ""
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[2026-11-18 00:00:00] EXEC: marker-work...\n",
+        "stderr": ""
+      },
+      "classification": "retained_history_lookup"
+    }
+  ],
+  "summary": {
+    "matched": 8,
+    "retained_history_lookup": 1
+  }
+}

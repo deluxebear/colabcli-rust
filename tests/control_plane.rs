@@ -71,13 +71,85 @@ fn journal(f: &Fixture, profile: &ProfileId) -> std::path::PathBuf {
 }
 
 #[test]
+fn runtime_endpoint_guard_precedes_refresh_and_accepts_only_captured_identity() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = id("default");
+    let server = server();
+    let mut state = session("work");
+    state.token = Secret::new("");
+    f.storage.save_session(&profile, state.clone()).unwrap();
+    let path = f.storage.profile_path(&profile, "sessions.json").unwrap();
+    let before = std::fs::read(&path).unwrap();
+    let bound = service(&f, &server, &profile).with_expected_endpoint(Some("ep-old".into()));
+    let called = std::cell::Cell::new(false);
+    assert!(matches!(
+        bound.with_session(Some("work"), |_| {
+            called.set(true);
+            Ok(())
+        }),
+        Err(Error::KernelProtocol(_))
+    ));
+    assert!(!called.get());
+    assert_eq!(std::fs::read(&path).unwrap(), before);
+    assert!(
+        server
+            .recv_timeout(Duration::from_millis(50))
+            .unwrap()
+            .is_none()
+    );
+    state.token = Secret::new("fresh-runtime-token");
+    state.token_expires_at = Some(chrono::Utc::now() + chrono::Duration::hours(1));
+    f.storage.save_session(&profile, state).unwrap();
+    let bound = service(&f, &server, &profile).with_expected_endpoint(Some("ep-work".into()));
+    assert_eq!(
+        bound
+            .with_session(Some("work"), |s| Ok(s.endpoint.clone()))
+            .unwrap(),
+        "ep-work"
+    );
+}
+
+#[test]
+fn runtime_endpoint_guard_never_adopts_an_orphan_after_refresh_prunes_owned_vm() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = id("default");
+    f.storage.save_session(&profile, session("work")).unwrap();
+    let server = server();
+    let bound = service(&f, &server, &profile).with_expected_endpoint(Some("ep-work".into()));
+    let handle = thread::spawn(move || {
+        let (request, _) = recv(&server, "GET", "/tun/m/assignments");
+        respond(
+            request,
+            json!({"assignments":[assignment("ep-replacement")]}),
+        );
+        assert!(
+            server
+                .recv_timeout(Duration::from_millis(100))
+                .unwrap()
+                .is_none()
+        );
+    });
+    assert!(matches!(
+        bound.with_session::<()>(Some("work"), |_| panic!("must not act on replacement")),
+        Err(Error::SessionMissing(_))
+    ));
+    handle.join().unwrap();
+    assert!(!f.storage.sessions(&profile).unwrap().contains_key("work"));
+}
+
+#[test]
 fn identity_and_hardware_queries_match_contract() {
     let a = notebook_identity();
     assert_eq!(a.len(), 44);
     assert_eq!(&a[36..], "........");
     assert_eq!(a.as_bytes()[14], b'4');
     assert_ne!(a, notebook_identity());
-    assert!(RuntimeOptions::new(Some("t4"), Some("v5e1"), false).is_err());
+    assert_eq!(
+        RuntimeOptions::new(Some("t4"), Some("v5e1"), false)
+            .unwrap()
+            .accelerator,
+        "V5E1"
+    );
     assert!(RuntimeOptions::new(Some("wrong"), None, false).is_err());
     assert_eq!(
         RuntimeOptions::new(Some("a100"), None, true)
@@ -186,13 +258,69 @@ fn post_gateway_failure_reconciles_same_identity_without_second_post() {
     handle.join().unwrap();
 }
 #[test]
-fn rejected_allocation_keeps_identity_across_invocations_and_blocks_account_removal() {
+fn first_definitive_allocation_refusal_allows_a_different_runtime() {
+    for (method, status) in [("GET", 400), ("POST", 412)] {
+        let f = Fixture::new(TokenStorageMode::File);
+        let profile = id("default");
+        let server = server();
+        let svc = service(&f, &server, &profile);
+        let journal_path = journal(&f, &profile);
+        let storage = f.storage.clone();
+        let handler = thread::spawn(move || {
+            let (mut request, first) = recv(&server, "GET", "/tun/m/assign");
+            assert_eq!(first["accelerator"], "T4");
+            if method == "POST" {
+                respond(
+                    request,
+                    json!({"token":"xsrf","nbh":first["nbh"],"acc":"T4","variant":"GPU"}),
+                );
+                (request, _) = recv(&server, "POST", "/tun/m/assign");
+            }
+            let intent: Value = storage.read(&journal_path).unwrap().unwrap();
+            assert_eq!(intent["post_attempted"], method == "POST");
+            request
+                .respond(
+                    Response::from_string("private refusal").with_status_code(StatusCode(status)),
+                )
+                .unwrap();
+            let (request, next) = recv(&server, "GET", "/tun/m/assign");
+            assert_ne!(next["nbh"], first["nbh"]);
+            assert_eq!(next["accelerator"], "NONE");
+            respond(request, assignment("ep-cpu"));
+        });
+        let error = svc
+            .create(
+                Some("gpu"),
+                RuntimeOptions::new(Some("T4"), None, false).unwrap(),
+            )
+            .unwrap_err();
+        assert!(matches!(error, Error::ControlStatus(actual) if actual == status));
+        assert!(!error.to_string().contains("private refusal"));
+        assert!(!journal(&f, &profile).exists());
+        assert_eq!(
+            svc.create(Some("cpu"), options()).unwrap().endpoint,
+            "ep-cpu"
+        );
+        handler.join().unwrap();
+    }
+}
+
+#[test]
+fn refusal_after_uncertain_post_keeps_identity_and_blocks_account_removal() {
     let f = Fixture::new(TokenStorageMode::File);
     let profile = f.add("work");
     let server = server();
     let svc = service(&f, &server, &profile);
     let handle = thread::spawn(move || {
         let (r, query) = recv(&server, "GET", "/tun/m/assign");
+        respond(
+            r,
+            json!({"token":"xsrf","nbh":query["nbh"],"acc":"NONE","variant":"DEFAULT"}),
+        );
+        let (r, _) = recv(&server, "POST", "/tun/m/assign");
+        r.respond(Response::empty(504)).unwrap();
+        let (r, retry) = recv(&server, "GET", "/tun/m/assign");
+        assert_eq!(retry["nbh"], query["nbh"]);
         r.respond(
             Response::from_string("sensitive-server-error").with_status_code(StatusCode(412)),
         )
@@ -223,8 +351,16 @@ fn rejected_allocation_keeps_identity_across_invocations_and_blocks_account_remo
     let handle = thread::spawn(move || {
         let (r, query) = recv(&server, "GET", "/tun/m/assign");
         assert_eq!(query["nbh"], nbh);
+        r.respond(Response::empty(412)).unwrap();
+        let (r, query) = recv(&server, "GET", "/tun/m/assign");
+        assert_eq!(query["nbh"], nbh);
         respond(r, assignment("ep-resumed"));
     });
+    assert!(matches!(
+        svc.create(Some("work"), options()),
+        Err(Error::ControlStatus(412))
+    ));
+    assert!(journal(&f, &profile).exists());
     svc.create(Some("work"), options()).unwrap();
     handle.join().unwrap();
 }
@@ -321,8 +457,6 @@ fn release_failure_preserves_state_then_retry_confirms_absence() {
     let server = server();
     let svc = service(&f, &server, &profile);
     let handle = thread::spawn(move || {
-        let (r, _) = recv(&server, "GET", "/tun/m/assignments");
-        respond(r, json!({"assignments":[assignment("ep-work")]}));
         let (r, _) = recv(&server, "GET", "/tun/m/unassign/ep-work");
         respond(r, json!({"token":"release-xsrf"}));
         let (r, _) = recv(&server, "POST", "/tun/m/unassign/ep-work");
@@ -337,6 +471,8 @@ fn release_failure_preserves_state_then_retry_confirms_absence() {
     handle.join().unwrap();
     assert!(f.storage.sessions(&profile).unwrap().contains_key("work"));
     assert!(journal(&f, &profile).exists());
+    let intent: Value = f.storage.read(&journal(&f, &profile)).unwrap().unwrap();
+    assert_eq!(intent["attempted"], true);
     let server = self::server();
     let svc = service(&f, &server, &profile);
     let handle = thread::spawn(move || {
@@ -348,6 +484,107 @@ fn release_failure_preserves_state_then_retry_confirms_absence() {
     assert!(f.storage.sessions(&profile).unwrap().is_empty());
     assert!(!journal(&f, &profile).exists());
 }
+
+#[test]
+fn release_attempts_only_the_recorded_kernel_with_current_proxy_credentials() {
+    for delete_status in [204, 404, 503] {
+        let f = Fixture::new(TokenStorageMode::File);
+        let profile = id("default");
+        let mut state = session("work");
+        state.kernel_id = Some("kernel/one".into());
+        f.storage.save_session(&profile, state).unwrap();
+        let control = server();
+        let runtime = server();
+        let svc = service(&f, &control, &profile);
+        let handle = thread::spawn(move || {
+            let (request, _) = recv(&control, "GET", "/tun/m/assignments");
+            let mut target = assignment("ep-work");
+            target["runtimeProxyInfo"]["url"] =
+                json!(format!("http://{}/prefix/", runtime.server_addr()));
+            respond(
+                request,
+                json!({"assignments":[assignment("ep-other"), target]}),
+            );
+
+            let request = runtime
+                .recv_timeout(Duration::from_secs(3))
+                .unwrap()
+                .unwrap();
+            assert_eq!(request.method().as_str(), "DELETE");
+            assert_eq!(request.url(), "/prefix/api/kernels/kernel%2Fone");
+            assert!(request.headers().iter().any(|header| {
+                header.field.equiv("Authorization")
+                    && header.value.as_str() == "Bearer proxy-fixture"
+            }));
+            request.respond(Response::empty(delete_status)).unwrap();
+
+            let (request, _) = recv(&control, "GET", "/tun/m/unassign/ep-work");
+            respond(request, json!({"token":"release-xsrf"}));
+            let (request, _) = recv(&control, "POST", "/tun/m/unassign/ep-work");
+            request.respond(Response::empty(204)).unwrap();
+        });
+        svc.stop("work").unwrap();
+        handle.join().unwrap();
+        assert!(f.storage.sessions(&profile).unwrap().is_empty());
+        assert!(!journal(&f, &profile).exists());
+    }
+}
+
+#[test]
+fn first_release_continues_if_the_kernel_proxy_cannot_be_refreshed() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = id("default");
+    let mut state = session("work");
+    state.kernel_id = Some("kernel-one".into());
+    f.storage.save_session(&profile, state).unwrap();
+    let control = server();
+    let svc = service(&f, &control, &profile);
+    let handle = thread::spawn(move || {
+        let (request, _) = recv(&control, "GET", "/tun/m/assignments");
+        request.respond(Response::empty(503)).unwrap();
+        let (request, _) = recv(&control, "GET", "/tun/m/unassign/ep-work");
+        respond(request, json!({"token":"release-xsrf"}));
+        let (request, _) = recv(&control, "POST", "/tun/m/unassign/ep-work");
+        request.respond(Response::empty(204)).unwrap();
+    });
+    svc.stop("work").unwrap();
+    handle.join().unwrap();
+    assert!(f.storage.sessions(&profile).unwrap().is_empty());
+}
+
+#[test]
+fn release_with_recorded_kernel_does_not_contact_a_replacement_endpoint() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = id("default");
+    let mut state = session("work");
+    state.kernel_id = Some("kernel-one".into());
+    let runtime = server();
+    state.url = format!("http://{}", runtime.server_addr());
+    f.storage.save_session(&profile, state).unwrap();
+    let control = server();
+    let svc = service(&f, &control, &profile);
+    let handle = thread::spawn(move || {
+        let (request, _) = recv(&control, "GET", "/tun/m/assignments");
+        let mut replacement = assignment("ep-other");
+        replacement["runtimeProxyInfo"]["url"] = json!(format!("http://{}", runtime.server_addr()));
+        respond(request, json!({"assignments":[replacement]}));
+        let (request, _) = recv(&control, "GET", "/tun/m/unassign/ep-work");
+        respond(request, json!({"token":"release-xsrf"}));
+        let (request, _) = recv(&control, "POST", "/tun/m/unassign/ep-work");
+        request.respond(Response::empty(204)).unwrap();
+        assert!(
+            runtime
+                .recv_timeout(Duration::from_millis(100))
+                .unwrap()
+                .is_none()
+        );
+    });
+    svc.stop("work").unwrap();
+    handle.join().unwrap();
+    assert!(f.storage.sessions(&profile).unwrap().is_empty());
+    assert!(!journal(&f, &profile).exists());
+}
+
 #[test]
 fn successful_release_accepts_empty_body_and_encodes_endpoint_as_one_segment() {
     let f = Fixture::new(TokenStorageMode::File);
@@ -358,8 +595,6 @@ fn successful_release_accepts_empty_body_and_encodes_endpoint_as_one_segment() {
     let server = server();
     let svc = service(&f, &server, &profile);
     let handle = thread::spawn(move || {
-        let (r, _) = recv(&server, "GET", "/tun/m/assignments");
-        respond(r, json!({"assignments":[assignment("ep/space ?#%")]}));
         let (r, _) = recv(&server, "GET", "/tun/m/unassign/ep%2Fspace%20%3F%23%25");
         respond(r, json!({"token":"xsrf"}));
         let (r, _) = recv(&server, "POST", "/tun/m/unassign/ep%2Fspace%20%3F%23%25");
@@ -477,6 +712,116 @@ fn pending_release_remains_routable_without_local_session() {
     .unwrap();
     assert_eq!(selected.profile, other);
 }
+
+#[test]
+fn pending_allocation_allows_releasing_a_separate_session_and_survives_release_recovery() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = f.add("other");
+    let mut credential = token();
+    credential.token = Secret::new("oauth-fixture");
+    credential.expiry = Some(chrono::Utc::now() + chrono::Duration::hours(1));
+    f.tokens.save(&profile, &credential).unwrap();
+    let nbh = notebook_identity();
+    let allocate = journal(&f, &profile);
+    let release = f
+        .storage
+        .profile_path(&profile, "control_parallel_release.json")
+        .unwrap();
+    f.storage.write(&allocate, &json!({"operation":"allocate","name":"new-vm","nbh":nbh,"options":options(),"session":null,"post_attempted":true})).unwrap();
+    let original = std::fs::read(&allocate).unwrap();
+    f.storage
+        .save_session(&profile, session("existing"))
+        .unwrap();
+    let control = server();
+    let base = config(&control).base_url.to_string();
+    let svc = service(&f, &control, &profile);
+    let next_nbh = nbh.clone();
+    let handle = thread::spawn(move || {
+        let (request, _) = recv(&control, "GET", "/tun/m/unassign/ep-existing");
+        respond(request, json!({"token":"release-xsrf"}));
+        let (request, _) = recv(&control, "POST", "/tun/m/unassign/ep-existing");
+        request.respond(Response::empty(504)).unwrap();
+        for _ in 0..2 {
+            let (request, _) = recv(&control, "GET", "/tun/m/assignments");
+            respond(request, json!({"assignments":[]}));
+        }
+        let (request, query) = recv(&control, "GET", "/tun/m/assign");
+        assert_eq!(query["nbh"], next_nbh);
+        respond(request, assignment("ep-recovered-allocation"));
+    });
+    assert!(matches!(
+        svc.stop("existing"),
+        Err(Error::ControlStatus(504))
+    ));
+    let intent: Value = f.storage.read(&release).unwrap().unwrap();
+    assert_eq!(intent["endpoint"], "ep-existing");
+    assert_eq!(std::fs::read(&allocate).unwrap(), original);
+    assert!(matches!(
+        svc.create(Some("new-vm"), options()),
+        Err(Error::ControlPending)
+    ));
+    assert!(svc.status(None).unwrap().is_empty());
+    assert!(matches!(
+        f.accounts.remove(&profile, true),
+        Err(Error::AccountInUse)
+    ));
+    let output = std::process::Command::new(env!("CARGO_BIN_EXE_colab"))
+        .arg("--config-dir")
+        .arg(f.temp.path())
+        .args([
+            "--token-storage",
+            "file",
+            "--control-plane-url",
+            &base,
+            "stop",
+            "-s",
+            "existing",
+            "--colab-expected-endpoint",
+            "ep-existing",
+        ])
+        .env_remove("COLAB_ACCOUNT")
+        .output()
+        .unwrap();
+    assert!(
+        output.status.success(),
+        "{}",
+        String::from_utf8_lossy(&output.stderr)
+    );
+    assert!(String::from_utf8_lossy(&output.stdout).contains("Session terminated."));
+    assert!(!release.exists());
+    assert_eq!(std::fs::read(&allocate).unwrap(), original);
+    assert_eq!(
+        svc.create(Some("new-vm"), options()).unwrap().endpoint,
+        "ep-recovered-allocation"
+    );
+    handle.join().unwrap();
+    assert!(!allocate.exists());
+}
+
+#[test]
+fn pending_staged_allocation_protects_its_endpoint_from_release_under_an_alias() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let profile = id("default");
+    let owned = session("owned");
+    let mut alias = owned.clone();
+    alias.name = "alias".into();
+    f.storage.save_session(&profile, alias).unwrap();
+    f.storage.write(&journal(&f, &profile), &json!({"operation":"allocate","name":"owned","nbh":notebook_identity(),"options":options(),"session":owned})).unwrap();
+    let control = server();
+    let svc = service(&f, &control, &profile);
+    assert!(matches!(svc.stop("alias"), Err(Error::ControlPending)));
+    assert!(matches!(
+        svc.cleanup_owned("another-run", "alias", Some("ep-owned")),
+        Err(Error::ControlPending)
+    ));
+    assert!(control.try_recv().unwrap().is_none());
+    assert!(
+        !f.storage
+            .profile_path(&profile, "control_parallel_release.json")
+            .unwrap()
+            .exists()
+    );
+}
 #[test]
 fn cli_controls_selected_account_and_redacts_all_output() {
     use std::process::Command;
@@ -498,8 +843,6 @@ fn cli_controls_selected_account_and_redacts_all_output() {
             r,
             json!({"currentBalance":10,"consumptionRateHourly":0,"assignmentsCount":1}),
         );
-        let (r, _) = recv(&server, "GET", "/tun/m/assignments");
-        respond(r, json!({"assignments":[assignment("ep-cli")]}));
         let (r, _) = recv(&server, "GET", "/tun/m/unassign/ep-cli");
         respond(r, json!({"token":"xsrf"}));
         let (r, _) = recv(&server, "POST", "/tun/m/unassign/ep-cli");
@@ -524,6 +867,14 @@ fn cli_controls_selected_account_and_redacts_all_output() {
         );
         assert!(!String::from_utf8_lossy(&output.stdout).contains("fixture"));
         assert!(!String::from_utf8_lossy(&output.stderr).contains("fixture"));
+        if matches!(args.first(), Some(&"status" | &"stop")) {
+            assert_eq!(
+                output.stderr,
+                b"[colab] Routing session 'remote' -> account 'other'.\n"
+            );
+        } else {
+            assert!(output.stderr.is_empty());
+        }
         output.stdout
     };
     let created: Value =
@@ -534,11 +885,75 @@ fn cli_controls_selected_account_and_redacts_all_output() {
     assert_eq!(listed[0]["endpoint"], "ep-cli");
     let usage: Value =
         serde_json::from_slice(&invoke(&["-a", "other", "usage", "--json"])).unwrap();
-    assert_eq!(usage["currentBalance"], 10.0);
+    assert_eq!(usage["usage"]["balance"], 10.0);
     invoke(&["stop", "-s", "remote"]);
     handle.join().unwrap();
     assert!(f.storage.sessions(&other).unwrap().is_empty());
     assert_eq!(f.accounts.registry().unwrap().active, id("default"));
+}
+
+#[test]
+fn cli_explains_accelerator_refusal_in_text_mode_and_can_retry_with_cpu() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let mut credential = token();
+    credential.token = Secret::new("oauth-fixture");
+    credential.expiry = Some(chrono::Utc::now() + chrono::Duration::hours(1));
+    f.tokens.save(&id("default"), &credential).unwrap();
+    let server = server();
+    let base = config(&server).base_url.to_string();
+    let handler = thread::spawn(move || {
+        for accelerator in ["A100", "A100", "NONE"] {
+            let (request, query) = recv(&server, "GET", "/tun/m/assign");
+            assert_eq!(query["accelerator"], accelerator);
+            if accelerator == "NONE" {
+                respond(request, assignment("ep-cpu"));
+            } else {
+                request
+                    .respond(
+                        Response::from_string("private refusal").with_status_code(StatusCode(400)),
+                    )
+                    .unwrap();
+            }
+        }
+    });
+    let invoke = |args: &[&str]| {
+        std::process::Command::new(env!("CARGO_BIN_EXE_colab"))
+            .arg("--config-dir")
+            .arg(f.temp.path())
+            .args([
+                "--token-storage",
+                "file",
+                "--control-plane-url",
+                &base,
+                "-a",
+                "default",
+                "new",
+                "-s",
+                "work",
+            ])
+            .args(args)
+            .output()
+            .unwrap()
+    };
+    let rejected = invoke(&["--gpu", "A100"]);
+    assert_eq!(rejected.status.code(), Some(1));
+    let message = String::from_utf8(rejected.stderr).unwrap();
+    assert!(message.contains("Backend rejected accelerator 'A100'"));
+    assert!(message.contains("omit --gpu/--tpu for a CPU runtime"));
+    assert!(!message.contains("private refusal"));
+    let rejected = invoke(&["--gpu", "A100", "--json"]);
+    assert_eq!(rejected.status.code(), Some(1));
+    assert!(rejected.stdout.is_empty());
+    assert!(
+        String::from_utf8(rejected.stderr)
+            .unwrap()
+            .contains("HTTP 400")
+    );
+    let created = invoke(&["--json"]);
+    assert!(created.status.success());
+    let view: Value = serde_json::from_slice(&created.stdout).unwrap();
+    assert_eq!(view["endpoint"], "ep-cpu");
+    handler.join().unwrap();
 }
 
 #[test]
@@ -915,4 +1330,270 @@ fn empty_control_posts_declare_zero_content_length_for_strict_frontends() {
         handle.join().unwrap();
         assert!(result.is_ok(), "release={release}: {result:?}");
     }
+}
+
+#[test]
+fn credentials_propagation_uses_oauth_encoded_endpoint_xsrf_and_real_multipart_body() {
+    let server = server();
+    let api = api(&server);
+    let handler = thread::spawn(move || {
+        for (method, dryrun) in [("GET", "true"), ("POST", "true"), ("POST", "false")] {
+            let (mut request, query) = recv(
+                &server,
+                method,
+                "/tun/m/credentials-propagation/ep%2Fwith%25chars",
+            );
+            assert_eq!(query.len(), 6);
+            for (key, value) in [
+                ("authtype", "dfs_ephemeral"),
+                ("version", "2"),
+                ("dryrun", dryrun),
+                ("propagate", "true"),
+                ("record", "false"),
+            ] {
+                assert_eq!(query[key], value);
+            }
+            if method == "POST" {
+                assert!(
+                    request
+                        .headers()
+                        .iter()
+                        .any(|h| h.field.equiv("X-Goog-Colab-Token")
+                            && h.value.as_str() == "propagation-xsrf")
+                );
+                let content_type = request
+                    .headers()
+                    .iter()
+                    .find(|h| h.field.equiv("Content-Type"))
+                    .unwrap()
+                    .value
+                    .as_str()
+                    .to_owned();
+                let boundary = content_type
+                    .strip_prefix("multipart/form-data; boundary=")
+                    .unwrap();
+                let mut body = String::new();
+                request.as_reader().read_to_string(&mut body).unwrap();
+                assert_eq!(
+                    body,
+                    format!(
+                        "--{boundary}\r\nContent-Disposition: form-data; name=\"file_id\"\r\n\r\nempty.ipynb\r\n--{boundary}--\r\n"
+                    )
+                );
+                request
+                    .respond(Response::from_string(")]}'\n{\"success\":true}"))
+                    .unwrap();
+            } else {
+                request
+                    .respond(Response::from_string(
+                        ")]}'\n{\"token\":\"propagation-xsrf\"}",
+                    ))
+                    .unwrap();
+            }
+        }
+    });
+    let token = api.prepare_credentials("ep/with%chars").unwrap();
+    assert!(
+        api.propagate_credentials("ep/with%chars", &token, true)
+            .unwrap()
+            .success
+    );
+    assert!(
+        api.propagate_credentials("ep/with%chars", &token, false)
+            .unwrap()
+            .success
+    );
+    handler.join().unwrap();
+}
+
+#[test]
+fn credential_propagation_rejects_empty_tokens_redirects_and_unconfirmed_final_success() {
+    for (status, body) in [
+        (302, "secret-redirect"),
+        (403, "secret-response"),
+        (200, "{\"success\":false}"),
+        (200, "{\"success\":\"true\"}"),
+        (200, "malformed-secret-json"),
+    ] {
+        let server = server();
+        let api = api(&server);
+        assert!(api.prepare_credentials("").is_err());
+        assert!(
+            api.propagate_credentials("ep", &Secret::new(""), false)
+                .is_err()
+        );
+        let handler = thread::spawn(move || {
+            let (request, _) = recv(&server, "POST", "/tun/m/credentials-propagation/ep");
+            request
+                .respond(
+                    Response::from_string(body)
+                        .with_status_code(StatusCode(status))
+                        .with_header(
+                            tiny_http::Header::from_bytes(
+                                "Location",
+                                "https://accounts.google.com/secret-redirect",
+                            )
+                            .unwrap(),
+                        ),
+                )
+                .unwrap();
+        });
+        let error = api
+            .propagate_credentials("ep", &Secret::new("xsrf"), false)
+            .err()
+            .unwrap();
+        assert!(!format!("{error:?} {error}").contains("secret-"));
+        handler.join().unwrap();
+    }
+}
+
+#[test]
+fn colab_consent_waits_for_user_before_final_propagation_and_rejects_unknown_auth_types() {
+    use colabcli_rust::{
+        automation::AutomationInput,
+        jupyter::{ColabRequest, InputHandler, InputRequest},
+    };
+    use std::sync::{
+        Arc,
+        atomic::{AtomicBool, Ordering},
+    };
+    let f = Fixture::new(TokenStorageMode::File);
+    let server = server();
+    let svc = service(&f, &server, &id("default"));
+    let granted = Arc::new(AtomicBool::new(false));
+    let observed = Arc::new(AtomicBool::new(false));
+    let granted_server = granted.clone();
+    let observed_server = observed.clone();
+    let handler = thread::spawn(move || {
+        let (request, _) = recv(&server, "GET", "/tun/m/credentials-propagation/ep-owned");
+        request
+            .respond(Response::from_string("{\"token\":\"xsrf\"}"))
+            .unwrap();
+        let (request, query) = recv(&server, "POST", "/tun/m/credentials-propagation/ep-owned");
+        assert_eq!(query["dryrun"], "true");
+        request.respond(Response::from_string("{\"success\":false,\"unauthorized_redirect_uri\":\"https://accounts.google.com/authorize?state=private-consent\"}")).unwrap();
+        assert!(
+            server
+                .recv_timeout(Duration::from_millis(150))
+                .unwrap()
+                .is_none()
+        );
+        observed_server.store(true, Ordering::SeqCst);
+        granted_server.store(true, Ordering::SeqCst);
+        let (request, query) = recv(&server, "POST", "/tun/m/credentials-propagation/ep-owned");
+        assert_eq!(query["dryrun"], "false");
+        request
+            .respond(Response::from_string("{\"success\":true}"))
+            .unwrap();
+    });
+    let mut polls = 0;
+    let mut terminal = |request: &InputRequest| {
+        polls += 1;
+        assert!(!request.password);
+        assert!(
+            request
+                .prompt
+                .contains("https://accounts.google.com/authorize?state=private-consent")
+        );
+        Ok(granted.load(Ordering::SeqCst).then(String::new))
+    };
+    let mut input = AutomationInput::new(&svc, &mut terminal);
+    input.bind_endpoint("ep-owned").unwrap();
+    let mut request = ColabRequest {
+        id: "request-1".into(),
+        colab_msg_id: json!(7),
+        auth_type: "unknown".into(),
+    };
+    assert!(input.poll_colab(&request).is_err());
+    request.auth_type = "dfs_ephemeral".into();
+    let start = std::time::Instant::now();
+    while !input.poll_colab(&request).unwrap() {
+        assert!(start.elapsed() < Duration::from_secs(3));
+        thread::sleep(Duration::from_millis(5));
+    }
+    drop(input);
+    handler.join().unwrap();
+    assert!(polls > 0);
+    assert!(observed.load(Ordering::SeqCst));
+}
+
+#[test]
+fn confirmed_absence_cleans_only_matching_compute_endpoint_leases_and_release_failure_keeps_them() {
+    use colabcli_rust::{
+        auth::TokenClient,
+        drive_credentials::DriveCredentialService,
+        drivefs::{lease::Lease, remote::RemoteRequest},
+    };
+    let f = Fixture::new(TokenStorageMode::File);
+    let compute = id("default");
+    let drive = f.add("drive");
+    let other_compute = f.add("other");
+    f.storage.save_session(&compute, session("work")).unwrap();
+    f.storage.save_session(&compute, session("keep")).unwrap();
+    let credentials = DriveCredentialService::new(f.storage.clone(), TokenClient::new().unwrap());
+    // Secret-free synthetic leases are enough to exercise cleanup ownership.
+    let lease = Lease {
+        version: 1,
+        compute_account: compute.clone(),
+        drive_account: drive.clone(),
+        session: "work".into(),
+        endpoint: "ep-work".into(),
+        request: RemoteRequest::new("/content/drive").unwrap(),
+        fingerprint: "a".repeat(64),
+        identity: "b".repeat(64),
+    };
+    let mut other_endpoint = lease.clone();
+    other_endpoint.endpoint = "ep-keep".into();
+    other_endpoint.request = RemoteRequest::new("/content/keep").unwrap();
+    let mut other_account = lease.clone();
+    other_account.compute_account = other_compute;
+    other_account.request = RemoteRequest::new("/content/other").unwrap();
+    for item in [&lease, &other_endpoint, &other_account] {
+        f.storage
+            .write(
+                &f.storage
+                    .profile_path(
+                        &drive,
+                        &format!("managed/drivefs-{}.json", item.request.operation_id),
+                    )
+                    .unwrap(),
+                item,
+            )
+            .unwrap();
+    }
+    let s = server();
+    let svc = service(&f, &s, &compute);
+    let handle = thread::spawn(move || {
+        let (r, _) = recv(&s, "GET", "/tun/m/assignments");
+        respond(r, json!({"assignments":[assignment("ep-work")]}));
+        let (r, _) = recv(&s, "GET", "/tun/m/unassign/ep-work");
+        respond(r, json!({"token":"xsrf"}));
+        let (r, _) = recv(&s, "POST", "/tun/m/unassign/ep-work");
+        r.respond(Response::empty(StatusCode(504))).unwrap();
+        let (r, _) = recv(&s, "GET", "/tun/m/assignments");
+        respond(r, json!({"assignments":[]}));
+    });
+    assert!(svc.cleanup_drive_leases("ep-work").is_err());
+    assert_eq!(credentials.leases(&drive).unwrap().len(), 3);
+    assert!(svc.stop("work").is_err());
+    assert_eq!(credentials.leases(&drive).unwrap().len(), 3);
+    assert!(journal(&f, &compute).exists());
+    svc.stop("work").unwrap();
+    handle.join().unwrap();
+    let remaining = credentials.leases(&drive).unwrap();
+    assert_eq!(remaining.len(), 2);
+    assert!(remaining.contains(&other_endpoint));
+    assert!(remaining.contains(&other_account));
+    assert!(!journal(&f, &compute).exists());
+    assert!(f.storage.sessions(&compute).unwrap().contains_key("keep"));
+    // No local session is needed to confirm absence and clear the remaining endpoint.
+    let s = server();
+    let svc = service(&f, &s, &compute);
+    let handle = thread::spawn(move || {
+        let (r, _) = recv(&s, "GET", "/tun/m/assignments");
+        respond(r, json!({"assignments":[]}));
+    });
+    svc.cleanup_drive_leases("ep-keep").unwrap();
+    handle.join().unwrap();
+    assert_eq!(credentials.leases(&drive).unwrap(), vec![other_account]);
 }

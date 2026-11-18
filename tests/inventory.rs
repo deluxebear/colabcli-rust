@@ -94,7 +94,11 @@ fn cli_all_keeps_authenticated_results_alongside_missing_credentials() {
             ])
             .env(
                 "COLAB_ACCOUNT",
-                "nonexistent-selection-must-be-ignored-for-all",
+                if subcommand == "usage" {
+                    "default"
+                } else {
+                    "nonexistent-selection-must-be-ignored-for-all"
+                },
             )
             .env_remove("COLAB_CLI_REQUEST_TIMEOUT")
             .env_remove("COLAB_CLI_ASSIGN_RETRIES")
@@ -116,7 +120,7 @@ fn cli_all_keeps_authenticated_results_alongside_missing_credentials() {
         if subcommand == "status" {
             assert_eq!(rows[0]["result"], json!([]));
         } else {
-            assert_eq!(rows[0]["result"]["currentBalance"], 4.5);
+            assert_eq!(rows[0]["usage"]["balance"], 4.5);
         }
     }
     handler.join().unwrap();

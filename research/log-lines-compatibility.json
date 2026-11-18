@@ -1,0 +1,95 @@
+{
+  "cases": [
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture"
+      ],
+      "stdout": "[2026-01-01 00:00:00] EXEC: print(1)...\n[2026-01-01 00:00:00] FILE: ls content\n[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "-n",
+        "0"
+      ],
+      "stdout": "[2026-01-01 00:00:00] EXEC: print(1)...\n[2026-01-01 00:00:00] FILE: ls content\n[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "-n",
+        "1"
+      ],
+      "stdout": "[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "-n",
+        "-1"
+      ],
+      "stdout": "[2026-01-01 00:00:00] FILE: ls content\n[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "--lines=-2"
+      ],
+      "stdout": "[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "--lines",
+        "-100"
+      ],
+      "stdout": "",
+      "matched": true
+    },
+    {
+      "arguments": [
+        "log",
+        "-s",
+        "fixture",
+        "-t",
+        "execution",
+        "-n",
+        "-1"
+      ],
+      "stdout": "[2026-01-01 00:00:00] EXEC: print(2)...\n",
+      "matched": true
+    }
+  ],
+  "text_cases_matched": 7,
+  "jsonl_export_exact_match": true,
+  "binary_sha256": "c090724ba42ca9aa07dbfe33d182691c4ec937b52d4e698072b26b800c2bf472",
+  "upstream_utility_sha256": "3e8ac7c9a83713198e42e32a20e01b241ec1ba81a53be369afb4429be388437a",
+  "source_commits": {
+    "cli": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+    "ext": "980a39748badc3168a5af8734b2467351bdafcbc",
+    "kernel": "f18e982c3265df5e923aa9def101ab3fd737e139"
+  },
+  "scope": "offline merged CLI comparison with synthetic history and isolated HOME",
+  "inputs_sha256": {
+    "src/main.rs": "88d7e4d8ad5d2375e4003ae6010c3e97768652e61907b3e6f60394ec82ea5b52",
+    "src/history.rs": "4e09736def35857056d021eb6649e107af539d33c5ea58ddee4421da822ad371",
+    "tests/history.rs": "af2c3f5416f6a34698caa5261c7b41741f329037a4e0e0e3bc0cd54b1b30e219"
+  }
+}

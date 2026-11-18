@@ -4,6 +4,7 @@ version = "0.1.0"
 edition = "2024"
 rust-version = "1.85"
 description = "Multi-account Google Colab client in Rust"
+repository = "https://github.com/deluxebear/colabcli-rust"
 
 [[bin]]
 name = "colab"
@@ -17,9 +18,22 @@ native-keyring = ["dep:keyring"]
 base64 = "0.22"
 chrono = { version = "0.4", features = ["serde"] }
 clap = { version = "4.5", features = ["derive", "env"] }
+clap_complete = "4.6.11"
 fs2 = "0.4"
+hyper-util = { version = "0.1.21", features = ["client-proxy"] }
+html2text = { version = "0.17.4", default-features = false }
+indexmap = { version = "2.14.2", features = ["serde"] }
+# 0.25.10 raises MSRV to 1.88; keep the Rust 1.85 release path.
+image = { version = "=0.25.9", default-features = false, features = ["jpeg", "png"] }
+percent-encoding = "2"
+pulldown-cmark = { version = "0.13.6", default-features = false, features = ["html"] }
 rand = "0.8"
-reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls"] }
+ring = "0.17"
+rustls = { version = "0.23.46", default-features = false, features = ["ring", "std", "tls12"] }
+webpki-roots = "1.0.12"
+rustyline = { version = "17.0.2", default-features = false, features = ["custom-bindings"] }
+reqwest = { version = "0.12", default-features = false, features = ["blocking", "json", "rustls-tls", "socks"] }
+semver = "1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["preserve_order"] }
 sha2 = "0.10"
@@ -31,6 +45,9 @@ tungstenite = { version = "0.28", features = ["rustls-tls-webpki-roots"] }
 url = { version = "2", features = ["serde"] }
 zeroize = "1"
 
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"
+
 [target.'cfg(target_os = "macos")'.dependencies]
 keyring = { version = "3.6", optional = true, features = ["apple-native"] }
 
@@ -40,5 +57,17 @@ keyring = { version = "3.6", optional = true, features = ["sync-secret-service",
 [target.'cfg(target_os = "windows")'.dependencies]
 keyring = { version = "3.6", optional = true, features = ["windows-native"] }
 
+[build-dependencies]
+url = "2"
+
 [dev-dependencies]
+rcgen = { version = "0.13.2", default-features = false, features = ["crypto", "ring"] }
+# Keep certificate-fixture support compatible with Rust 1.85.
+time = "=0.3.44"
+rsa = { version = "0.9", features = ["sha2"] }
 tiny_http = "0.12"
+
+[profile.release]
+strip = "symbols"
+lto = "thin"
+codegen-units = 1

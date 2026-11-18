@@ -141,6 +141,23 @@ fn download_supports_empty_binary_text_and_notebook_json() {
             json!({"cells":[],"nbformat":4}),
             serde_json::to_vec_pretty(&json!({"cells":[],"nbformat":4})).unwrap(),
         ),
+        (
+            "json",
+            json!({"中文":["💻",true,null,42],"nested":{"é":"ok","del":"\u{7f}"}}),
+            br#"{
+  "\u4e2d\u6587": [
+    "\ud83d\udcbb",
+    true,
+    null,
+    42
+  ],
+  "nested": {
+    "\u00e9": "ok",
+    "del": "\u007f"
+  }
+}"#
+            .to_vec(),
+        ),
     ] {
         let server = server();
         let client = client(&server);
@@ -659,4 +676,32 @@ fn cli_edit_refuses_replaced_vm_and_retains_the_edited_file() {
     );
     assert_eq!(fs::read(&path).unwrap(), b"valuable-edit");
     fs::remove_dir_all(path.parent().unwrap()).unwrap();
+}
+
+#[test]
+fn download_accepts_jupyter_wrapped_base64_without_changing_binary_bytes() {
+    for newline in ["\n", "\r\n"] {
+        let expected: Vec<u8> = (0..=255).collect();
+        let encoded = STANDARD.encode(&expected);
+        let wrapped = encoded
+            .as_bytes()
+            .chunks(76)
+            .map(|chunk| std::str::from_utf8(chunk).unwrap())
+            .collect::<Vec<_>>()
+            .join(newline)
+            + newline;
+        let server = server();
+        let client = client(&server);
+        let handler = thread::spawn(move || {
+            let request = recv(
+                &server,
+                "GET",
+                "/runtime/base/api/contents/content/file.bin",
+            );
+            reply(request, entry(json!(wrapped), "base64"));
+        });
+        let actual = client.download_bytes("content/file.bin");
+        handler.join().unwrap();
+        assert_eq!(actual.unwrap(), expected);
+    }
 }

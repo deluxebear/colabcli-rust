@@ -1,0 +1,141 @@
+{
+  "source": "src/installation.rs",
+  "source_sha256": "b5df7222d32a5b497c9833bcea621711e01fb2c30473b0f29bac0da606a88d47",
+  "template_sha256": "782242542c37daea29b603767d4b5f6be28bc05fa165f936f6a66d0fc8e5494e",
+  "mode": "stdlib exec with fake subprocess; no processes, network, Google or real package installs",
+  "checks": [
+    {
+      "name": "uv-success",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "demo==1.2"
+        ]
+      ],
+      "exception": null
+    },
+    {
+      "name": "uv-missing",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "demo>=1"
+        ],
+        [
+          "/opt/homebrew/opt/python@3.15/bin/python3.15",
+          "-m",
+          "pip",
+          "install",
+          "demo>=1"
+        ]
+      ],
+      "exception": null
+    },
+    {
+      "name": "uv-error",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "demo"
+        ],
+        [
+          "/opt/homebrew/opt/python@3.15/bin/python3.15",
+          "-m",
+          "pip",
+          "install",
+          "demo"
+        ]
+      ],
+      "exception": null
+    },
+    {
+      "name": "pip-error",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "demo"
+        ],
+        [
+          "/opt/homebrew/opt/python@3.15/bin/python3.15",
+          "-m",
+          "pip",
+          "install",
+          "demo"
+        ]
+      ],
+      "exception": "RuntimeError"
+    },
+    {
+      "name": "interrupt-no-fallback",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "demo"
+        ]
+      ],
+      "exception": "KeyboardInterrupt"
+    },
+    {
+      "name": "quoted-data",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "quote'\"\n中文; raise RuntimeError('injected')",
+          "__COLAB_INSTALL_ARGUMENTS_JSON__",
+          "--index-url",
+          "https://example.invalid/simple"
+        ]
+      ],
+      "exception": null
+    },
+    {
+      "name": "requirements-and-packages",
+      "passed": true,
+      "calls": [
+        [
+          "uv",
+          "pip",
+          "install",
+          "--system",
+          "-r",
+          "/content/requirements #中.txt",
+          "extra>=1"
+        ],
+        [
+          "/opt/homebrew/opt/python@3.15/bin/python3.15",
+          "-m",
+          "pip",
+          "install",
+          "-r",
+          "/content/requirements #中.txt",
+          "extra>=1"
+        ]
+      ],
+      "exception": null
+    }
+  ]
+}

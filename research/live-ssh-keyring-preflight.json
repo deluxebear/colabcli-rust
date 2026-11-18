@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "binary_sha256": "c6da8a4fdb8d3c41719e983eab8cbba72d332c52ed194f54deaa490b2b376aa3",
+  "passed": true,
+  "checks": [],
+  "execute_requested": false,
+  "cleanup_only": false,
+  "cleanup": "not_allocated",
+  "created_sessions": 0,
+  "baseline_assignment_count": 0,
+  "credentials_ready": true,
+  "preflight_only": true,
+  "other_new_assignment_count": 0,
+  "validated_at": "2026-11-18T02:44:50.255802+08:00",
+  "authentication_source": "user-authorized existing system keyring"
+}

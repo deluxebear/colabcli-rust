@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "checks": [
+    {
+      "name": "real_kernel_death_broadcast_is_unknown_with_partial_output",
+      "passed": true
+    },
+    {
+      "name": "durable_pending_blocks_same_script_replay",
+      "passed": true
+    },
+    {
+      "name": "independent_contents_confirms_single_side_effect",
+      "passed": true
+    },
+    {
+      "name": "explicit_restart_recovers_without_replaying_crashing_script",
+      "passed": true
+    }
+  ],
+  "created_sessions": 1,
+  "binary_sha256": "b2315bfd39ce5ddf850043569551275939a2eeb6a58089283fe6ce7231f21dc1",
+  "cleanup": "confirmed_released",
+  "terminal_keyring": true,
+  "validator_source_sha256": "84d0c5ca3bf31fe4ec00437a6d1642d98cc12c256452716ba557fa90f615a7b7",
+  "fault": "kernel-death",
+  "execute_requested": true,
+  "cleanup_only": false,
+  "credentials_ready": true,
+  "baseline_assignment_count": 0,
+  "kernel_warmup_verified": true,
+  "stdout_grace_seconds": 1,
+  "other_new_assignment_count": 0,
+  "independent_receipt_review": {
+    "unknown_nonzero": true,
+    "lifecycle_reason": true,
+    "partial_marker": true,
+    "same_msg_id_blocked": true,
+    "single_side_effect": true,
+    "restart_success": true,
+    "recovered_success": true
+  }
+}

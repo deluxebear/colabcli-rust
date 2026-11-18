@@ -1,0 +1,178 @@
+{
+  "scope": "local candidate and flat asset layout for four targets",
+  "published": false,
+  "asset_count": 7,
+  "checksum_count": 6,
+  "sha256": {
+    "colab-0.1.0-aarch64-apple-darwin": "6dee28a491fcddf3725989d0e98955488c3353ffc64449dad1e705a63358647f",
+    "colab-0.1.0-aarch64-unknown-linux-gnu": "c4d8f8e4fc3d818dd02d77211c43c0eae270fa6801a9ef511d7e4c4641b9296c",
+    "colab-0.1.0-x86_64-apple-darwin": "ba21c4055647365f8d7b210d6dc62a8577456e4d5577b96f986af0b2be1f9160",
+    "colab-0.1.0-x86_64-unknown-linux-gnu": "788f29b42a9b450ecde9f2bf82788d57c07663851952458b453ad182647c7a32",
+    "colab-licenses.zip": "0394502cb2a17ba80b4e5a7b4ff2aba379a9c506a35fee574a6c3bd3fcad7e9c",
+    "colab-update.json": "c2c896403c7c954cdb77d92860c43a383b6322a57aa02620d627f1282fefb19a",
+    "SHA256SUMS": "d89e76e8bfeb3c4d23d67105395c1612d70f54f2b36f46c712ba34df6f768ffc"
+  },
+  "notice_members": {
+    "THIRD_PARTY_NOTICES.md": "929a96513ff3552c08e3f89a88ddf4548568222b5521b0f52f75716a7b29b5d9",
+    "licenses/google-colab-cli-Apache-2.0.txt": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "licenses/jupyter-kernel-client-BSD-3-Clause.txt": "888ead28a5342901d93e31d09f37782edf695d2f14fbbdb08d3fcf6063f76b66",
+    "licenses/jupyter-server-BSD-3-Clause.txt": "5ca74e4d2eeb9330b0d129c25f874d3544a13413bc62ae8d367819100d095072",
+    "licenses/rust-dependencies.json": "d40b5443804ebdb5836334492569c13b5b5cbb382e51827eaaea8d5e2acdff92"
+  },
+  "manifest": {
+    "artifacts": {
+      "aarch64-apple-darwin": {
+        "sha256": "6dee28a491fcddf3725989d0e98955488c3353ffc64449dad1e705a63358647f",
+        "size": 9257296,
+        "url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0/colab-0.1.0-aarch64-apple-darwin"
+      },
+      "aarch64-unknown-linux-gnu": {
+        "sha256": "c4d8f8e4fc3d818dd02d77211c43c0eae270fa6801a9ef511d7e4c4641b9296c",
+        "size": 10492488,
+        "url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0/colab-0.1.0-aarch64-unknown-linux-gnu"
+      },
+      "x86_64-apple-darwin": {
+        "sha256": "ba21c4055647365f8d7b210d6dc62a8577456e4d5577b96f986af0b2be1f9160",
+        "size": 10390616,
+        "url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0/colab-0.1.0-x86_64-apple-darwin"
+      },
+      "x86_64-unknown-linux-gnu": {
+        "sha256": "788f29b42a9b450ecde9f2bf82788d57c07663851952458b453ad182647c7a32",
+        "size": 12148128,
+        "url": "https://github.com/deluxebear/colabcli-rust/releases/download/v0.1.0/colab-0.1.0-x86_64-unknown-linux-gnu"
+      }
+    },
+    "package": "colabcli-rust",
+    "schema_version": 1,
+    "version": "0.1.0"
+  },
+  "platform_reports": {
+    "macos_arm64": "research/native-release-macos-current.json",
+    "macos_x86_64": "research/macos-rosetta-current-validation.json",
+    "linux_arm64": "research/native-release-linux-arm64-current.json",
+    "linux_x86_64": "research/linux-x86-current-validation.json"
+  },
+  "inputs_sha256": {
+    "Cargo.toml": "6342d853b7d12b51647591090fb0297a153dbbf5762a220f9326d11c612ac683",
+    "Cargo.lock": "0bd79534138d59e36963dbb90b6fc870ddc34a8683ae8cb9ef89218a0210af9b",
+    "tools/package_release.py": "b95df73be6ce7f88fa99ff248e8615a7dd0cd3731d0b85d8ef8d9dbf66734a5e",
+    "tools/tests/test_package_release.py": "acaa7207f41be60b1305869fae7d3d095f2300662184e3e1a9e08f5753defa89",
+    "tools/validate_native_release.py": "8e7aad0bc3064a919d6565e4795a99600b8d89c51628e2f49064f60324caeda7"
+  },
+  "limits": [
+    "x86 validation via translation or emulation",
+    "remote Actions and release downloads pending"
+  ],
+  "flat_package_runtime_validation": {
+    "aarch64-apple-darwin": {
+      "checks": [
+        "packaged Drive metadata/clear and consent registration/hint",
+        "packaged merged JSON account failures",
+        "packaged root/local account validation preserves registry",
+        "packaged account list/current projections",
+        "packaged offline native readiness remains unknown",
+        "native release build",
+        "host native architecture",
+        "byte-identical packaged executable",
+        "manifest size and SHA-256",
+        "SHA256SUMS for all candidate files",
+        "byte-identical upstream and Rust dependency notices",
+        "packaged executable version",
+        "packaged account aliases help",
+        "packaged joint account flow options help",
+        "packaged shell completion scripts",
+        "packaged executable ADC opt-in and loopback STS exchange",
+        "packaged executable ADC expiry during execution",
+        "packaged AWS ADC SigV4 and loopback STS"
+      ],
+      "release_binary_size": 9257296,
+      "release_binary_sha256": "6dee28a491fcddf3725989d0e98955488c3353ffc64449dad1e705a63358647f",
+      "packaged_version_output": "Version: 0.1.0"
+    },
+    "x86_64-apple-darwin": {
+      "checks": [
+        "packaged Drive metadata/clear and consent registration/hint",
+        "packaged merged JSON account failures",
+        "packaged root/local account validation preserves registry",
+        "packaged account list/current projections",
+        "packaged offline native readiness remains unknown",
+        "native release build",
+        "host native architecture",
+        "byte-identical packaged executable",
+        "manifest size and SHA-256",
+        "SHA256SUMS for all candidate files",
+        "byte-identical upstream and Rust dependency notices",
+        "packaged executable version",
+        "packaged account aliases help",
+        "packaged joint account flow options help",
+        "packaged shell completion scripts",
+        "packaged executable ADC opt-in and loopback STS exchange",
+        "packaged executable ADC expiry during execution",
+        "packaged AWS ADC SigV4 and loopback STS"
+      ],
+      "release_binary_size": 10390616,
+      "release_binary_sha256": "ba21c4055647365f8d7b210d6dc62a8577456e4d5577b96f986af0b2be1f9160",
+      "packaged_version_output": "Version: 0.1.0"
+    },
+    "aarch64-unknown-linux-gnu": {
+      "checks": [
+        "packaged Drive metadata/clear and consent registration/hint",
+        "packaged merged JSON account failures",
+        "packaged root/local account validation preserves registry",
+        "packaged account list/current projections",
+        "packaged offline native readiness remains unknown",
+        "native release build",
+        "host native architecture",
+        "byte-identical packaged executable",
+        "manifest size and SHA-256",
+        "SHA256SUMS for all candidate files",
+        "byte-identical upstream and Rust dependency notices",
+        "packaged executable version",
+        "packaged account aliases help",
+        "packaged joint account flow options help",
+        "packaged shell completion scripts",
+        "packaged executable ADC opt-in and loopback STS exchange",
+        "packaged executable ADC expiry during execution",
+        "packaged AWS ADC SigV4 and loopback STS"
+      ],
+      "release_binary_size": 10492488,
+      "release_binary_sha256": "c4d8f8e4fc3d818dd02d77211c43c0eae270fa6801a9ef511d7e4c4641b9296c",
+      "packaged_version_output": "Version: 0.1.0"
+    },
+    "x86_64-unknown-linux-gnu": {
+      "checks": [
+        "packaged Drive metadata/clear and consent registration/hint",
+        "packaged merged JSON account failures",
+        "packaged root/local account validation preserves registry",
+        "packaged account list/current projections",
+        "packaged offline native readiness remains unknown",
+        "native release build",
+        "host native architecture",
+        "byte-identical packaged executable",
+        "manifest size and SHA-256",
+        "SHA256SUMS for all candidate files",
+        "byte-identical upstream and Rust dependency notices",
+        "packaged executable version",
+        "packaged account aliases help",
+        "packaged joint account flow options help",
+        "packaged shell completion scripts",
+        "packaged executable ADC opt-in and loopback STS exchange",
+        "packaged executable ADC expiry during execution",
+        "packaged AWS ADC SigV4 and loopback STS"
+      ],
+      "release_binary_size": 12148128,
+      "release_binary_sha256": "788f29b42a9b450ecde9f2bf82788d57c07663851952458b453ad182647c7a32",
+      "packaged_version_output": "Version: 0.1.0"
+    }
+  },
+  "python_tests": {
+    "passed": 186,
+    "skipped": 1,
+    "log_sha256": "9037a1c6b9689134e9e82a61f5a8c465d90c165c30a0e4d351ebf26deec3667b"
+  },
+  "remote_preflight": {
+    "branches": 0,
+    "releases": 0,
+    "method": "public GitHub API"
+  }
+}

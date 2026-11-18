@@ -1,0 +1,438 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "47bed5c064ed3e653d416ce7b93b93a084e02b18d35644a4f1b7a87aeed18478",
+  "rust_native_keyring_compiled": false,
+  "scope": "Actual offline merged consent URL and profile routing; no browser, network or real credentials; no token exchange",
+  "cases": [
+    {
+      "name": "root-account",
+      "arguments": [
+        "-a",
+        "fresh",
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "fresh",
+      "new_profiles": [
+        "fresh"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "group-account",
+      "arguments": [
+        "drive",
+        "-a",
+        "fresh",
+        "consent"
+      ],
+      "pending_owner": "fresh",
+      "new_profiles": [
+        "fresh"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "command-account",
+      "arguments": [
+        "dfs",
+        "consent",
+        "-a",
+        "fresh"
+      ],
+      "pending_owner": "fresh",
+      "new_profiles": [
+        "fresh"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "compute-env",
+      "arguments": [
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "fresh",
+      "new_profiles": [
+        "fresh"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh"
+        ],
+        "active": "default",
+        "pending_account": "fresh",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "drive-env",
+      "arguments": [
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "storage",
+      "new_profiles": [
+        "storage"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "legacy-drive-env",
+      "arguments": [
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "storage",
+      "new_profiles": [
+        "storage"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "two-new-profiles",
+      "arguments": [
+        "-a",
+        "fresh",
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "storage",
+      "new_profiles": [
+        "fresh",
+        "storage"
+      ],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc",
+          "fresh",
+          "storage"
+        ],
+        "active": "default",
+        "pending_account": "storage",
+        "url_parameters_verified": true,
+        "login_hint": null,
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "consent-ignores-binding",
+      "arguments": [
+        "-a",
+        "work",
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "work",
+      "new_profiles": [],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc"
+        ],
+        "active": "default",
+        "pending_account": "work",
+        "url_parameters_verified": true,
+        "login_hint": "fixture@example.invalid",
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc"
+        ],
+        "active": "default",
+        "pending_account": "work",
+        "url_parameters_verified": true,
+        "login_hint": "fixture@example.invalid",
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    },
+    {
+      "name": "existing-email",
+      "arguments": [
+        "-a",
+        "FIXTURE@example.invalid",
+        "drive",
+        "consent"
+      ],
+      "pending_owner": "work",
+      "new_profiles": [],
+      "official": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc"
+        ],
+        "active": "default",
+        "pending_account": "work",
+        "url_parameters_verified": true,
+        "login_hint": "fixture@example.invalid",
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "account_order": [
+          "default",
+          "work",
+          "adc"
+        ],
+        "active": "default",
+        "pending_account": "work",
+        "url_parameters_verified": true,
+        "login_hint": "fixture@example.invalid",
+        "state_matches_pending": true,
+        "s256_pkce_verified": true,
+        "other_payloads_unchanged": true
+      }
+    }
+  ],
+  "summary": {
+    "cases": 9,
+    "routing_contracts_passed": 9
+  },
+  "official_runtime": {
+    "dependency_versions": {
+      "google-auth-oauthlib": "1.5.0",
+      "oauthlib": "4.0.1",
+      "requests-oauthlib": "2.0.0"
+    },
+    "python_version": "3.14.0"
+  },
+  "differences": [
+    "Pending schemas and progress text differ"
+  ],
+  "not_checked": [
+    "Google authorization",
+    "authorization code exchange",
+    "Drive mount"
+  ]
+}

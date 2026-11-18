@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "validation_type": "synthetic local CLI and temporary credentials; no real network/keyring",
+  "executor_tests": 20,
+  "full_python_tests": 128,
+  "passed_tests": 127,
+  "skipped_tests": 1,
+  "failed_tests": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "live_validation_passed": false,
+  "log_sha256": "f47fefe6d192f08d835fdf9122f60f2851db9c6f1faf346c5ef4fc4785ae478e",
+  "input_sha256": {
+    "tools/validate_live_drive.py": "2e68516d2f15ea532c8a10e0f00dd7335ff4f30134c8f3917c6fd3c9e28a2a0d",
+    "tools/prepare_live_drive_validation.py": "427c921be13ca09ba2fcf290be5f13072a14cfa78714fa64eb6e2c379e85ccbd",
+    "tools/drive_validation_payload.py": "2b94fac2301d37e7fe3e92a0bb1f17db2e6af6cc7ae546a9db5fc3aa9427f49c",
+    "tools/tests/test_live_drive_executor.py": "6a8989e8a566c3c83950770f13d393aa20cb32111dd7acd12c6d7326c558ed61"
+  }
+}

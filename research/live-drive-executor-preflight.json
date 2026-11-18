@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "local_preflight_passed": true,
+  "live_validation_passed": false,
+  "network_calls": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "binary_sha256": "447700b88b663ec574e9d4b1c7ce240161e040d40ddf46e180548e51e5192006",
+  "bundle_payloads_verified": true,
+  "drive_identity_digest_verified_locally": true,
+  "actual_google_identity_verified": false,
+  "configuration_bytes_unchanged": true,
+  "cloud_write_authorization_received": true,
+  "authorization_scope": "User explicitly approved one new random MyDrive directory and two test files; cleanup only that directory"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "cleanup_only": false,
+  "binary_sha256": "447700b88b663ec574e9d4b1c7ce240161e040d40ddf46e180548e51e5192006",
+  "independent_drive_api_identity_verified": false,
+  "error_class": "operation_failed:mount_1",
+  "cleanup": "pending_recovery",
+  "created_sessions": 1,
+  "credential_userinfo_verified": true,
+  "same_token_drive_ownership_verified": true,
+  "server_bytes_verified": false,
+  "server_cleanup_verified": false,
+  "server_cleanup_counts": null,
+  "readonly_verified": false,
+  "cloud_cleanup_confirmed": false,
+  "other_new_assignment_count": null,
+  "cloud_write_authorization_received": true,
+  "created_test_directory": false,
+  "test_files_written": 0,
+  "recovery": {
+    "schema_version": 1,
+    "unmount_and_credential_recovery_confirmed": true,
+    "local_recovery_state_cleared": true,
+    "owned_leases_cleared": true,
+    "stop_exit_code": 0,
+    "backend_absence_confirmed": true,
+    "other_new_assignment_count": 0,
+    "created_test_directory": false,
+    "test_files_written": 0,
+    "recovery_binary_sha256": "f6efebca62d4545448ad28a522124fed2a1dc43147ab949f6bad80abbe4c0b6f"
+  },
+  "initial_validator_sha256": null,
+  "limitations": [
+    "Initial mount failed after owned process launch; no test directory created",
+    "First failure preserved separately from successful credential recovery/unmount/VM release",
+    "Initial local session recovery fields missing while independent lease remained; cause not yet established"
+  ],
+  "current_recovery_validator_sha256": "3b23c49be677dae6da136e8a9cc3c8f7d8063d1b8af63800ad99c87098ffb4c4"
+}

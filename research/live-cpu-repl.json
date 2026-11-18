@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "platform": "macOS ARM64",
+  "hardware": "CPU DEFAULT STANDARD",
+  "earlier_preflight": {
+    "binary_sha256": "8cc30e933290f557d4d92d129bdb0bee3b3ee1dca68051dc9a03c4332749fd1f",
+    "checks": [],
+    "created_sessions": 0,
+    "cleanup": "not_allocated",
+    "passed": false,
+    "error_class": "inventory_credentials_or_account_error"
+  },
+  "first_remote_attempt": {
+    "verifier_issue": "prompt_redraw_preceded_remote_exception_output",
+    "binary_sha256": "c9fa9fac04df1855b00df1bef0dccb1eddbe3f1d353a2b0679f04e543d4a7a87",
+    "checks": [
+      "empty_backend_baseline",
+      "cpu_assignment_captured",
+      "backend_inventory_and_named_status_agree",
+      "real_repl_edit_cancel_multiline_unicode_verified",
+      "backend_release_and_local_cleanup_confirmed"
+    ],
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "passed": false,
+    "error_class": "python_error_not_rendered",
+    "stop_exit_codes": [
+      0
+    ],
+    "other_new_assignment_count": 0
+  },
+  "retry": {
+    "binary_sha256": "c9fa9fac04df1855b00df1bef0dccb1eddbe3f1d353a2b0679f04e543d4a7a87",
+    "checks": [
+      "empty_backend_baseline",
+      "cpu_assignment_captured",
+      "backend_inventory_and_named_status_agree",
+      "real_repl_edit_cancel_multiline_unicode_verified",
+      "python_error_returns_to_repl_prompt",
+      "silent_execution_completed_past_heartbeat_interval",
+      "executing_ctrl_c_confirmed_and_same_kernel_reused",
+      "eof_exit_and_terminal_echo_restored",
+      "repl_exit_keeps_kernel_and_variable_for_exec",
+      "backend_release_and_local_cleanup_confirmed"
+    ],
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "passed": true,
+    "silent_execution_elapsed_s": 63.335,
+    "stop_exit_codes": [
+      0
+    ],
+    "other_new_assignment_count": 0
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "binary_sha256": "f8327b99c8dba5a0b81d0c9d3c49fb5346ccea1b9aaec22b45608b64e00f754c",
+  "credentials": "existing macOS keychain OAuth",
+  "keyring_timeout_seconds": 30,
+  "baseline_queries": [
+    {
+      "seconds": 6.646,
+      "exit": 0,
+      "credential_timeout": false,
+      "detached": false
+    },
+    {
+      "seconds": 0.89,
+      "exit": 0,
+      "credential_timeout": false,
+      "detached": true
+    }
+  ],
+  "created_sessions": 1,
+  "cleanup": "confirmed_released",
+  "passed": true,
+  "run_process": {
+    "seconds": 10.751,
+    "exit": 23,
+    "credential_timeout": false,
+    "detached": false
+  },
+  "run_verified": true,
+  "other_added_assignments": 0,
+  "owned_plan_remaining": false,
+  "date": "2026-11-18",
+  "platform": "macOS ARM64",
+  "prior_build": {
+    "sha256": "f91001440bc30877860e3c400f7abf49c83413d18ff11d3db019b4b2c58aa002",
+    "inventory_queries": [
+      {
+        "detached": false,
+        "exit": 0,
+        "seconds": 9.157,
+        "credential_timeout": false
+      },
+      {
+        "detached": true,
+        "exit": 0,
+        "seconds": 1.013,
+        "credential_timeout": false
+      },
+      {
+        "detached": false,
+        "exit": 0,
+        "seconds": 1.106,
+        "credential_timeout": false
+      }
+    ]
+  },
+  "scope": "live binary includes shared client for run; subsequent authentication failure-path changes have separate Rust test evidence",
+  "script_checks": [
+    "temporary __main__",
+    "dataclass and pickle",
+    "__file__",
+    "Unicode argv and literal --env",
+    "output marker",
+    "SystemExit(23)"
+  ],
+  "runtime_request": "default CPU, no accelerator flags",
+  "release_verification": "independent Colab assignments request; test endpoint absent and owned local run plan removed",
+  "limitations": [
+    "no access-control or credential storage changes",
+    "first-access credential timeout did not reproduce",
+    "query durations include network and startup time"
+  ],
+  "final_build_read_only_verification": {
+    "sha256": "cfb9f3593e3e56cd283a99af51506217639f11bc2de204fffce1fab48d74b031",
+    "queries": [
+      {
+        "seconds": 7.463,
+        "detached": false,
+        "inventory_ok": true,
+        "test_endpoint_absent": true,
+        "credential_timeout": false
+      },
+      {
+        "seconds": 1.378,
+        "detached": true,
+        "inventory_ok": true,
+        "test_endpoint_absent": true,
+        "credential_timeout": false
+      },
+      {
+        "seconds": 0.873,
+        "detached": false,
+        "inventory_ok": true,
+        "test_endpoint_absent": true,
+        "credential_timeout": false
+      },
+      {
+        "seconds": 0.905,
+        "detached": true,
+        "inventory_ok": true,
+        "test_endpoint_absent": true,
+        "credential_timeout": false
+      }
+    ]
+  },
+  "final_build_tests": {
+    "rust_default_targeted": 143,
+    "rust_no_default_features_targeted": 89,
+    "clippy_all_targets": true
+  }
+}

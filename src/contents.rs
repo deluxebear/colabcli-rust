@@ -15,6 +15,7 @@ use std::{
     time::Duration,
 };
 use url::Url;
+mod json_document;
 
 /// Whole-file v1 limit; uploads and decoded downloads are bounded independently of JSON size.
 pub const MAX_FILE_BYTES: u64 = 32 * 1024 * 1024;
@@ -51,6 +52,10 @@ pub struct ContentsClient {
     client: Client,
     base: Url,
     proxy: Secret,
+}
+struct ContentsResponse {
+    entry: Entry,
+    json_document: Option<String>,
 }
 impl ContentsClient {
     pub fn new(session: &SessionState, timeout: Duration) -> Result<Self> {
@@ -95,7 +100,7 @@ impl ContentsClient {
         path: &str,
         body: Option<Value>,
         download: bool,
-    ) -> Result<Option<Entry>> {
+    ) -> Result<Option<ContentsResponse>> {
         let mut url = self.url(path)?;
         if download {
             url.query_pairs_mut().append_pair("content", "1");
@@ -127,16 +132,19 @@ impl ContentsClient {
         if body.len() as u64 > MAX_RESPONSE_BYTES {
             return Err(Error::FileTooLarge(MAX_RESPONSE_BYTES));
         }
-        let entry: Entry = serde_json::from_slice(&body)
-            .map_err(|_| Error::ContentsProtocol("无效的 Contents JSON"))?;
+        let (entry, json_document) = json_document::decode_entry(&body, download)?;
         if !["directory", "file", "notebook"].contains(&entry.kind.as_str()) {
             return Err(Error::ContentsProtocol("未知的 Contents 条目类型"));
         }
-        Ok(Some(entry))
+        Ok(Some(ContentsResponse {
+            entry,
+            json_document,
+        }))
     }
     pub fn list(&self, path: &str) -> Result<Vec<Entry>> {
         self.request(Method::GET, path, None, false)?
             .unwrap()
+            .entry
             .listing()
     }
     pub fn upload_bytes(&self, remote: &str, bytes: &[u8]) -> Result<Entry> {
@@ -147,7 +155,10 @@ impl ContentsClient {
         let path = remote.trim_matches('/');
         let body = json!({"name":path.rsplit('/').next().unwrap(),"path":path,"type":"file",
             "format":"base64","content":STANDARD.encode(bytes),"chunk":1});
-        Ok(self.request(Method::PUT, path, Some(body), false)?.unwrap())
+        Ok(self
+            .request(Method::PUT, path, Some(body), false)?
+            .unwrap()
+            .entry)
     }
     pub fn upload(&self, local: &Path, remote: &str) -> Result<Entry> {
         validate_remote_path(remote, true)?;
@@ -155,21 +166,28 @@ impl ContentsClient {
     }
     pub fn download_bytes(&self, remote: &str) -> Result<Vec<u8>> {
         validate_remote_path(remote, true)?;
-        let entry = self.request(Method::GET, remote, None, true)?.unwrap();
+        let response = self.request(Method::GET, remote, None, true)?.unwrap();
+        let entry = response.entry;
         if entry.kind == "directory" {
             return Err(Error::RemoteDirectory);
         }
         let bytes = match entry.format.as_deref() {
-            Some("base64") => STANDARD
-                .decode(
-                    entry
-                        .content
-                        .as_str()
-                        .ok_or(Error::ContentsProtocol("base64 content 必须为字符串"))?,
-                )
-                .map_err(|_| Error::ContentsProtocol("无效的 base64 content"))?,
-            Some("json") => serde_json::to_vec_pretty(&entry.content)
-                .map_err(|_| Error::ContentsProtocol("JSON content 序列化失败"))?,
+            Some("base64") => {
+                // Jupyter wraps binary content at 76 columns and adds a trailing newline.
+                let encoded: Vec<u8> = entry
+                    .content
+                    .as_str()
+                    .ok_or(Error::ContentsProtocol("base64 content 必须为字符串"))?
+                    .bytes()
+                    .filter(|byte| !byte.is_ascii_whitespace())
+                    .collect();
+                STANDARD
+                    .decode(encoded)
+                    .map_err(|_| Error::ContentsProtocol("无效的 base64 content"))?
+            }
+            Some("json") => {
+                json_document::render(response.json_document.as_deref().unwrap_or("null"))?
+            }
             Some("text") | None => entry
                 .content
                 .as_str()

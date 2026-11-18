@@ -39,6 +39,8 @@
 重复 email 必须显式提供 profile key；名称本身没有统一转小写。[A04]
 `allow_create` 只用于明确允许创建的路径，例如 account add/login、Drive consent；普通命令不应隐式创建 typo profile。
 
+Rust 后续已按 [58](58-drive-consent-profile-implementation.md) 接入 Drive consent 的授权起始自动登记：同时校验计算与 Drive 环境选择，原子提交新资料。带 code/callback 的完成阶段仍要求已有账户，不因错误名称留下空资料；新登记也不等于已授权。
+
 **设计**：解析返回 `ResolvedAccount { id, source }`，source 是结构化枚举，显示时再转为 `flag/env/session/active`。
 不得把 email 当稳定主键：授权后 email 会被更新，同一 email 也允许对应多个 profile。
 
@@ -239,6 +241,12 @@ account add 后自动 Drive consent 会传 `--minimal`，并非总使用完整 s
 | impersonated / external_account | 由依赖库能力决定，本文未建立全矩阵 | 枚举支持类型，未知类型明确报错 |
 | metadata/GCE/GKE | 有发现意图，存在 invalid 分支限制 | mock metadata；真实平台另外验收 |
 
+service_account 的原生 JWT 交换与离线验签已接入，当前矩阵及真实身份验收缺口见 [30](30-adc-service-account-implementation.md)，IAM impersonation 后续接入见 [31](31-adc-impersonation-implementation.md)。
+
+external_account 的 X.509 workload/mTLS 实现与限制见 [71](71-x509-adc-and-mtls.md)。
+
+external_account 的 STS 可选客户端认证与 workforce 项目规则见 [70](70-external-account-client-auth.md)，真实身份权限仍需独立验收。
+
 不得把“Rust 能读取 ADC”写成“任意 Google Cloud 身份都能使用 Colab”。
 **设计**：凭据来源是 profile 对象内字段，绝不依靠多线程修改进程环境变量。
 启动时只快照外部 env；明确保留现行为“预置 GOOGLE_APPLICATION_CREDENTIALS 优先于 profile adc_file”，或将改变列为迁移差异。
@@ -376,3 +384,17 @@ account add 后自动 Drive consent 会传 `--minimal`，并非总使用完整 s
 - **A29** E：remove 的本地语义：[colab_ext/accounts.py:718–750](https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/colab_ext/accounts.py#L718-L750)。
 
 - **A30** E：隔离 fixture 与既有测试：[tests/test_colab_ext.py:139–181](https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/tests/test_colab_ext.py#L139-L181)；[tests/test_colab_ext.py:201–590](https://github.com/deluxebear/colab-ext/blob/980a39748badc3168a5af8734b2467351bdafcbc/tests/test_colab_ext.py#L201-L590)。
+
+当前 external_account 文件/URL 来源、STS、workforce 与可选 IAM 目标的实现及未支持矩阵见 [36](36-adc-external-account-implementation.md)；成功取 token 不代表 Colab 接受该身份。
+
+Workforce 用户 external_account_authorized_user 支持原生 STS Basic 刷新，也可作为服务账号模拟的嵌入来源，见 [37](37-adc-workforce-user-implementation.md)。
+
+metadata ADC 作为默认 gcloud 文件缺失后的最后发现源，显式或坏文件不降级；实现、环境快照和平台限制见 [38](38-adc-metadata-implementation.md)。
+
+Unix external_account 可执行来源现支持显式 opt-in、非交互执行和输出缓存，见 [39](39-adc-executable-implementation.md)；不会在 doctor 中执行。
+
+后续已接入 AWS aws1 的环境/EC2 与 SigV4 主体，见 [40](40-adc-aws-implementation.md)；并未验证真实云端接受性。
+
+ADC 请求的配额项目取自启动时的 GOOGLE_CLOUD_QUOTA_PROJECT 快照或所选凭据文件，与 token 一起绑定到 provider；IAM 来源/目标和 runtime 边界见 [52](52-adc-quota-project-implementation.md)。
+
+Linux Secret Service 的后续原生隔离测试已验证 Python/Rust 双向读写、旧槽迁移、锁定、真实 D-Bus caller timeout、file fallback 与恢复，见 [55](55-native-secret-service-validation.md)。不使用用户钥匙串，不替代完整原版 CLI 或共享配置文件锁互通。

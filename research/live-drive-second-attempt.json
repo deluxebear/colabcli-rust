@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "cleanup_only": false,
+  "binary_sha256": "0d0b9d975f56e4aa36d0170aafe80bc2063dac3adb8cf6c70611cb208afea14c",
+  "independent_drive_api_identity_verified": false,
+  "error_class": "operation_failed:probe_create",
+  "cleanup": "confirmed_released",
+  "created_sessions": 1,
+  "credential_userinfo_verified": true,
+  "same_token_drive_ownership_verified": true,
+  "server_bytes_verified": false,
+  "server_cleanup_verified": false,
+  "server_cleanup_counts": null,
+  "readonly_verified": false,
+  "cloud_cleanup_confirmed": true,
+  "other_new_assignment_count": 0,
+  "cloud_write_authorization_received": true,
+  "probe_failure_code": "unexpected_directory_entries",
+  "bounded_cleanup_receipt": "removed",
+  "directory_scope_reused_for_next_attempt": true
+}

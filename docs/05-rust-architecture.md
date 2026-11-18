@@ -2,7 +2,7 @@
 
 本文是目标设计。它采用固定基线中可观察的协议与功能，修复已识别的账户串用、危险卸载和结果未知重试问题；不照搬 Python 全局单例或 monkey-patch。
 
-实施进度：已初始化单 Cargo package，提供账户、上下文、认证、存储基础模块、P2 会话控制面/Contents/汇总与 P3 执行核心/run/历史导出；实际模块路径、测试和未完成部分见 [09](09-foundations-implementation.md)。后续架构仍按本篇阶段推进。
+实施进度：已初始化单 Cargo package，提供账户、上下文、认证、存储基础模块、P2 会话控制面/Contents/汇总、P3 执行核心/run/历史导出、P4 交互与 SSH、P5 核心 DriveFS，以及 P6 的内建扩展诊断；实际模块路径、测试和未完成部分见 [09](09-foundations-implementation.md)。后续架构仍按本篇阶段推进。
 
 ## 组件边界
 
@@ -41,7 +41,6 @@ flowchart TD
 | `drive` | 挂载计划、模式验证、检查、清理与结果 | 自行实现 DriveFS 内部协议 |
 | `history` | JSONL、脱敏、导出 | 保存所有原始敏感 payload |
 | `recovery` | 不确定操作、资源释放登记、恢复提示 | 将所有失败统一重试 |
-| `supervisor` | VM 外监控、持久意图、预算、重建与恢复编排 | 保证永久防回收、默认重放任意任务 |
 | `diagnostics` | doctor、依赖版本、可用性状态 | 通过自动登录掩盖缺失凭据 |
 
 ## 显式上下文
@@ -89,13 +88,13 @@ ADC 先定义精确支持矩阵，再选择库或实现适配器。用户 refres
 
 ## 异步与生命周期
 
-普通 CLI 命令按需认证、执行、退出。新增保活与自动恢复使用用户显式启用的独立 supervisor，运行在 Colab VM 外，可前台运行或由系统服务托管；这是对上游 fire-and-forget 架构的有意扩展，详见 [生命周期规格](08-supervision-and-recovery.md)。Tokio task 在各自进程生命周期内执行，退出时显式取消并等待任务收束。
+普通 CLI 命令按需认证、执行、退出。客户端承担原版 WebSocket 握手、消息、输出流、协议心跳、断线检测与状态核对，以及凭据刷新和资源清理恢复。当前执行路径为同步实现；后续如引入异步任务，退出时需显式取消并等待收束。持续保活策略、VM 自动重建和任务检查点恢复交给任务脚本或外部调度器，见 [职责边界](08-supervision-and-recovery.md)。
 
 每个 Jupyter 连接建立完成后才返回 ready。一个连接使用独立 reader 和有界队列，按 channel 与 parent message ID 分派；多余输出需要落盘或施加背压，不能无上限积累。
 
 断开客户端、删除 kernel、释放 VM 是三个独立动作。默认 close 只断开连接；restart/stop/run teardown 各自明确决定后两项。远端 DriveFS 和 shim 可以在本地 CLI 退出后继续运行，这是远端挂载服务的生命周期，不是本地 daemon。
 
-受管 VM 另有稳定 logical ID 与可替换 generation。sessions.json 的失效裁剪不能删除恢复计划。stop 先持久化停止意图，再取消/调和并释放；仅有网络故障时不得申请替代 VM。supervisor 管理的长期任务不复用 run 的自动清理语义，需要明确所有权与检查点协议。
+分配、释放和 run 清理意图必须持久化，网络故障或进程退出后仍可显式调和。连接恢复前核对已有 VM/kernel；不得因断线自动申请替代 VM，也不得重放结果未知的代码。外部任务调度不改变 CLI 的资源归属校验和 run 自动清理语义。
 
 SSH proxy 使用二进制流，不做文本解码、换行转换或 ANSI 处理。等待 stdin、WS、子进程和信号时需防止单路关闭导致另一方向永远阻塞。清理路径幂等，不能依靠 Drop 中发起异步 HTTP。
 
@@ -125,7 +124,7 @@ Rust 设计建议增加受限权限的恢复日志，记录 operation ID、profi
 
 第一版迁移先备份/复制、验证、再更新注册表；失败保留源数据和旧引用。账户重命名需要可恢复阶段记录，处理目录、keyring、Drive 绑定、active 指针和历史路径。`account remove --force` 是否停止 VM 必须显式设计，不能悄悄改变为破坏性操作。
 
-发布渠道建议先支持手动安装或已有包管理器。`update --install` 的目标是安装 Rust 发行物；Python 的 pip/uv 自更新与扩展 `.pth` 修复没有原生等价操作。渠道、校验和回滚策略在实现自更新前单独定案。
+发布渠道建议先支持手动安装或已有包管理器。`update --install` 的目标是安装 Rust 发行物；Python 的 pip/uv 自更新与扩展 `.pth` 修复没有原生等价操作。已选择 GitHub Releases，清单校验、恢复日志、一代回滚和只构建候选的工作流见 [32](32-native-update-and-release-implementation.md)；公开仓库已创建，发行物尚未发布。
 
 ## 候选依赖与验证责任
 
@@ -151,14 +150,15 @@ Rust 设计建议增加受限权限的恢复日志，记录 operation ID、profi
 | P4 交互与 SSH | REPL、VM auth、官方 Drive、三种 SSH 模式 | PTY/管道/ProxyCommand、退出码和信号测试通过 |
 | P5 扩展 Drive | 两步授权、跨账户绑定、shim/rt、挂载生命周期 | 真正 Drive 挂载、持续刷新、只读和卸载失败保护通过 |
 | P6 完整兼容与分发 | all 汇总、doctor、别名、skill、发行物 | 无未登记功能缺口，平台矩阵通过，资源清理可核验 |
-| P7 新增监控与恢复 | supervisor、计划、预算、自动重建、可选检查点恢复 | V08 故障矩阵通过，真实受控回收恢复通过，stop 不再复活 |
 
 P0 仍含运行时 fixtures 的待办，不因文档完成而自动关闭。P1 可并行于无需真实凭据的协议 codec，但所有后续线上功能都必须使用 P1 的账户上下文，避免先做单账户再整体重构。
 
-P7 的持久计划、停止意图与 generation 数据模型需在 P1 预留；只读 supervisor 原型可在 P2 后开始，自动重建依赖 P2/P3，Drive/任务恢复依赖 P5。P7 列在兼容阶段之后用于区分新增验收，不要求所有开发严格串行。
+原 P7 supervisor 阶段退出当前路线图；历史方案归档于 [08](08-supervision-and-recovery.md)。P3/P4 的 WebSocket、心跳、交互输入和断线状态处理仍是兼容性交付要求；已有分配/释放、run 清理及账户事务恢复继续保留。
 
 ## 估算边界
 
 当前不提供精确工期承诺。应先通过三个原型降低不确定性：真实 OAuth 与 keyring 互操作、最小 Jupyter 执行与变量保留、真实 DriveFS shim 挂载与续期。按原型实际耗时和 ADC/Windows 的最终范围，再对各阶段估算。
 
 “本地约一万行 Python”只反映仓库大小，不能用于线性估算 Rust 工作量；Google 认证依赖、平台差异、线上等待与故障恢复占据独立成本。
+
+控制面命令内来源保留与请求前续期、两类只读查询的 401 有限重试已按 [53](53-control-credential-refresh-implementation.md) 离线接入；不会按 HTTP GET 方法泛化重试，写操作与原有事务责任继续保留。

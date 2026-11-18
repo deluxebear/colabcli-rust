@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "passed": true,
+  "scope": "Synthetic credentials, loopback-only HTTP and fake CLI. No Google/keyring/cloud access.",
+  "api_tests": 10,
+  "executor_tests": 22,
+  "full_python_tests": 140,
+  "passed_tests": 139,
+  "skipped_tests": 1,
+  "failed_tests": 0,
+  "real_network_calls": 0,
+  "created_sessions": 0,
+  "cloud_writes": 0,
+  "live_validation_passed": false,
+  "oauth_subject_mapping_verified": false,
+  "log_sha256": "c1935c826feb01aab434d39295cb15614a2a990abc46ad1f34877afe71626378",
+  "input_sha256": {
+    "tools/drive_api_validation.py": "0cd421fe0b69b2ebdb997f33a83b85e70a5c1e11f870a0fc17b504c3e5b2ccbe",
+    "tools/validate_live_drive.py": "fefd682e4f4583c0e8b67d0fb21c915d046c7b6bac9a45a6c4f51e02bdd35f58",
+    "tools/tests/test_drive_api_validation.py": "33cce2b21147de8ccb78c8fc898254c9811127378a6327b511a6d42c8e2b5279",
+    "tools/tests/test_live_drive_executor.py": "a77676899b37363e137ff2d2ccc998af8eef1acd7ca19a3579a1148084a91155",
+    "tools/drive_validation_payload.py": "2b94fac2301d37e7fe3e92a0bb1f17db2e6af6cc7ae546a9db5fc3aa9427f49c",
+    "tools/prepare_live_drive_validation.py": "427c921be13ca09ba2fcf290be5f13072a14cfa78714fa64eb6e2c379e85ccbd"
+  },
+  "limitations": [
+    "Read-only observer integrated, not executed against Google",
+    "No API deletion confirmation, cross-account or long-lived refresh acceptance",
+    "Drive permission ID is not equated with OAuth subject"
+  ]
+}

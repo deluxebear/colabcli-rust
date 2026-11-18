@@ -77,13 +77,14 @@ fn account_resolution_honors_flag_env_session_and_active() {
 fn active_same_name_wins_and_other_multiple_owners_are_rejected() {
     let f = Fixture::new(TokenStorageMode::File);
     let a = f.add("a");
+    let z = f.add("z");
     let b = f.add("b");
-    for profile in [&a, &b] {
+    for profile in [&a, &z, &b] {
         f.storage.save_session(profile, session("s")).unwrap();
     }
     assert!(matches!(
         context::resolve(&f.accounts, &Environment::default(), None, Some("s"), true),
-        Err(Error::Ambiguous(_))
+        Err(Error::SessionAccountAmbiguous { session, accounts }) if session == "s" && accounts == "a, z, b"
     ));
     f.accounts.use_account("b").unwrap();
     assert_eq!(
@@ -218,6 +219,36 @@ fn removal_refuses_sessions_and_managed_plans_and_does_not_stop_vms() {
         Err(Error::AccountInUse)
     ));
 }
+
+#[test]
+fn pending_drive_probe_blocks_rename_and_forced_removal_without_losing_recovery_state() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let work = f.add("probe-owner");
+    for journal in [
+        serde_json::json!({"version":1,"kernel_id":null,"phase":"creating"}),
+        serde_json::json!("corrupt-pending-record"),
+    ] {
+        let mut state = session("probe-vm");
+        state.extra.insert("drive_probe".into(), journal);
+        f.storage.save_session(&work, state).unwrap();
+        let before =
+            std::fs::read(f.storage.profile_path(&work, "sessions.json").unwrap()).unwrap();
+        assert!(matches!(
+            f.accounts.rename(&work, &id("new-probe-owner")),
+            Err(Error::AccountInUse)
+        ));
+        assert!(matches!(
+            f.accounts.remove(&work, true),
+            Err(Error::AccountInUse)
+        ));
+        assert_eq!(
+            std::fs::read(f.storage.profile_path(&work, "sessions.json").unwrap()).unwrap(),
+            before
+        );
+        assert!(f.accounts.registry().unwrap().accounts.contains_key(&work));
+        assert!(!f.storage.path("account-transaction.json").unwrap().exists());
+    }
+}
 #[test]
 fn last_account_removal_does_not_reimport_legacy_data() {
     let f = Fixture::new(TokenStorageMode::File);
@@ -286,7 +317,7 @@ fn token_migration_preserves_legacy_slot_and_file() {
 }
 #[test]
 fn keyring_cleanup_failure_is_visible_and_can_be_repaired() {
-    let f = Fixture::new(TokenStorageMode::File);
+    let f = Fixture::new(TokenStorageMode::Auto);
     let work = f.add("work");
     f.backend
         .set(
@@ -382,4 +413,76 @@ fn case_only_profile_collisions_are_rejected_on_all_platforms() {
         Err(Error::AccountExists(_))
     ));
     assert_eq!(f.accounts.registry().unwrap().accounts.len(), 2);
+}
+
+#[test]
+fn merged_account_aliases_share_state_and_keep_session_and_managed_deletion_protection() {
+    use std::process::Command;
+    for group in ["account", "acct"] {
+        let f = Fixture::new(TokenStorageMode::File);
+        let work = f.add("work");
+        f.storage.save_session(&work, session("owned")).unwrap();
+        let invoke = |arguments: &[&str]| {
+            Command::new(env!("CARGO_BIN_EXE_colab"))
+                .env_clear()
+                .env("HOME", f.temp.path())
+                .args(["--token-storage", "file", "--config-dir"])
+                .arg(f.storage.root())
+                .arg(group)
+                .args(arguments)
+                .output()
+                .unwrap()
+        };
+        let listed = invoke(&["ls", "--json"]);
+        assert!(listed.status.success());
+        let registry: serde_json::Value = serde_json::from_slice(&listed.stdout).unwrap();
+        assert!(
+            registry["accounts"]
+                .as_array()
+                .unwrap()
+                .iter()
+                .any(|row| row["account"] == "work")
+        );
+        assert!(invoke(&["switch", "work"]).status.success());
+        assert_eq!(f.accounts.registry().unwrap().active, work);
+        assert!(!invoke(&["rm", "work"]).status.success());
+        assert!(f.accounts.registry().unwrap().accounts.contains_key(&work));
+        assert!(f.storage.sessions(&work).unwrap().contains_key("owned"));
+        f.storage
+            .write(
+                &f.storage.profile_path(&work, "managed/plan.json").unwrap(),
+                &json!({"desired_state": "running"}),
+            )
+            .unwrap();
+        assert!(!invoke(&["rm", "work", "--force"]).status.success());
+        assert!(f.accounts.registry().unwrap().accounts.contains_key(&work));
+        assert!(!f.storage.path("account-transaction.json").unwrap().exists());
+        assert!(invoke(&["switch", "default"]).status.success());
+        assert_eq!(f.accounts.registry().unwrap().active, id("default"));
+    }
+}
+
+#[test]
+fn adc_resolution_marks_only_explicit_files_required_and_snapshots_metadata_options() {
+    let f = Fixture::new(TokenStorageMode::File);
+    let mut env = Environment {
+        home: Some(f.temp.path().join("home")),
+        ..Environment::default()
+    };
+    env.metadata.host = "127.0.0.1:12345".into();
+    env.metadata.disabled = true;
+    let selected = context::resolve(&f.accounts, &env, None, None, false).unwrap();
+    assert!(!selected.adc_file_required);
+    assert!(
+        selected
+            .adc_file
+            .unwrap()
+            .ends_with(".config/gcloud/application_default_credentials.json")
+    );
+    assert_eq!(selected.metadata.host, "127.0.0.1:12345");
+    assert!(selected.metadata.disabled);
+    env.adc_file = Some(f.temp.path().join("explicit-missing"));
+    let selected = context::resolve(&f.accounts, &env, None, None, false).unwrap();
+    assert!(selected.adc_file_required);
+    assert_eq!(selected.adc_file, env.adc_file);
 }

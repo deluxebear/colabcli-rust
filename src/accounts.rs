@@ -1,6 +1,6 @@
 use crate::{
     Error, Result,
-    credentials::TokenStore,
+    credentials::{LifecycleCredentials, TokenStore},
     error::io,
     models::{Account, ProfileId, Registry},
     storage::Storage,
@@ -24,10 +24,14 @@ enum Transaction {
         old: ProfileId,
         new: ProfileId,
         after: Registry,
+        #[serde(default)]
+        credentials: LifecycleCredentials,
     },
     Remove {
         id: ProfileId,
         after: Registry,
+        #[serde(default)]
+        credentials: LifecycleCredentials,
     },
 }
 impl Accounts {
@@ -57,6 +61,13 @@ impl Accounts {
         }
         self.load_raw()
     }
+    /// Read a validated registry and its persisted account order from one snapshot.
+    pub fn registry_with_order(&self) -> Result<(Registry, Vec<ProfileId>)> {
+        let registry = self.registry()?;
+        let order = registry.accounts.keys().cloned().collect();
+        Ok((registry, order))
+    }
+
     pub fn bootstrap(&self) -> Result<()> {
         let _lock = self.lock()?;
         if self.journal_path()?.exists() {
@@ -151,10 +162,13 @@ impl Accounts {
             }
             match compute {
                 Some(id) => {
-                    r.accounts
+                    let account = r
+                        .accounts
                         .get_mut(id)
-                        .ok_or_else(|| Error::AccountMissing(id.to_string()))?
-                        .drive_account = drive.cloned()
+                        .ok_or_else(|| Error::AccountMissing(id.to_string()))?;
+                    account.drive_account = drive.cloned();
+                    account.updated_at =
+                        chrono::Utc::now().format("%Y-%m-%dT%H:%M:%S%z").to_string();
                 }
                 None => r.default_drive_account = drive.cloned(),
             }
@@ -194,20 +208,27 @@ impl Accounts {
         }
         let _old_lifecycle = self.storage.profile_lock(old)?;
         let _new_lifecycle = self.storage.profile_lock(new)?;
-        let account = r
+        let old_index = r
             .accounts
-            .remove(old)
+            .get_index_of(old)
+            .ok_or_else(|| Error::AccountMissing(old.to_string()))?;
+        let mut account = r
+            .accounts
+            .shift_remove(old)
             .ok_or_else(|| Error::AccountMissing(old.to_string()))?;
         if self.managed(old)? {
             return Err(Error::AccountInUse);
         }
-        if self.tokens.load_for_migration(new)?.is_some() {
+        let credentials = self.tokens.lifecycle_policy();
+        if self.tokens.load_for_lifecycle(new, credentials)?.is_some() {
             return Err(Error::AccountExists(new.to_string()));
         }
         if old == &ProfileId::default_profile() && account.migrated_legacy {
             self.tokens.migrate_legacy()?;
         }
-        r.accounts.insert(new.clone(), account);
+        account.migrated_legacy = false;
+        account.updated_at = chrono::Utc::now().format("%Y-%m-%dT%H:%M:%S%z").to_string();
+        r.accounts.shift_insert(old_index, new.clone(), account);
         for a in r.accounts.values_mut() {
             if a.drive_account.as_ref() == Some(old) {
                 a.drive_account = Some(new.clone());
@@ -226,6 +247,7 @@ impl Accounts {
                 old: old.clone(),
                 new: new.clone(),
                 after: r,
+                credentials,
             },
         )?;
         self.recover_locked()
@@ -243,7 +265,7 @@ impl Accounts {
         if self.managed(id)? || (!force && !self.storage.sessions(id)?.is_empty()) {
             return Err(Error::AccountInUse);
         }
-        r.accounts.remove(id);
+        r.accounts.shift_remove(id);
         for a in r.accounts.values_mut() {
             if a.drive_account.as_ref() == Some(id) {
                 a.drive_account = None;
@@ -263,17 +285,30 @@ impl Accounts {
             &Transaction::Remove {
                 id: id.clone(),
                 after: r,
+                credentials: self.tokens.lifecycle_policy(),
             },
         )?;
         self.recover_locked()
     }
     fn managed(&self, id: &ProfileId) -> Result<bool> {
-        if self
-            .storage
-            .profile_path(id, "control_operation.json")?
-            .exists()
-        {
+        if self.storage.sessions(id)?.values().any(|state| {
+            state.extra.contains_key("drive_probe")
+                || state.extra.contains_key("drive_plan")
+                || state
+                    .extra
+                    .get("drive_mounts")
+                    .and_then(serde_json::Value::as_object)
+                    .is_some_and(|mounts| !mounts.is_empty())
+        }) {
             return Ok(true);
+        }
+        for file in [
+            "control_operation.json",
+            crate::sessions::PARALLEL_RELEASE_JOURNAL,
+        ] {
+            if self.storage.profile_path(id, file)?.exists() {
+                return Ok(true);
+            }
         }
         let runs = self.storage.profile_path(id, "runs")?;
         if runs.exists()
@@ -285,13 +320,42 @@ impl Accounts {
             return Ok(true);
         }
         let path = self.storage.profile_path(id, "managed")?;
-        if !path.exists() {
-            return Ok(false);
+        if path.exists()
+            && fs::read_dir(&path)
+                .map_err(|e| io(&path, e))?
+                .next()
+                .is_some()
+        {
+            return Ok(true);
         }
-        Ok(fs::read_dir(&path)
-            .map_err(|e| io(&path, e))?
-            .next()
-            .is_some())
+        // The registry lock serializes this scan with acquire_lease. A backend
+        // sync may already have pruned the compute session, but its Drive
+        // account still owns a durable reference that must not be orphaned.
+        for drive in self.load_raw()?.accounts.keys() {
+            let directory = self.storage.profile_path(drive, "managed")?;
+            if !directory.exists() {
+                continue;
+            }
+            for entry in fs::read_dir(&directory).map_err(|e| io(&directory, e))? {
+                let entry = entry.map_err(|e| io(&directory, e))?;
+                let name = entry.file_name();
+                let name = name.to_string_lossy();
+                if name.starts_with("drivefs-") && name.ends_with(".json") {
+                    let lease: crate::drivefs::lease::Lease = self
+                        .storage
+                        .read(&entry.path())?
+                        .ok_or_else(|| Error::InvalidData(entry.path()))?;
+                    lease.validate()?;
+                    if lease.drive_account != *drive {
+                        return Err(Error::InvalidData(entry.path()));
+                    }
+                    if lease.compute_account == *id {
+                        return Ok(true);
+                    }
+                }
+            }
+        }
+        Ok(false)
     }
     pub fn recover(&self) -> Result<()> {
         let _lock = self.lock()?;
@@ -312,14 +376,19 @@ impl Accounts {
             return Ok(());
         };
         match transaction {
-            Transaction::Rename { old, new, after } => {
+            Transaction::Rename {
+                old,
+                new,
+                after,
+                credentials,
+            } => {
                 after.validate()?;
-                let token = match self.tokens.load_for_migration(&old)? {
+                let token = match self.tokens.load_for_lifecycle(&old, credentials)? {
                     Some(token) => Some(token),
-                    None => self.tokens.load_for_migration(&new)?,
+                    None => self.tokens.load_for_lifecycle(&new, credentials)?,
                 };
                 if let Some(token) = token {
-                    self.tokens.save(&new, &token)?;
+                    self.tokens.save_for_lifecycle(&new, &token, credentials)?;
                 }
                 let source = self
                     .storage
@@ -331,7 +400,11 @@ impl Accounts {
                     // save(new) may have created a token file; merge it without overwriting source data.
                     self.copy_missing(&source, &destination)?;
                 }
-                for name in ["oauth_pending.json", "dfs_pending.json"] {
+                for name in [
+                    "oauth_pending.json",
+                    "dfs_pending.json",
+                    "dfs_refresh_pending.json",
+                ] {
                     let path = self.storage.profile_path(&new, name)?;
                     if let Some(mut pending) = self.storage.read::<Value>(&path)? {
                         if let Some(obj) = pending.as_object_mut() {
@@ -341,14 +414,18 @@ impl Accounts {
                     }
                 }
                 self.storage.write(&self.registry_path()?, &after)?;
-                self.tokens.delete(&old)?;
+                self.tokens.delete_for_lifecycle(&old, credentials)?;
                 if source.exists() {
                     fs::remove_dir_all(&source).map_err(|e| io(&source, e))?;
                 }
             }
-            Transaction::Remove { id, after } => {
+            Transaction::Remove {
+                id,
+                after,
+                credentials,
+            } => {
                 after.validate()?;
-                self.tokens.delete(&id)?;
+                self.tokens.delete_for_lifecycle(&id, credentials)?;
                 let dir = self.storage.path(Path::new("accounts").join(id.as_str()))?;
                 if dir.exists() {
                     fs::remove_dir_all(&dir).map_err(|e| io(&dir, e))?;

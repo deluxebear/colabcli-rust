@@ -1,5 +1,6 @@
 use crate::{Error, Result};
 use chrono::{DateTime, Utc};
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 use std::{collections::BTreeMap, fmt};
@@ -115,7 +116,7 @@ pub struct Registry {
     pub active: ProfileId,
     #[serde(default)]
     pub default_drive_account: Option<ProfileId>,
-    pub accounts: BTreeMap<ProfileId, Account>,
+    pub accounts: IndexMap<ProfileId, Account>,
     #[serde(flatten)]
     pub extra: Map<String, Value>,
 }
@@ -128,7 +129,7 @@ impl Default for Registry {
             version: 1,
             active: ProfileId::default_profile(),
             default_drive_account: None,
-            accounts: BTreeMap::from([(
+            accounts: IndexMap::from([(
                 ProfileId::default_profile(),
                 Account {
                     migrated_legacy: true,

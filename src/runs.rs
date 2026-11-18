@@ -3,15 +3,13 @@ use crate::{
     Error, Result, contents,
     error::io,
     execution::{self, Document, ExecuteOptions},
-    jupyter::{
-        ExecutionResult, ExecutionStatus, ExecutionTimeout, KernelRest, codec, output::OutputChange,
-    },
+    jupyter::{ExecutionResult, ExecutionStatus, ExecutionTimeout, codec, output::OutputChange},
     models::{ProfileId, Registry},
     sessions::SessionService,
     storage::Storage,
 };
 use serde::{Deserialize, Serialize};
-use serde_json::{Value, json};
+use serde_json::json;
 use std::{
     path::{Path, PathBuf},
     sync::{
@@ -36,12 +34,11 @@ impl PreparedRun {
     ) -> Result<Self> {
         let source = String::from_utf8(contents::read_local_file(path)?)
             .map_err(|_| Error::Run("脚本必须为 UTF-8"))?;
+        let source = source.strip_prefix('\u{feff}').unwrap_or(&source);
         let source = if source.starts_with("#!") {
             source
-                .split_once('\n')
-                .map(|(_, body)| body)
-                .unwrap_or("")
-                .to_owned()
+                .find(['\r', '\n'])
+                .map_or("", |line_end| &source[line_end..])
         } else {
             source
         };
@@ -52,7 +49,7 @@ impl PreparedRun {
         let id = codec::message_id();
         let name = name
             .map(str::to_owned)
-            .unwrap_or_else(|| format!("run-{}", &id[..8]));
+            .unwrap_or_else(|| format!("run-{}", &id[..6]));
         if name.is_empty() || name.len() > 128 || name.chars().any(char::is_control) {
             return Err(Error::Run("会话名称必须为 1–128 字节且不含控制字符"));
         }
@@ -65,11 +62,44 @@ impl PreparedRun {
         let literal =
             serde_json::to_string(&encoded).map_err(|_| Error::Run("脚本参数编码失败"))?;
         let payload = format!(
-            "def __colab_cli_run__():\n    import json, sys\n    data = json.loads({literal})\n    previous_argv = sys.argv\n    sys.argv = data['argv']\n    exit_code = 0\n    try:\n        exec(compile(data['source'], data['file'], 'exec'), {{'__name__': '__main__', '__file__': data['file']}})\n    except SystemExit as error:\n        value = error.code\n        if value is None:\n            exit_code = 0\n        elif isinstance(value, int):\n            exit_code = int(value) & 255\n        else:\n            exit_code = 1\n            print(value, file=sys.stderr)\n    except BaseException:\n        exit_code = 1\n        raise\n    finally:\n        sys.argv = previous_argv\n        __import__('IPython.display', fromlist=['display']).display({{'{RESULT_MIME}': {{'nonce': data['nonce'], 'exit_code': exit_code}}}}, raw=True)\n__colab_cli_run__()\ndel __colab_cli_run__\n"
+            r#"def __colab_cli_run__():
+    import json, sys, types
+    data = json.loads({literal})
+    script = types.ModuleType('__main__')
+    script.__file__ = data['file']
+    previous_main = sys.modules['__main__']
+    previous_argv = sys.argv
+    sys.modules['__main__'] = script
+    sys.argv = data['argv']
+    exit_code = 0
+    try:
+        code = compile(data['source'], data['file'], 'exec', dont_inherit=True)
+        exec(code, script.__dict__)
+    except SystemExit as error:
+        value = error.code
+        if value is None:
+            exit_code = 0
+        elif isinstance(value, int):
+            exit_code = int(value) & 255
+        else:
+            exit_code = 1
+            print(value, file=sys.stderr)
+    except BaseException:
+        exit_code = 1
+        raise
+    finally:
+        sys.argv = previous_argv
+        sys.modules['__main__'] = previous_main
+        __import__('IPython.display', fromlist=['display']).display({{'{RESULT_MIME}': {{'nonce': data['nonce'], 'exit_code': exit_code}}}}, raw=True)
+try:
+    __colab_cli_run__()
+finally:
+    del __colab_cli_run__
+"#
         );
         let document = Document::script(
             payload,
-            source,
+            source.to_owned(),
             path.to_string_lossy().into_owned(),
             environment,
         )?;
@@ -154,13 +184,32 @@ fn remove_intent(storage: &Storage, intent: &RunIntent) -> Result<()> {
     storage.remove(&intent_path(storage, &intent.account, &intent.id)?)
 }
 /// The factory must bind to one immutable account and refresh its authentication for each lifecycle phase.
+#[derive(Clone, Copy)]
+pub enum RunProgress {
+    Allocated,
+    Releasing,
+    Released,
+}
+
 pub fn run(
+    storage: &Storage,
+    account: ProfileId,
+    prepared: PreparedRun,
+    options: RunOptions,
+    service: impl FnMut() -> Result<SessionService>,
+    output: impl FnMut(&OutputChange) -> Result<()>,
+) -> Result<RunOutcome> {
+    run_with_progress(storage, account, prepared, options, service, output, |_| {})
+}
+
+pub fn run_with_progress(
     storage: &Storage,
     account: ProfileId,
     mut prepared: PreparedRun,
     options: RunOptions,
     mut service: impl FnMut() -> Result<SessionService>,
     mut output: impl FnMut(&OutputChange) -> Result<()>,
+    mut progress: impl FnMut(RunProgress),
 ) -> Result<RunOutcome> {
     let lease = storage.path(format!("locks/run/{}/{}.lock", account, prepared.id))?;
     let _lease = storage.lock(&lease)?;
@@ -187,14 +236,18 @@ pub fn run(
         kernel_cleanup_error: None,
         history_error: None,
     };
+    let mut allocation_attempted = false;
     let allocated = if options.cancellation.load(Ordering::SeqCst) == 0 {
-        service()
-            .and_then(|s| s.create_owned(Some(&prepared.name), options.runtime, Some(&prepared.id)))
+        service().and_then(|s| {
+            allocation_attempted = true;
+            s.create_owned(Some(&prepared.name), options.runtime, Some(&prepared.id))
+        })
     } else {
         Err(Error::Run("分配前收到终止信号"))
     };
     match allocated {
         Ok(view) => {
+            progress(RunProgress::Allocated);
             intent.endpoint = Some(view.endpoint.clone());
             outcome.endpoint = Some(view.endpoint);
             let execution = write_intent(storage, &intent).and_then(|_| {
@@ -242,27 +295,15 @@ pub fn run(
             outcome.exit_code = signal_exit(&options.cancellation);
         }
     }
-    if options.keep && intent.endpoint.is_some() {
+    if !allocation_attempted {
+        outcome.cleanup = Cleanup::NotAllocated;
+    } else if options.keep && intent.endpoint.is_some() {
         outcome.cleanup = Cleanup::Kept;
     } else {
-        if let Some(endpoint) = &intent.endpoint {
-            let teardown = service().and_then(|s| {
-                s.with_session(Some(&intent.session), |state| {
-                    if state.endpoint == *endpoint
-                        && state.extra.get("run_owner").and_then(Value::as_str)
-                            == Some(intent.id.as_str())
-                    {
-                        if let Some(id) = &state.kernel_id {
-                            KernelRest::new(state, options.http_timeout)?.delete(id)?;
-                        }
-                    }
-                    Ok(())
-                })
-            });
-            if let Err(error) = teardown {
-                outcome.kernel_cleanup_error = Some(error.to_string());
-            }
+        if intent.endpoint.is_some() {
+            progress(RunProgress::Releasing);
         }
+        // Keep VM and kernel cleanup bound to the durable run owner and endpoint.
         match service()
             .and_then(|s| s.cleanup_owned(&intent.id, &intent.session, intent.endpoint.as_deref()))
         {
@@ -270,6 +311,7 @@ pub fn run(
                 if let Some(endpoint) = endpoint {
                     outcome.endpoint = Some(endpoint);
                     outcome.cleanup = Cleanup::ConfirmedReleased;
+                    progress(RunProgress::Released);
                 } else {
                     outcome.cleanup = Cleanup::NotAllocated;
                 }

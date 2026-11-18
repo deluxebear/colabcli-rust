@@ -1,0 +1,131 @@
+name: Native release candidates
+on:
+  workflow_dispatch:
+    inputs:
+      download_base_url:
+        description: Override the versioned HTTPS download directory
+        required: false
+      manifest_url:
+        description: Override the public HTTPS update manifest URL
+        required: false
+permissions:
+  contents: read
+jobs:
+  channel:
+    runs-on: ubuntu-24.04
+    outputs:
+      download_base_url: ${{ steps.resolve.outputs.download_base_url }}
+      manifest_url: ${{ steps.resolve.outputs.manifest_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - id: resolve
+        env:
+          RELEASE_REPOSITORY: ${{ github.repository }}
+          RELEASE_DOWNLOAD_OVERRIDE: ${{ inputs.download_base_url }}
+          RELEASE_MANIFEST_OVERRIDE: ${{ inputs.manifest_url }}
+        run: |
+          python3 -B - <<'PY'
+          import os
+          from tools.package_release import release_channel
+
+          try:
+              channel = release_channel('Cargo.toml', os.environ['RELEASE_REPOSITORY'],
+                                        os.environ['RELEASE_DOWNLOAD_OVERRIDE'],
+                                        os.environ['RELEASE_MANIFEST_OVERRIDE'])
+          except ValueError as error:
+              raise SystemExit(str(error)) from None
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as outputs:
+              for key, value in channel.items():
+                  print(f'{key}={value}', file=outputs)
+          PY
+  build:
+    needs: channel
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+          - os: macos-15-intel
+            target: x86_64-apple-darwin
+          - os: macos-15
+            target: aarch64-apple-darwin
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt, clippy
+      - run: cargo fmt --check
+      - run: cargo fetch --locked
+      - run: python3 -B tools/collect_dependency_licenses.py --check
+      - run: cargo clippy --locked --all-targets -- -D warnings
+      - run: cargo test --locked
+      - run: cargo test --locked --no-default-features
+      - run: cargo build --release --locked --target "$RELEASE_TARGET"
+        env:
+          RELEASE_TARGET: ${{ matrix.target }}
+          COLAB_CLI_BUILTIN_UPDATE_MANIFEST: ${{ needs.channel.outputs.manifest_url }}
+      - run: |
+          python3 tools/validate_native_release.py \
+            --binary "target/$RELEASE_TARGET/release/colab" \
+            --base-url "$RELEASE_BASE_URL" --output native-validation.json
+        env:
+          RELEASE_TARGET: ${{ matrix.target }}
+          RELEASE_BASE_URL: ${{ needs.channel.outputs.download_base_url }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: validation-${{ matrix.target }}
+          path: native-validation.json
+          if-no-files-found: error
+      - run: |
+          "target/$RELEASE_TARGET/release/colab" version
+          mkdir candidate
+          cp "target/$RELEASE_TARGET/release/colab" "candidate/colab-$RELEASE_TARGET"
+        env:
+          RELEASE_TARGET: ${{ matrix.target }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: binary-${{ matrix.target }}
+          path: candidate/*
+          if-no-files-found: error
+  package:
+    needs: [channel, build]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: binary-*
+          path: candidates
+          merge-multiple: true
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: validation-*
+          path: validations
+          merge-multiple: false
+      - run: |
+          python3 -B tools/tests/test_package_release.py
+          python3 tools/package_release.py --base-url "$RELEASE_BASE_URL" --output-dir dist \
+            --validation-dir validations \
+            --binary x86_64-unknown-linux-gnu=candidates/colab-x86_64-unknown-linux-gnu \
+            --binary aarch64-unknown-linux-gnu=candidates/colab-aarch64-unknown-linux-gnu \
+            --binary x86_64-apple-darwin=candidates/colab-x86_64-apple-darwin \
+            --binary aarch64-apple-darwin=candidates/colab-aarch64-apple-darwin
+        env:
+          RELEASE_BASE_URL: ${{ needs.channel.outputs.download_base_url }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: reviewed-native-release-candidate
+          path: dist/*
+          if-no-files-found: error

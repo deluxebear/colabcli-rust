@@ -1,0 +1,25 @@
+{
+  "target": "aarch64-apple-darwin",
+  "before": "Version: 0.0.0",
+  "installed_version": "0.1.0",
+  "candidate_manifest_sha256": "c2c896403c7c954cdb77d92860c43a383b6322a57aa02620d627f1282fefb19a",
+  "artifact_sha256": "6dee28a491fcddf3725989d0e98955488c3353ffc64449dad1e705a63358647f",
+  "predecessor_sha256": "4d4b24334f3839a32d1cae3883e4488205dd34fd279bd041e99cfc68691c8446",
+  "loopback_requests": [
+    "/colab-update.json",
+    "/colab-0.1.0-aarch64-apple-darwin",
+    "/colab-update.json",
+    "/colab-0.1.0-aarch64-apple-darwin",
+    "/colab-update.json"
+  ],
+  "corruption_preserved_old_binary": true,
+  "installed_candidate_bytes_match": true,
+  "same_version_check_skipped_artifact": true,
+  "offline_rollback_restored_old_bytes": true,
+  "mode_preserved": true,
+  "scope": "macOS ARM64 local release artifact update and rollback through loopback",
+  "predecessor": "temporary source copy rebuilt with only package version set to 0.0.0",
+  "remote_release_verified": false,
+  "tool_sha256": "0e51d72982b64e9912981789721cb298d364a478a66364929bc452d19104e2a3",
+  "predecessor_build_log_sha256": "9e5fb095cefe18ea0fbe712c47bc78ad9fbde7172a26cf1a96036054fb1b57e8"
+}

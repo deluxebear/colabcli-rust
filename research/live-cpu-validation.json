@@ -1,0 +1,229 @@
+{
+  "date": "2026-11-16",
+  "environment": {
+    "os": "macOS",
+    "rust": "1.99.1",
+    "binary": "target/debug/colab"
+  },
+  "scope": "single owned Colab CPU VM; existing authorized credentials; no Drive access",
+  "hardware": {
+    "accelerator": "NONE",
+    "variant": "DEFAULT",
+    "machine_shape": "STANDARD"
+  },
+  "created_sessions": 1,
+  "baseline_assignment_count": 0,
+  "checks": [
+    {
+      "name": "sessions",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 6.669
+    },
+    {
+      "name": "status",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 1.05
+    },
+    {
+      "name": "usage",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 1.005
+    },
+    {
+      "name": "ls-directory",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.877
+    },
+    {
+      "name": "upload-binary",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.812
+    },
+    {
+      "name": "ls-file",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.846
+    },
+    {
+      "name": "download-binary",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.985
+    },
+    {
+      "name": "upload-text-for-edit",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.833
+    },
+    {
+      "name": "edit",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 1.638
+    },
+    {
+      "name": "verify-edited-download",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.791
+    },
+    {
+      "name": "exec-stdin",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.219
+    },
+    {
+      "name": "exec-file-env",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.173
+    },
+    {
+      "name": "exec-persistent-kernel",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.162
+    },
+    {
+      "name": "kernels",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.833
+    },
+    {
+      "name": "exec-error-text-exit-0",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.242
+    },
+    {
+      "name": "exec-error-json-exit-1",
+      "exit_code": 1,
+      "passed": true,
+      "seconds": 2.183
+    },
+    {
+      "name": "exec-notebook",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.497
+    },
+    {
+      "name": "exec-plot-png",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.311
+    },
+    {
+      "name": "restart-kernel",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.374
+    },
+    {
+      "name": "exec-after-restart",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 2.21
+    },
+    {
+      "name": "kernels-after-restart",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.801
+    },
+    {
+      "name": "rm-binary",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.838
+    },
+    {
+      "name": "verify-rm-404",
+      "exit_code": 1,
+      "passed": true,
+      "seconds": 0.814
+    },
+    {
+      "name": "rm-edited-file",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.83
+    },
+    {
+      "name": "log-list",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.018
+    },
+    {
+      "name": "log-events",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.018
+    },
+    {
+      "name": "log-filter",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.013
+    },
+    {
+      "name": "log-export-jsonl",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.025
+    },
+    {
+      "name": "log-export-txt",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.024
+    },
+    {
+      "name": "log-export-md",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.02
+    },
+    {
+      "name": "log-export-ipynb",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.023
+    },
+    {
+      "name": "runs-readonly",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 0.009
+    },
+    {
+      "name": "final-status",
+      "exit_code": 0,
+      "passed": true,
+      "seconds": 1.126
+    }
+  ],
+  "cleanup": {
+    "stop_exit_code": 0,
+    "post_release_sessions_query_succeeded": true,
+    "owned_session_absent": true
+  },
+  "discovered_and_fixed": [
+    "Jupyter Contents base64 includes line breaks; binary download and edit now accept ASCII whitespace",
+    "Colab image MIME base64 includes line breaks; image artifact saving now accepts ASCII whitespace"
+  ],
+  "limits": [
+    "Rust live smoke only; official comparison uses isolated loopback fixtures",
+    "No new OAuth flow, Drive, GPU/TPU, interactive input, run-created VM, long task, supervisor or unattended recovery tested"
+  ]
+}

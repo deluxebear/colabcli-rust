@@ -1,0 +1,47 @@
+{
+  "scope": "actual offline exec CLI with non-code notebooks and Python nbformat schema validation",
+  "binary_sha256": "b4c339520b60b72d7d1b897f17430fb19ba49169c336d61a17ee9415f00e248c",
+  "nbformat_version": "5.11.1",
+  "cases": [
+    {
+      "case": "old-minor",
+      "input_minor": 4,
+      "output_minor": 5,
+      "unique_ids": 2,
+      "nbformat_valid": true,
+      "original_unchanged": true
+    },
+    {
+      "case": "repair-identities",
+      "input_minor": 5,
+      "output_minor": 5,
+      "unique_ids": 5,
+      "nbformat_valid": true,
+      "original_unchanged": true
+    },
+    {
+      "case": "preserve-newer-minor",
+      "input_minor": 6,
+      "output_minor": 6,
+      "unique_ids": 1,
+      "nbformat_valid": true,
+      "original_unchanged": true
+    }
+  ],
+  "regression": {
+    "cli_compat": 3,
+    "history": 10,
+    "jupyter": 80,
+    "clippy_exit_code": 0,
+    "partial_execution_history_id_matches": true
+  },
+  "inputs_sha256": {
+    "src/execution.rs": "c2bc2466dd26ce1903c7affd9608cc6e66ac240586f86f05c8351d0e176bcd0a",
+    "tests/jupyter.rs": "30efcf0d161fa035183ab795964d3bc4ec6d12e152f78eb2924464c85ce5fe66"
+  },
+  "logs_sha256": {
+    "target/notebook-cell-identity-tests.log": "9a675bb09ef798a8bd148225ae9e6fed3afa095d2327e11a6e4c5042625dca61",
+    "target/notebook-cell-identity-clippy.log": "92e8d9a1ce4e700c89b8616a8d5b7365fc5a9c94a0bc6c1426f0de103a6d9a0c",
+    "target/notebook-cell-identity-build.log": "506e0645b4800415366ea53dc824e7336903f2a584437dff72275b323cfe28a9"
+  }
+}

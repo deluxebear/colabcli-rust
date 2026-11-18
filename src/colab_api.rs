@@ -2,7 +2,7 @@
 use crate::{Error, Result, models::Secret};
 use reqwest::{Method, blocking::Client};
 use serde::{Deserialize, Serialize, de::DeserializeOwned};
-use std::{io::Read, time::Duration};
+use std::{io::Read, sync::Arc, time::Duration};
 use url::Url;
 
 #[derive(Debug, Clone)]
@@ -42,14 +42,11 @@ pub struct RuntimeOptions {
 }
 impl RuntimeOptions {
     pub fn new(gpu: Option<&str>, tpu: Option<&str>, high_mem: bool) -> Result<Self> {
-        if gpu.is_some() && tpu.is_some() {
-            return Err(Error::ControlProtocol("--gpu 与 --tpu 不能同时使用"));
-        }
-        let accelerator = gpu.or(tpu).unwrap_or("NONE").to_ascii_uppercase();
-        let valid = if gpu.is_some() {
-            ["T4", "L4", "G4", "H100", "A100"].contains(&accelerator.as_str())
-        } else if tpu.is_some() {
+        let accelerator = tpu.or(gpu).unwrap_or("NONE").to_ascii_uppercase();
+        let valid = if tpu.is_some() {
             ["V5E1", "V6E1"].contains(&accelerator.as_str())
+        } else if gpu.is_some() {
+            ["T4", "L4", "G4", "H100", "A100"].contains(&accelerator.as_str())
         } else {
             true
         };
@@ -92,6 +89,12 @@ pub struct Assignment {
     #[serde(default)]
     pub machine_shape: Option<i64>,
 }
+
+pub(crate) struct AssignFailure {
+    pub error: Error,
+    pub definitive_refusal: bool,
+}
+
 impl Assignment {
     fn validate(&self) -> Result<()> {
         if self.endpoint.is_empty()
@@ -129,10 +132,21 @@ struct UnassignToken {
     token: Secret,
 }
 
+/// Contains a user-facing authorization URL; deliberately has no Debug/Serialize implementation.
+#[derive(Deserialize)]
+pub struct CredentialsPropagation {
+    pub success: bool,
+    pub unauthorized_redirect_uri: Option<Url>,
+}
+
+#[derive(Clone)]
 pub struct ColabApi {
     client: Client,
     config: ApiConfig,
     bearer: Secret,
+    quota_project: Option<reqwest::header::HeaderValue>,
+    credentials: Option<Arc<crate::auth::ControlCredentials>>,
+    account_guard: Option<Arc<crate::storage::FileLock>>,
 }
 impl ColabApi {
     pub fn new(config: ApiConfig, bearer: Secret) -> Result<Self> {
@@ -147,7 +161,47 @@ impl ColabApi {
             client,
             config,
             bearer,
+            quota_project: None,
+            credentials: None,
+            account_guard: None,
         })
+    }
+    pub fn with_credentials_source(
+        config: ApiConfig,
+        source: crate::auth::ControlCredentials,
+    ) -> Result<Self> {
+        config.validate()?;
+        let credentials = source.credentials(None, None)?;
+        let mut api = Self::new(config, credentials.token)?
+            .with_quota_project(credentials.quota_project_id.as_deref())?;
+        api.credentials = Some(Arc::new(source));
+        Ok(api)
+    }
+    /// Runtime-only work can use an already valid account-bound proxy token.
+    /// The first control-plane request still acquires real credentials and
+    /// propagates failures; the empty placeholder is never a fallback bearer.
+    pub fn with_deferred_credentials_source(
+        config: ApiConfig,
+        source: crate::auth::ControlCredentials,
+    ) -> Result<Self> {
+        let mut api = Self::new(config, Secret::default())?;
+        api.credentials = Some(Arc::new(source));
+        Ok(api)
+    }
+    pub(crate) fn under_account_guard(&self, guard: &Arc<crate::storage::FileLock>) -> Self {
+        let mut api = self.clone();
+        api.account_guard = Some(Arc::clone(guard));
+        api
+    }
+    pub fn with_quota_project(mut self, project: Option<&str>) -> Result<Self> {
+        if self.credentials.is_some() {
+            return Err(Error::ControlProtocol("动态凭据的配额项目由来源管理"));
+        }
+        self.quota_project = project
+            .filter(|value| !value.is_empty())
+            .map(crate::auth::quota::header)
+            .transpose()?;
+        Ok(self)
     }
     fn request(
         &self,
@@ -156,7 +210,78 @@ impl ColabApi {
         query: &[(&str, &str)],
         xsrf: Option<&Secret>,
     ) -> Result<Vec<u8>> {
-        let empty_post = method == Method::POST;
+        self.request_body(method, path, query, xsrf, None)
+    }
+    fn request_body(
+        &self,
+        method: Method,
+        path: &str,
+        query: &[(&str, &str)],
+        xsrf: Option<&Secret>,
+        body: Option<(String, Vec<u8>)>,
+    ) -> Result<Vec<u8>> {
+        let credentials = self
+            .credentials
+            .as_ref()
+            .map(|source| source.credentials(None, self.account_guard.as_deref()))
+            .transpose()?;
+        let bearer = credentials
+            .as_ref()
+            .map_or(&self.bearer, |credentials| &credentials.token);
+        let quota = match &credentials {
+            Some(credentials) => credentials
+                .quota_project_id
+                .as_deref()
+                .map(crate::auth::quota::header)
+                .transpose()?,
+            None => self.quota_project.clone(),
+        };
+        let result = self.send_request(
+            &method,
+            path,
+            query,
+            xsrf,
+            body.as_ref(),
+            bearer,
+            quota.as_ref(),
+        );
+        // An allocation GET can itself return a VM. Retry only documented
+        // inventory/usage reads; never replay allocation, release or propagation.
+        if let (Err(Error::ControlStatus(401)), Some(source), true) = (
+            &result,
+            &self.credentials,
+            method == Method::GET && matches!(path, "/tun/m/assignments" | "/tun/m/ccu-info"),
+        ) {
+            let credentials = source.credentials(Some(bearer), self.account_guard.as_deref())?;
+            let quota = credentials
+                .quota_project_id
+                .as_deref()
+                .map(crate::auth::quota::header)
+                .transpose()?;
+            return self.send_request(
+                &method,
+                path,
+                query,
+                xsrf,
+                body.as_ref(),
+                &credentials.token,
+                quota.as_ref(),
+            );
+        }
+        result
+    }
+    #[allow(clippy::too_many_arguments)]
+    fn send_request(
+        &self,
+        method: &Method,
+        path: &str,
+        query: &[(&str, &str)],
+        xsrf: Option<&Secret>,
+        body: Option<&(String, Vec<u8>)>,
+        bearer: &Secret,
+        quota: Option<&reqwest::header::HeaderValue>,
+    ) -> Result<Vec<u8>> {
+        let empty_post = method == Method::POST && body.is_none();
         let url = self
             .config
             .base_url
@@ -164,12 +289,20 @@ impl ColabApi {
             .map_err(|_| Error::ControlProtocol("无效的控制面路径"))?;
         let mut request = self
             .client
-            .request(method, url)
-            .bearer_auth(self.bearer.expose())
+            .request(method.clone(), url)
+            .bearer_auth(bearer.expose())
             .header("Accept", "application/json")
             .header("X-Colab-Client-Agent", "colab-cli")
             .query(&[("authuser", "0")])
             .query(query);
+        if let Some(project) = quota {
+            request = request.header("x-goog-user-project", project.clone());
+        }
+        if let Some((content_type, bytes)) = body {
+            request = request
+                .header(reqwest::header::CONTENT_TYPE, content_type)
+                .body(bytes.clone());
+        }
         if empty_post {
             // These POSTs have no body. Strict HTTP frontends require an explicit length
             // even though the HTTP client can otherwise omit framing for an empty request.
@@ -207,6 +340,72 @@ impl ColabApi {
         let body = body.strip_prefix(b")]}'\n").unwrap_or(body);
         serde_json::from_slice(body).map_err(|_| Error::ControlProtocol("无效的控制面响应"))
     }
+    fn credentials_path(&self, endpoint: &str) -> Result<String> {
+        if endpoint.is_empty()
+            || endpoint == "."
+            || endpoint == ".."
+            || endpoint.chars().any(char::is_control)
+        {
+            return Err(Error::ControlProtocol("无效的凭据传播 endpoint"));
+        }
+        let mut url = self
+            .config
+            .base_url
+            .join("/tun/m/credentials-propagation/")
+            .unwrap();
+        url.path_segments_mut()
+            .unwrap()
+            .pop_if_empty()
+            .push(endpoint);
+        Ok(url.path().to_owned())
+    }
+    pub fn prepare_credentials(&self, endpoint: &str) -> Result<Secret> {
+        let response: UnassignToken = Self::decode(&self.request(
+            Method::GET,
+            &self.credentials_path(endpoint)?,
+            &[
+                ("authtype", "dfs_ephemeral"),
+                ("version", "2"),
+                ("dryrun", "true"),
+                ("propagate", "true"),
+                ("record", "false"),
+            ],
+            None,
+        )?)?;
+        if response.token.is_empty() {
+            return Err(Error::ControlProtocol("凭据传播 token 为空"));
+        }
+        Ok(response.token)
+    }
+    pub fn propagate_credentials(
+        &self,
+        endpoint: &str,
+        token: &Secret,
+        dry_run: bool,
+    ) -> Result<CredentialsPropagation> {
+        if token.is_empty() {
+            return Err(Error::ControlProtocol("凭据传播 token 为空"));
+        }
+        let boundary = format!("colab-{}", notebook_identity().replace('.', ""));
+        let bytes = format!("--{boundary}\r\nContent-Disposition: form-data; name=\"file_id\"\r\n\r\nempty.ipynb\r\n--{boundary}--\r\n").into_bytes();
+        let outcome: CredentialsPropagation = Self::decode(&self.request_body(
+            Method::POST,
+            &self.credentials_path(endpoint)?,
+            &[
+                ("authtype", "dfs_ephemeral"),
+                ("version", "2"),
+                ("dryrun", if dry_run { "true" } else { "false" }),
+                ("propagate", "true"),
+                ("record", "false"),
+            ],
+            Some(token),
+            Some((format!("multipart/form-data; boundary={boundary}"), bytes)),
+        )?)?;
+        if !outcome.success && !dry_run {
+            return Err(Error::ControlProtocol("服务端未确认凭据传播成功"));
+        }
+        Ok(outcome)
+    }
     pub fn assignments(&self) -> Result<Vec<Assignment>> {
         #[derive(Deserialize)]
         struct Listed {
@@ -230,7 +429,12 @@ impl ColabApi {
     pub fn usage(&self) -> Result<Usage> {
         Self::decode(&self.request(Method::GET, "/tun/m/ccu-info", &[], None)?)
     }
-    fn assign_once(&self, nbh: &str, options: &RuntimeOptions) -> Result<Assignment> {
+    fn assign_once(
+        &self,
+        nbh: &str,
+        options: &RuntimeOptions,
+        before_post: impl FnOnce() -> Result<()>,
+    ) -> Result<Assignment> {
         let mut query = vec![
             ("nbh", nbh),
             ("variant", options.variant()),
@@ -253,6 +457,7 @@ impl ColabApi {
             if !["DEFAULT", "GPU", "TPU"].contains(&prep.variant.as_str()) {
                 return Err(Error::ControlProtocol("无效的分配准备 variant"));
             }
+            before_post()?;
             let response: Assignment = Self::decode(&self.request(
                 Method::POST,
                 "/tun/m/assign",
@@ -268,8 +473,23 @@ impl ColabApi {
         Ok(assignment)
     }
     pub fn assign(&self, nbh: &str, options: &RuntimeOptions) -> Result<Assignment> {
+        self.assign_checkpointed(nbh, options, false, || Ok(()))
+            .map_err(|failure| failure.error)
+    }
+    pub(crate) fn assign_checkpointed(
+        &self,
+        nbh: &str,
+        options: &RuntimeOptions,
+        mut prior_post: bool,
+        mut before_post: impl FnMut() -> Result<()>,
+    ) -> std::result::Result<Assignment, AssignFailure> {
         for attempt in 0..=self.config.retries {
-            match self.assign_once(nbh, options) {
+            let mut posting = false;
+            match self.assign_once(nbh, options, || {
+                before_post()?;
+                posting = true;
+                Ok(())
+            }) {
                 Err(error)
                     if attempt < self.config.retries
                         && matches!(
@@ -278,9 +498,18 @@ impl ColabApi {
                                 | Error::ControlTransport { retryable: true }
                         ) =>
                 {
+                    prior_post |= posting;
                     std::thread::sleep(self.config.backoff.saturating_mul(1 << attempt));
                 }
-                result => return result,
+                result => {
+                    // A rejection answers the latest request only. An earlier POST without
+                    // a confirmed outcome can still have created the assignment.
+                    return result.map_err(|error| AssignFailure {
+                        definitive_refusal: !prior_post
+                            && matches!(error, Error::ControlStatus(400 | 412)),
+                        error,
+                    });
+                }
             }
         }
         unreachable!()

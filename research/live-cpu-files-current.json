@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "platform": "macOS ARM64",
+  "hardware": "CPU DEFAULT STANDARD",
+  "binary_sha256": "b7255d8951b9a48e84b1989f30c2d4c8d1a86b04870ee36af5f5142fee0c923b",
+  "scope": "runtime Contents under content; no Drive mount or access",
+  "first_attempt": {
+    "checks": [
+      "empty_backend_baseline",
+      "cpu_assignment_captured",
+      "backend_inventory_and_named_status_agree",
+      "backend_release_and_local_cleanup_confirmed"
+    ],
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "passed": false,
+    "error_class": "wrong_endpoint_was_not_refused",
+    "stop_exit_codes": [
+      0
+    ],
+    "other_new_assignment_count": 0,
+    "verifier_issue": "invoked flattened file subcommands through a nonexistent files group"
+  },
+  "retry": {
+    "checks": [
+      "empty_backend_baseline",
+      "cpu_assignment_captured",
+      "backend_inventory_and_named_status_agree",
+      "endpoint_guard_refuses_mismatch",
+      "unicode_reserved_path_and_binary_round_trip",
+      "missing_file_edit_creates_content_and_unchanged_edit_is_reported",
+      "deleted_fixtures_return_not_found",
+      "backend_release_and_local_cleanup_confirmed"
+    ],
+    "created_sessions": 1,
+    "cleanup": "confirmed_released",
+    "passed": true,
+    "file_commands": [
+      {
+        "command": "upload",
+        "exit_code": 0
+      },
+      {
+        "command": "ls",
+        "exit_code": 0
+      },
+      {
+        "command": "ls",
+        "exit_code": 0
+      },
+      {
+        "command": "download",
+        "exit_code": 0
+      },
+      {
+        "command": "edit",
+        "exit_code": 0
+      },
+      {
+        "command": "edit",
+        "exit_code": 0
+      },
+      {
+        "command": "download",
+        "exit_code": 0
+      },
+      {
+        "command": "rm",
+        "exit_code": 0
+      },
+      {
+        "command": "download",
+        "exit_code": 1
+      },
+      {
+        "command": "rm",
+        "exit_code": 0
+      },
+      {
+        "command": "download",
+        "exit_code": 1
+      },
+      {
+        "command": "ls",
+        "exit_code": 0
+      }
+    ],
+    "binary_fixture_bytes": 65794,
+    "binary_fixture_sha256": "dbb61eff3b0a88c17984f3e9f76189c2010d60c0690ec895258a81f98dcf610e",
+    "stop_exit_codes": [
+      0
+    ],
+    "other_new_assignment_count": 0
+  }
+}

@@ -14,7 +14,14 @@ fn command(root: &std::path::Path) -> Command {
 fn cli_can_register_select_and_inspect_accounts_offline() {
     let temp = tempfile::tempdir().unwrap();
     let output = command(temp.path())
-        .args(["account", "add", "work", "--email", "a@example.invalid"])
+        .args([
+            "account",
+            "add",
+            "work",
+            "--configure-only",
+            "--email",
+            "a@example.invalid",
+        ])
         .output()
         .unwrap();
     assert!(
@@ -36,7 +43,15 @@ fn cli_can_register_select_and_inspect_accounts_offline() {
     assert!(output.status.success());
     let value: Value = serde_json::from_slice(&output.stdout).unwrap();
     assert_eq!(value["active"], "work");
-    assert_eq!(value["accounts"]["work"]["email"], "a@example.invalid");
+    assert_eq!(
+        value["accounts"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|row| row["account"] == "work")
+            .unwrap()["email"],
+        "a@example.invalid"
+    );
     let output = command(temp.path())
         .args(["account", "current"])
         .output()
@@ -50,7 +65,7 @@ fn concurrent_cli_processes_do_not_lose_registry_updates() {
     for n in 0..8 {
         children.push(
             command(temp.path())
-                .args(["account", "add", &format!("work{n}")])
+                .args(["account", "add", &format!("work{n}"), "--configure-only"])
                 .stdout(std::process::Stdio::null())
                 .spawn()
                 .unwrap(),
@@ -65,7 +80,7 @@ fn concurrent_cli_processes_do_not_lose_registry_updates() {
         .unwrap();
     assert!(output.status.success());
     let value: Value = serde_json::from_slice(&output.stdout).unwrap();
-    assert_eq!(value["accounts"].as_object().unwrap().len(), 9);
+    assert_eq!(value["accounts"].as_array().unwrap().len(), 9);
 }
 #[test]
 fn noninteractive_login_fails_without_waiting_for_input() {
@@ -171,5 +186,5 @@ fn global_drive_binding_can_be_cleared_without_affecting_accounts() {
         .unwrap();
     let r: Value = serde_json::from_slice(&output.stdout).unwrap();
     assert!(r["default_drive_account"].is_null());
-    assert_eq!(r["accounts"].as_object().unwrap().len(), 1);
+    assert_eq!(r["accounts"].as_array().unwrap().len(), 1);
 }

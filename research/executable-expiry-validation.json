@@ -1,0 +1,25 @@
+{
+  "scenario": "subject token expires during a two-second executable run",
+  "before": {
+    "release_binary_sha256": "23a0ddd67ce736dc85b806a9b5fc3e335ef55ae3f95daab30f90cd20d7ca7b06",
+    "observed": {
+      "exit_code": 0,
+      "requests": 2,
+      "expiry_rejected": false,
+      "backend_errors": []
+    }
+  },
+  "debug_before_test_exit": 101,
+  "debug_after_test_exit": 0,
+  "transport": "temporary files and loopback only",
+  "after": {
+    "release_binary_sha256": "99b000d533efe76f87ad69e0fe0242f4c1a5602200e7ad910562d2b1b37751af",
+    "observed": {
+      "disabled_exit_code": 1,
+      "enabled_exit_code": 0,
+      "expired_exit_code": 1,
+      "sts_requests": 1,
+      "expiry_rejected": true
+    }
+  }
+}

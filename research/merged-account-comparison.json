@@ -1,0 +1,1179 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "32f203c546b6a823c0e8346ee7ea7f4f59ac3fbafb75def48dc19d4f8bb2543e",
+  "scope": "offline merged account list/current with file storage; no real credentials or cloud resources",
+  "cases": [
+    {
+      "name": "list-json",
+      "arguments": [
+        "account",
+        "list",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "self",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "bound:work",
+                "ready": true,
+                "label": "->default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "work",
+                "source": "default",
+                "ready": false,
+                "label": "default:work (missing)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "self",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "bound:work",
+                "ready": true,
+                "label": "->default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "work",
+                "source": "default",
+                "ready": false,
+                "label": "default:work (missing)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "list-text",
+      "arguments": [
+        "account",
+        "list"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "* default        | email: -                          | colab: missing (oauth2)       | drive: ok                 | sessions: 0\n  work           | email: fixture@example.invalid    | colab: ok (file)              | drive: ->default (ok)     | sessions: 2 (a-first, z-last)\n  adc            | email: -                          | colab: missing (adc)          | drive: default:work (missing) | sessions: 0\n",
+        "stderr": ""
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stdout": "* default        | email: -                          | colab: missing (oauth2)       | drive: ok                 | sessions: 0\n  work           | email: fixture@example.invalid    | colab: ok (file)              | drive: ->default (ok)     | sessions: 2 (a-first, z-last)\n  adc            | email: -                          | colab: missing (adc)          | drive: default:work (missing) | sessions: 0\n",
+        "stderr": ""
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "list-alias",
+      "arguments": [
+        "acct",
+        "ls",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "self",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "bound:work",
+                "ready": true,
+                "label": "->default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "work",
+                "source": "default",
+                "ready": false,
+                "label": "default:work (missing)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "self",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "bound:work",
+                "ready": true,
+                "label": "->default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "work",
+                "source": "default",
+                "ready": false,
+                "label": "default:work (missing)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "current-json",
+      "arguments": [
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "active",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "self",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "active",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "self",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "current-text",
+      "arguments": [
+        "account",
+        "current"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stdout": "default\n",
+        "stderr": ""
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stdout": "default\n",
+        "stderr": ""
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "current-flag",
+      "arguments": [
+        "--account",
+        "work",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "flag",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": true,
+            "storage": "file",
+            "detail": "<HOME>/config/accounts/work/oauth_token.json"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "flag",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": true,
+            "storage": "file",
+            "detail": "<HOME>/config/accounts/work/oauth_token.json"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "current-env",
+      "arguments": [
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "env",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": true,
+            "storage": "file",
+            "detail": "<HOME>/config/accounts/work/oauth_token.json"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "env",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": true,
+            "storage": "file",
+            "detail": "<HOME>/config/accounts/work/oauth_token.json"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "flag-before-env",
+      "arguments": [
+        "--account",
+        "default",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "self",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "self",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "drive-env",
+      "arguments": [
+        "account",
+        "list",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "default:default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "default:default (ok)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "active": "default",
+          "default_drive_account": "work",
+          "accounts": [
+            {
+              "account": "default",
+              "active": true,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "oauth2",
+                "ready": false,
+                "storage": "none",
+                "detail": "no token file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "ok"
+              },
+              "sessions": []
+            },
+            {
+              "account": "work",
+              "active": false,
+              "email": "fixture@example.invalid",
+              "user_id": "fixture-user",
+              "auth": {
+                "provider": "oauth2",
+                "ready": true,
+                "storage": "file",
+                "detail": "<HOME>/config/accounts/work/oauth_token.json"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "default:default (ok)"
+              },
+              "sessions": [
+                "a-first",
+                "z-last"
+              ]
+            },
+            {
+              "account": "adc",
+              "active": false,
+              "email": null,
+              "user_id": null,
+              "auth": {
+                "provider": "adc",
+                "ready": false,
+                "storage": "adc",
+                "detail": "missing ADC file"
+              },
+              "drive": {
+                "account": "default",
+                "source": "env",
+                "ready": true,
+                "label": "default:default (ok)"
+              },
+              "sessions": []
+            }
+          ]
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "drive-legacy-env",
+      "arguments": [
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "active",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "work",
+          "drive_source": "env",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "source": "active",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "oauth2",
+          "drive_account": "work",
+          "drive_source": "env",
+          "sessions_path": "<HOME>/config/accounts/default/sessions.json",
+          "history_dir": "<HOME>/config/accounts/default/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/default/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "adc-gcloud",
+      "arguments": [
+        "--account",
+        "adc",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "gcloud-adc",
+            "detail": "<HOME>/.config/gcloud/application_default_credentials.json"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "gcloud-adc",
+            "detail": "<HOME>/.config/gcloud/application_default_credentials.json"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "adc-configured-file",
+      "arguments": [
+        "--account",
+        "adc",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "adc-file",
+            "detail": "~/adc.json"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "adc-file",
+            "detail": "~/adc.json"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "adc-configured-missing-no-fallback",
+      "arguments": [
+        "--account",
+        "adc",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": false,
+            "storage": "adc",
+            "detail": "missing ADC file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": false,
+            "storage": "adc",
+            "detail": "missing ADC file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "broken-oauth-file",
+      "arguments": [
+        "--account",
+        "work",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "flag",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "work",
+          "source": "flag",
+          "email": "fixture@example.invalid",
+          "user_id": "fixture-user",
+          "auth_provider": "oauth2",
+          "drive_account": "default",
+          "drive_source": "bound:work",
+          "sessions_path": "<HOME>/config/accounts/work/sessions.json",
+          "history_dir": "<HOME>/config/accounts/work/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/default/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/work/oauth_token.json",
+          "auth": {
+            "provider": "oauth2",
+            "ready": false,
+            "storage": "none",
+            "detail": "no token file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "adc-missing",
+      "arguments": [
+        "--account",
+        "adc",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": false,
+            "storage": "adc",
+            "detail": "missing ADC file"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": false,
+            "storage": "adc",
+            "detail": "missing ADC file"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    },
+    {
+      "name": "adc-file",
+      "arguments": [
+        "--account",
+        "adc",
+        "account",
+        "current",
+        "--json"
+      ],
+      "forbidden_operations": [],
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "adc-file",
+            "detail": "<HOME>/adc.json"
+          }
+        }
+      },
+      "official_payload_unchanged": true,
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "source": "flag",
+          "email": null,
+          "user_id": null,
+          "auth_provider": "adc",
+          "drive_account": "work",
+          "drive_source": "default",
+          "sessions_path": "<HOME>/config/accounts/adc/sessions.json",
+          "history_dir": "<HOME>/config/accounts/adc/history",
+          "dfs_credentials_path": "<HOME>/config/accounts/work/dfs_credentials.json",
+          "oauth_token_file": "<HOME>/config/accounts/adc/oauth_token.json",
+          "auth": {
+            "provider": "adc",
+            "ready": true,
+            "storage": "adc-file",
+            "detail": "<HOME>/adc.json"
+          }
+        }
+      },
+      "rust_payload_unchanged": true,
+      "matched": true
+    }
+  ],
+  "summary": {
+    "cases": 16,
+    "matched": 16
+  }
+}

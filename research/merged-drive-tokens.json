@@ -1,0 +1,574 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "47bed5c064ed3e653d416ce7b93b93a084e02b18d35644a4f1b7a87aeed18478",
+  "rust_native_keyring_compiled": false,
+  "cases": [
+    {
+      "name": "token-plain",
+      "arguments": [
+        "-a",
+        "work",
+        "drive",
+        "token"
+      ],
+      "drive_account": "default",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "exception_type": null,
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "token-json",
+      "arguments": [
+        "drive",
+        "token",
+        "--drive-account",
+        "adc",
+        "--json"
+      ],
+      "drive_account": "adc",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "exception_type": null,
+        "json": {
+          "account": "adc",
+          "access_token": "synthetic-access-adc",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-adc",
+          "email": "adc@example.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-adc",
+            "email": "adc@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "adc",
+            "scope_sent": true
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "adc",
+          "access_token": "synthetic-access-adc",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-adc",
+          "email": "adc@example.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "synthetic-adc",
+            "email": "adc@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "adc",
+            "scope_sent": false
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "whoami",
+      "arguments": [
+        "-a",
+        "work",
+        "drive",
+        "token",
+        "--whoami",
+        "--json"
+      ],
+      "drive_account": "default",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "exception_type": null,
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "observed-default",
+          "email": "default@observed.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "observed-default",
+            "email": "default@observed.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          },
+          {
+            "method": "GET",
+            "path": "/userinfo",
+            "drive_account": "default"
+          }
+        ],
+        "registry_identity_updated": true
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "observed-default",
+          "email": "default@observed.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "observed-default",
+            "email": "default@observed.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          },
+          {
+            "method": "GET",
+            "path": "/userinfo",
+            "drive_account": "default"
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "short-expiry",
+      "arguments": [
+        "drive",
+        "token",
+        "--json"
+      ],
+      "drive_account": "default",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "exception_type": null,
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 60,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 4,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "timezone-naive-expiry",
+      "arguments": [
+        "drive",
+        "token",
+        "--json"
+      ],
+      "drive_account": "default",
+      "timezone": "Asia/Shanghai",
+      "official": {
+        "exit_code": 0,
+        "stderr": "",
+        "exception_type": null,
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 60,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 0,
+        "stderr": "",
+        "json": {
+          "account": "default",
+          "access_token": "synthetic-access-default",
+          "token_type": "Bearer",
+          "scope": "openid https://www.googleapis.com/auth/drive",
+          "user_id": "synthetic-default",
+          "email": "default@example.invalid"
+        },
+        "expires_in": 3599,
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "token-denied",
+      "arguments": [
+        "drive",
+        "token",
+        "--json"
+      ],
+      "drive_account": "default",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "",
+        "exception_type": "RefreshError",
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "OAuth 服务请求失败 (HTTP 400)\n",
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          }
+        ],
+        "registry_identity_updated": false
+      }
+    },
+    {
+      "name": "whoami-denied",
+      "arguments": [
+        "drive",
+        "token",
+        "--whoami",
+        "--json"
+      ],
+      "drive_account": "default",
+      "timezone": "UTC",
+      "official": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "",
+        "exception_type": "HTTPError",
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": null
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": true
+          },
+          {
+            "method": "GET",
+            "path": "/userinfo",
+            "drive_account": "default"
+          }
+        ],
+        "registry_identity_updated": false
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "",
+        "stderr": "OAuth 服务请求失败 (HTTP 403)\n",
+        "state": {
+          "credentials": {
+            "rotated_refresh_saved": false,
+            "fresh_access_saved": false,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          },
+          "refresh_pending": {
+            "rotated_refresh_saved": true,
+            "fresh_access_saved": true,
+            "user_id": "synthetic-default",
+            "email": "default@example.invalid"
+          }
+        },
+        "trace": [
+          {
+            "method": "POST",
+            "path": "/token",
+            "drive_account": "default",
+            "scope_sent": false
+          },
+          {
+            "method": "GET",
+            "path": "/userinfo",
+            "drive_account": "default"
+          }
+        ],
+        "registry_identity_updated": false,
+        "recovery": {
+          "state": {
+            "credentials": {
+              "rotated_refresh_saved": true,
+              "fresh_access_saved": true,
+              "user_id": "synthetic-default",
+              "email": "default@example.invalid"
+            },
+            "refresh_pending": null
+          },
+          "additional_network_requests": 0
+        }
+      }
+    }
+  ],
+  "official_runtime": {
+    "dependency_versions": {
+      "google-auth": "2.62.2",
+      "requests": "2.34.2",
+      "typer": "0.29.1"
+    },
+    "python_version": "3.14.0"
+  },
+  "scope": "Actual merged Drive refresh and userinfo against exact loopback; synthetic credentials only; no real authentication",
+  "normalization": [
+    "temporary HOME",
+    "loopback origin",
+    "JSON object order and whitespace",
+    "expiry checked against explicit bounded ranges"
+  ],
+  "summary": {
+    "cases": 7,
+    "contract_checks_passed": 7,
+    "unexplained_differences": 0
+  },
+  "intentional_differences": [
+    "Rust omits scope on refresh",
+    "Rust persists rotated credentials, including recoverable staging before userinfo failure",
+    "Rust does not substitute Drive identity into compute registry metadata",
+    "Rust does not inflate short expiry to 60 seconds",
+    "Rust expiry is timezone-independent; upstream naive UTC timestamp is interpreted as local time",
+    "Rust reports redacted errors instead of uncaught upstream exceptions"
+  ]
+}

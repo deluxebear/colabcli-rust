@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "passed": false,
+  "checks": [],
+  "created_sessions": 0,
+  "binary_sha256": "88398841d3fa53f5e7e1367e2ecef3d4f2f3f8296b542e5aa248cfd9a3e25cf0",
+  "cleanup": "not_allocated",
+  "fault": "kernel-death",
+  "execute_requested": true,
+  "cleanup_only": false,
+  "error_class": "inventory_credentials_or_account_error",
+  "other_new_assignment_count": 0,
+  "scope": "New debug real kernel-death attempt stopped at inventory credentials preflight; no VM allocated",
+  "keyring_timeout_confirmed_by_followup": true,
+  "limitations": [
+    "No kernel death broadcast acceptance claimed",
+    "Old-build live transport results remain separate",
+    "Current-build local broadcast regression passed independently"
+  ],
+  "validated_at": "2026-11-18T03:28:55.796252+08:00",
+  "extended_readonly_check": {
+    "keyring_timeout_seconds": 120,
+    "result": "keyring_timeout",
+    "created_sessions": 0,
+    "readonly_inventory": true
+  }
+}

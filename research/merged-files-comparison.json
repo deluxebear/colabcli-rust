@@ -1,0 +1,487 @@
+{
+  "python_version": "3.14.0",
+  "dependency_versions": {
+    "google-auth": "2.62.2",
+    "requests": "2.34.2",
+    "typer": "0.29.1",
+    "pydantic": "2.14.3"
+  },
+  "scope": "actual merged file commands with synthetic cached OAuth, exact loopback origin only; no real credentials or cloud resources",
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "ext": {
+      "repository": "https://github.com/deluxebear/colab-ext",
+      "commit": "980a39748badc3168a5af8734b2467351bdafcbc",
+      "verified_files": 17
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "rust_binary_sha256": "5ddc6d82fdec390cf406c6f2ffa48fcc74b0a24dd8518831d6e379cda3155b3e",
+  "native_keyring_compiled": false,
+  "normalization": [
+    "temporary HOME",
+    "exact loopback origin"
+  ],
+  "cases": [
+    {
+      "name": "list-directory",
+      "arguments": [
+        "ls",
+        "content"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "a/\nb/\na.txt\nz.txt\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content",
+            "download": false
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "a/\nb/\na.txt\nz.txt\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content",
+            "download": false
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "list-file",
+      "arguments": [
+        "ls",
+        "content/中文 #?% file.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "list-missing",
+      "arguments": [
+        "ls",
+        "content/中文 #?% file.bin"
+      ],
+      "official": {
+        "exit_code": 1,
+        "stdout": "[colab] Error: File or directory not found: content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "[colab] Error: File or directory not found: content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "upload-binary",
+      "arguments": [
+        "upload",
+        "source.bin",
+        "content/中文 #?% file.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Uploaded 'source.bin' to 'content/中文 #?% file.bin'\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "PUT",
+            "remote": "content/中文 #?% file.bin",
+            "download": false,
+            "payload": {
+              "name": "中文 #?% file.bin",
+              "path": "content/中文 #?% file.bin",
+              "type": "file",
+              "format": "base64",
+              "content": "AP+ACmZpeHR1cmUA",
+              "chunk": 1
+            }
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Uploaded 'source.bin' to 'content/中文 #?% file.bin'\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "PUT",
+            "remote": "content/中文 #?% file.bin",
+            "download": false,
+            "payload": {
+              "name": "中文 #?% file.bin",
+              "path": "content/中文 #?% file.bin",
+              "type": "file",
+              "format": "base64",
+              "content": "AP+ACmZpeHR1cmUA",
+              "chunk": 1
+            }
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "upload-empty",
+      "arguments": [
+        "upload",
+        "empty.bin",
+        "content/中文 #?% file.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Uploaded 'empty.bin' to 'content/中文 #?% file.bin'\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "PUT",
+            "remote": "content/中文 #?% file.bin",
+            "download": false,
+            "payload": {
+              "name": "中文 #?% file.bin",
+              "path": "content/中文 #?% file.bin",
+              "type": "file",
+              "format": "base64",
+              "content": "",
+              "chunk": 1
+            }
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Uploaded 'empty.bin' to 'content/中文 #?% file.bin'\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "PUT",
+            "remote": "content/中文 #?% file.bin",
+            "download": false,
+            "payload": {
+              "name": "中文 #?% file.bin",
+              "path": "content/中文 #?% file.bin",
+              "type": "file",
+              "format": "base64",
+              "content": "",
+              "chunk": 1
+            }
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-binary",
+      "arguments": [
+        "download",
+        "content/中文 #?% file.bin",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e74de2527d14bfcd0378951b5ac4b067d62457075d66a4a14526cde9bdfd7dc5",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e74de2527d14bfcd0378951b5ac4b067d62457075d66a4a14526cde9bdfd7dc5",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-empty",
+      "arguments": [
+        "download",
+        "content/中文 #?% file.bin",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-text",
+      "arguments": [
+        "download",
+        "content/中文 #?% file.bin",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "a588b63895d19d172b145ef0fa445ca12f79f7618b9665aa6629f36d281f501a",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "a588b63895d19d172b145ef0fa445ca12f79f7618b9665aa6629f36d281f501a",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-json-unicode",
+      "arguments": [
+        "download",
+        "content/中文 #?% file.bin",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e8d1265062bb2841e9e42888f90224b9304f9cac4c1137133c5134c1fe259c44",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Downloaded 'content/中文 #?% file.bin' to 'result.bin'\n",
+        "stderr": "",
+        "result_sha256": "e8d1265062bb2841e9e42888f90224b9304f9cac4c1137133c5134c1fe259c44",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-directory",
+      "arguments": [
+        "download",
+        "content",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 1,
+        "stdout": "[colab] Download failed: Cannot download a directory: content\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "[colab] Download failed: Cannot download a directory: content\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "download-missing",
+      "arguments": [
+        "download",
+        "content/中文 #?% file.bin",
+        "result.bin"
+      ],
+      "official": {
+        "exit_code": 1,
+        "stdout": "[colab] Download failed: File or directory not found: content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 1,
+        "stdout": "[colab] Download failed: File or directory not found: content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "GET",
+            "remote": "content/中文 #?% file.bin",
+            "download": true
+          }
+        ]
+      },
+      "status": "matched"
+    },
+    {
+      "name": "remove",
+      "arguments": [
+        "rm",
+        "content/中文 #?% file.bin"
+      ],
+      "official": {
+        "exit_code": 0,
+        "stdout": "[colab] Deleted content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "DELETE",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "rust": {
+        "exit_code": 0,
+        "stdout": "[colab] Deleted content/中文 #?% file.bin\n",
+        "stderr": "",
+        "result_sha256": "5f261f83aa81b4b0c01e67e67a63681bcc603de1a7fbd26080b885f8ae77de0b",
+        "requests": [
+          {
+            "method": "DELETE",
+            "remote": "content/中文 #?% file.bin",
+            "download": false
+          }
+        ]
+      },
+      "status": "matched"
+    }
+  ],
+  "summary": {
+    "cases": 12,
+    "matched": 12
+  }
+}

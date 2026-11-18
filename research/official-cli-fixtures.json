@@ -1,0 +1,59 @@
+{
+  "sources": {
+    "cli": {
+      "repository": "https://github.com/googlecolab/google-colab-cli",
+      "commit": "02d2321c38dd215b7804eebf78b61d98b856bcd3",
+      "verified_files": 92
+    },
+    "kernel": {
+      "repository": "https://github.com/googlecolab/jupyter-kernel-client",
+      "commit": "f18e982c3265df5e923aa9def101ab3fd737e139",
+      "verified_files": 34
+    }
+  },
+  "history_exports": {
+    "export.jsonl": "{\"timestamp\": \"2026-11-16T00:00:00+00:00\", \"event_type\": \"execution\", \"code\": \"print('fixture-output')\", \"outputs\": [{\"output_type\": \"stream\", \"name\": \"stdout\", \"text\": \"fixture-output\\n\"}]}\n",
+    "export.txt": "Colab Session: compare\n====================\n\n[2026-11-16 00:00:00+00:00] EXECUTION: print('fixture-output')\n",
+    "export.md": "# Colab Session: compare\n\n### Execution (2026-11-16 00:00:00+00:00)\n```python\nprint('fixture-output')\n```\n\n**Output**:\n```\nfixture-output\n```\n\n",
+    "export.ipynb": {
+      "cells": [
+        {
+          "cell_type": "markdown",
+          "id": "<UUID>",
+          "metadata": {},
+          "source": [
+            "# Colab Session: compare\n",
+            "Generated from colab-cli history log."
+          ]
+        },
+        {
+          "cell_type": "code",
+          "execution_count": null,
+          "id": "<UUID>",
+          "metadata": {},
+          "outputs": [
+            {
+              "name": "stdout",
+              "output_type": "stream",
+              "text": [
+                "fixture-output\n"
+              ]
+            }
+          ],
+          "source": [
+            "print('fixture-output')"
+          ]
+        }
+      ],
+      "metadata": {
+        "kernelspec": {
+          "display_name": "Python 3 (Google Colab)",
+          "language": "python",
+          "name": "python3"
+        }
+      },
+      "nbformat": 4,
+      "nbformat_minor": 5
+    }
+  }
+}

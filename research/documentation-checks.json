@@ -1,9 +1,9 @@
 {
   "research_date": "2026-11-16",
   "checks": {
-    "markdown_files": 16,
-    "relative_links": 110,
-    "unique_fixed_source_citations": 114,
+    "markdown_files": 85,
+    "relative_links": 1173,
+    "unique_fixed_source_citations": 127,
     "source_file_hashes": 143
   },
   "errors": [],
