@@ -280,15 +280,8 @@ fn authorize(
                 "非交互环境请使用 --url-only，然后 --code；显式 --no-browser 可从 stdin 读取授权码",
             ));
         }
-        let config = cli
-            .client_oauth_config
-            .clone()
-            .or_else(|| {
-                env.home
-                    .as_ref()
-                    .map(|p| p.join(".colab-cli-oauth-config.json"))
-            })
-            .ok_or(Error::OAuth("请指定 --client-oauth-config"))?;
+        let client_config =
+            OAuthClient::resolve(cli.client_oauth_config.as_deref(), env.home.as_deref())?;
         let hint = accounts
             .registry()?
             .accounts
@@ -298,7 +291,7 @@ fn authorize(
             .clone();
         let url = service.begin(
             profile,
-            OAuthClient::from_file(&config)?,
+            client_config,
             redirect.clone(),
             hint.as_deref(),
             Utc::now(),

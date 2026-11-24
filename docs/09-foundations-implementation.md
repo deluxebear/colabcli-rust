@@ -704,3 +704,7 @@ ADC 支持将 `external_account_authorized_user` 作为 `impersonated_service_ac
 ## 118. DriveFS 元数据代理启动
 
 元数据代理直接绑定数值地址 `127.0.0.1` 并记录内核分配的端口，启动过程中无需通过 HTTPServer 反查主机名。回归在反向查询被拒绝时验证绑定成功，进程测试继续核对私有就绪文件、实际 HTTP 响应及脱敏错误。[实现](../src/drivefs/metadata_shim.py) · [测试](../tools/tests/test_drivefs_shim.py)
+
+## 119. 默认计算 OAuth 配置回退
+
+`account add/login` 在默认配置文件不存在时获取固定上游公开客户端，核对 SHA-256 并保持 PKCE/SDK 回调流程。显式配置和已有默认文件失败不回退，兑换和刷新沿用已保存客户端；仓库不提交 client secret。联网边界、失败恢复和 DriveFS 区别见 [默认客户端说明](34-account-login-and-drive-consent-implementation.md#默认计算-oauth-客户端恢复2026-11-19)。

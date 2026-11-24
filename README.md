@@ -60,7 +60,17 @@ colab --config-dir /tmp/colab-rust-demo -a work account set-drive storage
 
 ## 认证
 
-OAuth 需要用户提供 Google OAuth client 配置，支持 `installed`、`web` 或直接字段对象；仓库不包含 client secret。默认读取 `~/.colab-cli-oauth-config.json`，也可用 `-c` 指定：
+首次登录可直接执行，无需创建 OAuth 配置文件：
+
+```sh
+colab account login work
+```
+
+打开终端打印的 Google 授权链接，完成授权后将 code 粘贴回终端。已有账户登录后可用 `colab account use work` 切换。
+
+客户端优先使用显式 `-c`，其次读取 `~/.colab-cli-oauth-config.json`；默认文件不存在时，自动从固定版本的 Google 官方 CLI 仓库获取公开 OAuth 配置并核对 SHA-256。因此无自定义配置的新登录需要能够访问 `raw.githubusercontent.com`，获取失败可用 `-c` 指定已有 JSON。显式路径不存在、已有文件损坏或读取失败时不会回退。配置支持 `installed`、`web` 或直接字段对象；仓库不提交 client secret。配置会与 PKCE 一起保存在私有 pending 中，后续兑换 code、刷新令牌不再获取默认配置。
+
+自定义配置仍可显式指定：
 
 ```sh
 colab -a work -c /absolute/path/client.json account login --url-only

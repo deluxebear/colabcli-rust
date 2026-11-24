@@ -1,5 +1,6 @@
 mod adc;
 mod control;
+mod default_client;
 pub use control::ControlCredentials;
 pub(crate) mod quota;
 use crate::{

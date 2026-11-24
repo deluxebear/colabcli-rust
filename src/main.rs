@@ -521,7 +521,7 @@ fn main() {
             );
         } else if matches!(error, Error::NeedsAuth) {
             eprintln!(
-                "请先执行 account login；OAuth client 配置用 -c 指定，或放在 ~/.colab-cli-oauth-config.json。登录和后续命令需使用相同账户、配置目录及凭据存储方式。"
+                "请先执行 account login；默认 OAuth 配置可自动获取，也可用 -c 指定。登录和后续命令需使用相同账户、配置目录及凭据存储方式。"
             );
         }
         std::process::exit(match error {
